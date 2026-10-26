@@ -20,6 +20,7 @@ import com.kefico.ksis.uidemo.guide.Variant;
  *   /                      영역 목록
  *   /summary               0번 비교표 및 요구사항 요약(49행 전체)
  *   /tabs                  탭 검토 : 기존 A·B, 1안, 2안, 3안 화면 탭을 A·B 로 한 화면에(2안 가지 전용)
+ *   /sidebar               좌측 메뉴 색 검토 : 기존 · 지금 요구사항 · 후보 색을 A·B 로 나란히(2안 가지 전용)
  *   /compare/{area}        한 영역의 4칸 비교 + 그 영역의 요구사항
  *   /view/{variant}/{area} 4칸 중 한 칸(비교 화면이 iframe 으로 부른다. 따로 열어도 된다)
  *   /fragment/{variant}/screen  ① KSIS-A 원래 틀이 탭을 열 때 $(".contens-wrap").load(url) 로 불러오는 업무 화면 조각
@@ -46,6 +47,12 @@ public class DemoController {
 	public String tabs(Model model) {
 		model.addAttribute("areas", DemoArea.values());
 		return "common/tabs";
+	}
+
+	@GetMapping("/sidebar")
+	public String sidebar(Model model) {
+		model.addAttribute("areas", DemoArea.values());
+		return "common/sidebar";
 	}
 
 	@GetMapping("/summary")

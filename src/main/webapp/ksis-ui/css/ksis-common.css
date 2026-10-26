@@ -184,14 +184,15 @@ button, input, select, textarea { font-family: inherit; }
 }
 
 /* [3번] 좌측 메뉴 폭 : 340px × 가로 배율, 가장 긴 소메뉴보다 좁아지지 않음
-   [11번] 바탕 : 왼쪽 위 연한 주색 → 오른쪽 아래 흰색 대각선 그라데이션, 내용과의 경계선 없음 */
+   [11번] 바탕 : 왼쪽 위 연한 주색 → 오른쪽 아래 흰색 대각선 그라데이션, 내용과의 경계선 없음
+   메뉴 색은 --k-menu-* 변수로 바꿀 수 있다(값이 없으면 지금 요구사항 색). 좌측 메뉴 색 검토 화면(/sidebar)이 이 변수로 후보 색을 입혀 본다 */
 .k-sidebar {
 	position: relative;
 	flex: 0 0 auto;
 	width: calc(340 * var(--k-ui-x));
 	min-width: fit-content;
 	overflow: hidden;
-	background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, #FFFFFF 100%);
+	background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end, #FFFFFF) 100%);
 	transition: width .15s ease;
 }
 /* [4번] 접으면 폭 0(완전히 숨김, 0.15초). 접은 상태는 저장하지 않는다 */
@@ -219,18 +220,18 @@ button, input, select, textarea { font-family: inherit; }
 	font-size: calc(13.5 * var(--k-sb-font));
 	font-weight: 500;
 	line-height: 1.4;
-	color: #4C4C4C;
+	color: var(--k-menu-text, #4C4C4C);
 	text-align: left;
 	white-space: nowrap;
 	cursor: pointer;
 	transition: background-color .12s ease, color .12s ease;
 }
-.k-menu-group-header:hover { background: var(--k-primary-tint); color: var(--k-text-title); }
+.k-menu-group-header:hover { background: var(--k-menu-hover-bg, var(--k-primary-tint)); color: var(--k-menu-hover-text, var(--k-text-title)); }
 /* [11번] 펼친 대메뉴 = 선택한 소메뉴와 같은 연한 바탕 + 주색 굵은 글자 */
 .k-menu-group-header.expanded,
 .k-menu-group-header.expanded:hover {
-	background: var(--k-primary-soft);
-	color: var(--k-primary);
+	background: var(--k-menu-active-bg, var(--k-primary-soft));
+	color: var(--k-menu-active-text, var(--k-primary));
 	font-weight: 700;
 }
 .k-menu-toggle {
@@ -257,18 +258,18 @@ button, input, select, textarea { font-family: inherit; }
 	font-size: calc(13.5 * var(--k-sb-font));
 	font-weight: 500;
 	line-height: 1.4;
-	color: #4C4C4C;
+	color: var(--k-menu-text, #4C4C4C);
 	text-decoration: none;
 	white-space: nowrap;
 	cursor: pointer;
 	transition: background-color .12s ease, color .12s ease;
 }
 .k-menu-item::before { content: "ㄴ "; }
-.k-menu-item:hover { background: var(--k-primary-tint); color: var(--k-text-title); }
+.k-menu-item:hover { background: var(--k-menu-hover-bg, var(--k-primary-tint)); color: var(--k-menu-hover-text, var(--k-text-title)); }
 .k-menu-item.active,
 .k-menu-item.active:hover {
-	background: var(--k-primary-soft);
-	color: var(--k-primary);
+	background: var(--k-menu-active-bg, var(--k-primary-soft));
+	color: var(--k-menu-active-text, var(--k-primary));
 	font-weight: 700;
 }
 

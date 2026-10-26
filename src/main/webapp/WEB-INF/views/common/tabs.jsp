@@ -19,6 +19,7 @@
 			<a href="<c:url value='/compare/${a.key}'/>">${a.title}<small>${a.range}</small></a>
 		</c:forEach>
 		<a href="<c:url value='/tabs'/>" class="on">탭 검토<small>14번</small></a>
+		<a href="<c:url value='/sidebar'/>">좌측 메뉴 색<small>11번</small></a>
 	</nav>
 	<div class="ds-ctrl">
 		<label>보기
@@ -41,6 +42,7 @@
 				<option value="4" selected>4개</option>
 				<option value="6">6개</option>
 				<option value="10">10개</option>
+				<option value="12">12개(B 규칙 10개 넘김 시험)</option>
 			</select>
 		</label>
 	</div>
@@ -54,6 +56,8 @@
 	<c:set var="u2b"><c:url value='/view/req-b/layout?tabPlan=1'/></c:set>
 	<c:set var="u3a"><c:url value='/view/req-a/layout'/></c:set>
 	<c:set var="u3b"><c:url value='/view/req-b/layout'/></c:set>
+	<c:set var="u4a"><c:url value='/view/req-a/layout?tabPlan=3'/></c:set>
+	<c:set var="u4b"><c:url value='/view/req-b/layout?tabPlan=3'/></c:set>
 
 	<section class="tr-pane is-orig" data-kind="orig-a"><div class="tr-head"><b>기존</b> KSIS-A 원래 화면<span>지금 KSIS-A 코드 그대로(위쪽 흰 줄 안 탭)</span><a href="${u1a}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u1a}" title="기존 KSIS-A"></iframe></div></section>
 	<section class="tr-pane is-orig" data-kind="orig-b"><div class="tr-head"><b>기존</b> KSIS-B 원래 화면<span>지금 KSIS-B 코드 그대로(가로바에 걸친 서류철 탭)</span><a href="${u1b}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u1b}" title="기존 KSIS-B"></iframe></div></section>
@@ -64,8 +68,8 @@
 	<section class="tr-pane is-a" data-kind="req"><div class="tr-head"><b>2안</b> KSIS-A 요구사항<span>사내 다른 시스템의 책갈피 탭(탭 그림 · CSS 에서 따 옴), 높이 32px</span><a href="${u3a}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u3a}" title="2안 KSIS-A"></iframe></div></section>
 	<section class="tr-pane is-b" data-kind="req"><div class="tr-head"><b>2안</b> KSIS-B 요구사항<span>2안의 B 색(초록)</span><a href="${u3b}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u3b}" title="2안 KSIS-B"></iframe></div></section>
 
-	<section class="tr-pane is-a is-empty"><div class="tr-head"><b>3안</b> KSIS-A 요구사항<span>준비 중</span></div><div class="tr-body"><p>3안 설명을 받으면 이 칸에 넣습니다.</p></div></section>
-	<section class="tr-pane is-b is-empty"><div class="tr-head"><b>3안</b> KSIS-B 요구사항<span>준비 중</span></div><div class="tr-body"><p>3안 설명을 받으면 이 칸에 넣습니다.</p></div></section>
+	<section class="tr-pane is-a" data-kind="req"><div class="tr-head"><b>3안</b> KSIS-A 요구사항<span>2안 탭을 진한 가로바 위로 겹쳐 올림, 연한 띠 최소(1920×1080 에서 8px)</span><a href="${u4a}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u4a}" title="3안 KSIS-A"></iframe></div></section>
+	<section class="tr-pane is-b" data-kind="req"><div class="tr-head"><b>3안</b> KSIS-B 요구사항<span>3안의 B 색(초록)</span><a href="${u4b}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u4b}" title="3안 KSIS-B"></iframe></div></section>
 </main>
 
 <script>

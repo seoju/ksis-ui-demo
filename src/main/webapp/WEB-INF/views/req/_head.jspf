@@ -13,8 +13,8 @@
 <title>${sysCode} 영업정보시스템</title>
 <link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-theme-${theme}.css'/>">
 <link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-common.css'/>">
-<%-- 탭 검토(/tabs) 전용 : ?tabPlan=1 이면 탭만 1안 모양으로(2안이 기본) --%>
-<c:if test="${param.tabPlan == '1'}"><link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-tabs-plan1.css'/>"></c:if>
+<%-- 탭 검토(/tabs) 전용 : ?tabPlan=1 이면 탭만 1안 모양으로, ?tabPlan=3 이면 3안(가로바 위로 올림). 2안이 기본 --%>
+<c:if test="${param.tabPlan == '1' || param.tabPlan == '3'}"><link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-tabs-plan${param.tabPlan}.css'/>"></c:if>
 <link rel="stylesheet" href="<c:url value='/demo/demo-pane.css'/>">
 <script src="<c:url value='/ksis-ui/js/ksis-dialog.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-modal.js'/>"></script>

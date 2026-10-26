@@ -27,20 +27,41 @@ public final class SampleData {
 				new MenuGroup("sales", "영업 관리", List.of(
 						new MenuItem("/sales/quote", "견적 관리"),
 						new MenuItem("/sales/order", "수주 관리"),
-						new MenuItem("/sales/longterm", "중장기 매출 조회"))),
+						new MenuItem("/sales/longterm", "중장기 매출 조회"),
+						new MenuItem("/sales/quote-req", "견적 요청 등록"),
+						new MenuItem("/sales/quote-approve", "견적 승인 현황"),
+						new MenuItem("/sales/order-change", "수주 변경 이력"),
+						new MenuItem("/sales/ship-plan", "출하 계획 조회"),
+						new MenuItem("/sales/delivery", "납품 실적 조회"),
+						new MenuItem("/sales/forecast", "판매 계획 등록"))),
 				new MenuGroup("price", "가격 관리", List.of(
 						new MenuItem("/price/search", "가격 조회"),
-						new MenuItem("/price/history", "가격 변경 이력"))),
+						new MenuItem("/price/history", "가격 변경 이력"),
+						new MenuItem("/price/contract", "단가 계약 관리"),
+						new MenuItem("/price/approve", "단가 승인 요청"),
+						new MenuItem("/price/exchange", "환율 관리"),
+						new MenuItem("/price/simulate", "가격 시뮬레이션"))),
 				new MenuGroup("base", "기준 정보", List.of(
 						new MenuItem("/base/k-part", "K품번 기준 고객품번 조회"),
-						new MenuItem("/base/customer", "고객사 관리"))),
+						new MenuItem("/base/customer", "고객사 관리"),
+						new MenuItem("/base/car", "차종 관리"),
+						new MenuItem("/base/plant", "공장 · 창고 관리"),
+						new MenuItem("/base/code", "공통 코드 관리"),
+						new MenuItem("/base/calendar", "영업일 달력"))),
 				new MenuGroup("perf", "매출 실적", List.of(
 						new MenuItem("/perf/monthly", "월별 매출 실적"),
 						new MenuItem("/perf/by-doc", "청구문서별 매출 실적 조회"),
-						new MenuItem("/perf/by-part", "품번별 매출 실적"))),
+						new MenuItem("/perf/by-part", "품번별 매출 실적"),
+						new MenuItem("/perf/by-customer", "고객사별 매출 실적"),
+						new MenuItem("/perf/by-car", "차종별 매출 실적"),
+						new MenuItem("/perf/confirm", "매출 확정"),
+						new MenuItem("/perf/plan-vs", "계획 대비 실적"))),
 				new MenuGroup("admin", "관리자", List.of(
 						new MenuItem("/admin/users", "사용자 관리"),
-						new MenuItem("/admin/menus", "메뉴 관리"))));
+						new MenuItem("/admin/menus", "메뉴 관리"),
+						new MenuItem("/admin/auth", "권한 관리"),
+						new MenuItem("/admin/log", "접속 기록 조회"),
+						new MenuItem("/admin/notice", "공지사항 관리"))));
 	}
 
 	public static List<Map<String, Object>> rows(int count) {

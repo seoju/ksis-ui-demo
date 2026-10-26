@@ -43,6 +43,18 @@
 			// ---- [4번] 메뉴 접기 ----
 			var ham = document.querySelector(".k-hamburger");
 			if (ham) ham.addEventListener("click", function () { sidebar.classList.toggle("collapsed"); });
+			// 가로바 왼쪽(≡ + 시스템명) 오른쪽 끝 위치. 탭 줄이 가로바와 겹치는 모양(탭 3안)에서 메뉴를 접었을 때 이 오른쪽부터 탭을 놓는다
+			// 가운데 사번 문구 아래끝도 잰다(탭 3안은 탭 위끝을 이 아래까지만 올린다)
+			var headLeft = document.querySelector(".k-header-left");
+			var badge = document.querySelector(".k-user-badge");
+			function measureHead() {
+				var root = document.documentElement.style;
+				if (headLeft) root.setProperty("--k-header-left-w", Math.ceil(headLeft.getBoundingClientRect().right) + "px");
+				if (badge) root.setProperty("--k-badge-bottom", Math.ceil(badge.getBoundingClientRect().bottom) + "px");
+			}
+			measureHead();
+			window.addEventListener("resize", measureHead);
+			window.addEventListener("load", measureHead); // 글꼴이 늦게 들어와 글자 크기가 바뀌는 경우
 
 			// ---- [9번] 대분류 펼침(각자 따로, 기억) ----
 			function loadOpen() { try { return JSON.parse(localStorage.getItem(OPEN_KEY) || "[]"); } catch (e) { return []; } }

@@ -141,3 +141,26 @@ table.ds-files { width: 100%; border-collapse: collapse; background: #FFFFFF; bo
 .tr-pane.is-empty .tr-body { display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(45deg, #FAFBFC 0 10px, #F3F5F7 10px 20px); }
 .tr-pane.is-empty .tr-body p { margin: 0; color: var(--ds-ink-3); font-weight: 600; }
 .ds-card.is-tabs { border-color: #F2C98B; background: #FFF9F0; }
+
+/* 좌측 메뉴 색 검토(/sidebar) : 왼쪽 6칸(A 줄 · B 줄 × 기존 · 지금 · 후보) + 오른쪽 색 고르기 */
+.ds-sbrev { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 6px; padding: 6px; height: calc(100vh - var(--ds-top-h)); }
+.sb-panes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); gap: 6px; min-height: 0; }
+.ds-sbrev.mode-a .sb-b, .ds-sbrev.mode-b .sb-a { display: none; }
+.sb-panes .tr-body { height: auto; flex: 1 1 auto; overflow: hidden; }
+.sb-panes .tr-pane.is-try .tr-head b { background: #B26A00; }
+.sb-ctrl { overflow: auto; background: #FFFFFF; border: 1px solid var(--ds-line); border-radius: 8px; padding: 10px 12px; }
+.sb-ctrl h3 { font-size: 13px; margin: 6px 0 6px; }
+.sb-ctrl h3 small { font-weight: 500; color: var(--ds-ink-3); font-size: 11px; margin-left: 4px; }
+.sb-presets { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
+.sb-presets button { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid var(--ds-line); border-radius: 6px; background: #FFFFFF; font: inherit; font-size: 12px; text-align: left; cursor: pointer; }
+.sb-presets button:hover { border-color: var(--ds-ink-3); }
+.sb-presets button.on { border-color: var(--ds-ink); box-shadow: inset 0 0 0 1px var(--ds-ink); font-weight: 700; }
+.sb-presets i { flex: 0 0 18px; height: 18px; border-radius: 4px; border: 1px solid rgba(0, 0, 0, .12); }
+table.sb-colors { width: 100%; border-collapse: collapse; font-size: 12px; }
+.sb-colors th { text-align: left; font-weight: 500; color: var(--ds-ink-2); padding: 2px 4px 2px 0; }
+.sb-colors thead th { text-align: center; font-weight: 700; color: var(--ds-ink); }
+.sb-colors td { width: 46px; text-align: center; }
+.sb-colors input[type=color] { width: 40px; height: 24px; padding: 0; border: 1px solid var(--ds-line); border-radius: 4px; background: none; cursor: pointer; }
+.sb-hint { color: var(--ds-ink-3); font-size: 11.5px; margin: 8px 0; }
+.sb-ctrl textarea { width: 100%; font: 11.5px/1.5 ui-monospace, Consolas, monospace; border: 1px solid var(--ds-line); border-radius: 6px; padding: 6px; resize: vertical; }
+.ds-card.is-sidebar { border-color: #C8B8F0; background: #F8F5FF; }
