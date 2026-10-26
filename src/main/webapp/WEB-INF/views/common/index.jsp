@@ -33,6 +33,11 @@
 				<span>${a.summary}</span>
 			</a>
 		</c:forEach>
+		<a class="ds-card is-tabs" href="<c:url value='/tabs'/>">
+			<span class="range">14번 · 2안 가지</span>
+			<b>탭 검토</b>
+			<span>화면 탭의 기존 A·B, 1안, 2안, 3안을 A·B 로 한 화면에 나란히</span>
+		</a>
 	</div>
 
 	<h2>KSIS-A 에 옮길 파일</h2>

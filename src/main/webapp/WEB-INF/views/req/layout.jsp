@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/common/taglibs.jspf"%>
 <%-- ③④ 요구사항 — 전체 틀 [비교표 1~18번]. KSIS-A 의 main.jsp + leftMenu.jsp 자리에 들어갈 마크업 --%>
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" data-theme="${theme}">
 <head>
 <%@ include file="/WEB-INF/views/req/_head.jspf"%>
 <script src="<c:url value='/ksis-ui/js/ksis-layout.js'/>"></script>
