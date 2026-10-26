@@ -1,0 +1,20 @@
+@charset "utf-8";
+
+.window .window-body {
+	border-width: 0px;
+}
+
+
+/*-- alert_style --*/
+.window.messager-window{
+	border-radius: 10px;
+	box-shadow: 0 0 10px 10px rgba(36, 60, 82, 0.13) !important;
+}
+/*-- alert_style --*/
+
+/*-- tab_style --*/
+.tabs-selected {
+    box-shadow: 1px 3px 6px 0px #666666;
+}
+/*-- tab_style --*/
+

@@ -1,0 +1,28 @@
+<%@ page pageEncoding="UTF-8"%>
+<%--
+  ① KSIS-A 원래 화면 공통 머리. KSIS_A 저장소(510b7d1)의 includeCSS.jsp / includeJS.jsp 와 같은 순서로
+  같은 파일(복사본, /orig-a/ 아래)을 넣는다. 화면 마크업도 KSIS-A 화면(디자인템플릿 · 업무 JSP)의 클래스를 그대로 쓴다.
+--%>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>K-SIS 영업정보시스템</title>
+<link rel="stylesheet" href="<c:url value='/orig-a/js/vendor/jquery-ui/jquery-ui.min.css'/>">
+<link rel="stylesheet" href="<c:url value='/orig-a/js/vendor/fontawesome/css/all.min.css'/>">
+<link rel="stylesheet" href="<c:url value='/orig-a/js/vendor/tabulator/clean-theme.css'/>">
+<link rel="stylesheet" href="<c:url value='/orig-a/css/font.css'/>">
+<link rel="stylesheet" href="<c:url value='/orig-a/css/themes.css'/>">
+<link rel="stylesheet" href="<c:url value='/orig-a/css/menu.css'/>">
+<link rel="stylesheet" href="<c:url value='/orig-a/css/layout.css'/>">
+<link rel="stylesheet" href="<c:url value='/demo/demo-pane.css'/>">
+<script src="<c:url value='/orig-a/js/vendor/jquery/jquery-3.7.1.min.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/jquery-ui/jquery-ui.min.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/luxon/luxon.min.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/tabulator/tabulator.min.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/paragon/biz.default.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/paragon/biz.string.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/paragon/biz.ui.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/paragon/biz.ui.autocomplete.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/paragon/biz.ui.grid.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/paragon/biz.ui.modalbuilder.js'/>"></script>
+<script src="<c:url value='/orig-a/js/vendor/paragon/biz.ui.multiselect.js'/>"></script>
+<script>var KSIS_LOGIN_ID = 'demo';</script>

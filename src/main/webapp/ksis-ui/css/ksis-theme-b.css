@@ -1,0 +1,38 @@
+@charset "utf-8";
+/* =====================================================================
+   KSIS-B 색 테마 (초록 #03C75A)
+   - ksis-theme-a.css 와 변수 이름이 같고 값(색)만 다르다.
+   - 비교표에 B 색이 따로 적힌 것은 그 값을 쓰고(@@KSISB 메모),
+     적히지 않은 것은 A 색을 정할 때와 같은 방법(같은 밝기 단계)으로 초록에서 뽑았다.
+   ===================================================================== */
+:root {
+	--k-primary: #03C75A;
+	--k-primary-hover: #02B350;
+	--k-primary-press: #019F46;
+	--k-primary-shadow: rgba(3, 199, 90, .25);
+	--k-primary-shadow-hover: rgba(3, 199, 90, .35);
+	--k-primary-soft: #E7F9EE;
+	--k-primary-tint: rgba(3, 199, 90, .10);
+	--k-primary-tint-strong: rgba(3, 199, 90, .15);
+	--k-primary-deep: #1F7A44;
+
+	--k-topbar: #006B35;
+	--k-topbar-hamburger-hover: #D6F5E3;
+
+	--k-menu-grad-start: #F0FCF5;
+
+	--k-tab-bg: #BCDDCB;
+	--k-tab-hover-bg: #F0FCF5;
+	--k-tab-active-bg: #E7F9EE;
+
+	--k-edit-border: #9FEAC0;
+	--k-edit-press: #D2F5E2;
+
+	--k-grid-row-hover: #EAF9F0;
+
+	--k-pop-label-bg: #EAF7EE;
+	--k-pop-label-text: #2F5E43;
+	--k-pop-line: #DCEFE3;
+	--k-pop-label-hover: #DFF3E5;
+	--k-pop-value-hover: #FAFEFB;
+}

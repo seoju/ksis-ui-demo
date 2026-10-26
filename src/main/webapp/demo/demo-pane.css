@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* 시연 화면 전용(설명 제목 · 칸 나눔). KSIS 에 옮길 대상이 아니다. 4칸 모두 같은 파일을 쓴다 */
+.demo-page { padding: 18px 24px 40px 18px; }
+.demo-sec { margin: 0 0 22px; }
+.demo-h {
+	margin: 0 0 8px;
+	font: 700 11.5px/1.4 system-ui, sans-serif;
+	letter-spacing: .2px;
+	color: #8A949F;
+}
+.demo-h b { color: #55606C; }
+.demo-line { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+.demo-tip {
+	margin: 6px 0 0;
+	font: 400 11px/1.5 system-ui, sans-serif;
+	color: #8A949F;
+}
+.demo-force-hover:not(:disabled) { pointer-events: none; }

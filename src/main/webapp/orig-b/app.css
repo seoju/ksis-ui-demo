@@ -1,0 +1,4774 @@
+:root {
+    --color-bg: #F4F6F8;
+    --color-surface: #FFFFFF;
+    --color-border: #E5E8EB;
+    --color-border-strong: #D8DCE1;
+    --color-border-soft-green: #DCEFE3;
+    --color-text: #222222;
+    --color-text-sub: #767676;
+    --color-text-muted: #A6A6A6;
+    --color-header-row: #F7F8FA;
+    --color-header-text: #333333;
+    --color-row-click: #EAF9F0;
+    --color-user-total-row: #F1F3F5;
+    --color-primary: #03C75A;
+    --color-primary-hover: #02B350;
+    --color-primary-soft: #E7F9EE;
+    --color-secondary: #3C8C64;
+    --color-danger: #E0392C;
+    --color-danger-hover: #C7301F;
+    --color-tab-selected: #03C75A;
+    --color-tab-selected-text: #FFFFFF;
+    --color-tab-default: #F1F3F5;
+    --color-tab-default-text: #555555;
+    --color-label-bg: #EAF7EE;
+    --color-label-bg-hover: #DFF3E5;
+    --radius-card: 16px;
+    --radius-button: 8px;
+    --gap-md: 16px;
+    --gap-lg: 24px;
+    --shadow-card: 0 1px 2px rgba(0,0,0,0.03), 0 4px 12px rgba(0,0,0,0.05);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ✅ [2026-09-29] 테두리 1개 레이아웃: 예전에는 회색 영역(.app-content 패딩 28px) 안에 흰 카드(테두리·둥근 모서리·그림자)가
+   또 있어 테두리가 2겹이었다. 이제 카드가 오른쪽 영역을 꽉 채운다(회색 여백 없음, 카드 테두리 없음). 남는 경계는
+   헤더 아래 선과 사이드바 오른쪽 선 하나뿐이다. 위아래로 확보된 공간은 문서 목록 15건을 보이는 데 쓴다. */
+.card {
+    background-color: var(--color-surface);
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    /* ✅ [2026-10-06] 왼쪽은 탭 줄과 같은 시작선(--content-start-x). 위·오른쪽·아래는 그대로. */
+    padding: 18px 24px 16px var(--content-start-x);
+    position: relative;
+    min-height: 100%;
+}
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: var(--radius-button);
+    padding: 9px 18px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.05s ease;
+}
+
+    .btn:active {
+        transform: translateY(1px);
+    }
+
+.btn-primary {
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+}
+
+    .btn-primary:hover {
+        background-color: var(--color-primary-hover);
+    }
+
+.btn-secondary {
+    background-color: var(--color-secondary);
+    color: #FFFFFF;
+}
+
+.btn-outline {
+    background-color: #FFFFFF;
+    color: var(--color-text);
+    border: 1px solid var(--color-border-strong);
+}
+
+    .btn-outline:hover {
+        background-color: #F5F5F5;
+    }
+
+.btn-danger {
+    background-color: var(--color-danger);
+    color: #FFFFFF;
+}
+
+    .btn-danger:hover {
+        background-color: var(--color-danger-hover);
+    }
+
+.btn-edit {
+    background-color: #2962E3;
+    color: #FFFFFF;
+}
+
+    .btn-edit:hover {
+        background-color: #1F4EC0;
+    }
+
+/* ✅ [2026-09-18] 파란색 강조 버튼. 기본색(--color-primary)은 초록이므로,
+   "SAP 매출 실적 업로드"처럼 파란색으로 눈에 띄어야 하는 동작 버튼에 사용한다.
+   (.btn-edit와 같은 파랑이지만 의미가 달라 별도 클래스로 둔다) */
+.btn-blue {
+    background-color: #2962E3;
+    color: #FFFFFF;
+}
+
+    .btn-blue:hover {
+        background-color: #1F4EC0;
+    }
+
+.btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+.btn-sm {
+    padding: 7px 14px;
+    font-size: 13px;
+}
+
+a.btn {
+    text-decoration: none;
+}
+
+.tab-btn {
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background-color: var(--color-tab-default);
+    color: var(--color-tab-default-text);
+    padding: 8px 20px;
+    font-size: 13.5px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+    .tab-btn.selected {
+        background-color: var(--color-tab-selected);
+        color: var(--color-tab-selected-text);
+        border-color: var(--color-tab-selected);
+    }
+
+    .tab-btn.small {
+        padding: 6px 14px;
+        font-size: 12.5px;
+    }
+
+/* ✅ [2026-10-06] 판매처명/납품처명/지급처명 누락 안내 띠(.sp-name-notice)는 없앴다 — 팝업(PartnerNamePopup)으로 바뀌었다. */
+
+/* ✅ [2026-10-06] [국내] [해외] 탭 줄(.sp-region-tabs)은 없앴다 — 검색창 맨 왼쪽 세로 토글(SegToggle)로 옮겼다. */
+
+.tab-btn-mini {
+    border: 1px solid var(--color-border);
+    border-radius: 999px;
+    background-color: var(--color-tab-default);
+    color: var(--color-tab-default-text);
+    padding: 3px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .tab-btn-mini.selected {
+        background-color: var(--color-tab-selected);
+        color: var(--color-tab-selected-text);
+        border-color: var(--color-tab-selected);
+    }
+
+.modal-tabs-row {
+    flex: 0 0 auto;
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+}
+
+.doc-detail-tabs-row {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+    .doc-detail-tabs-row .tabs-left {
+        display: flex;
+        gap: 8px;
+    }
+
+    .doc-detail-tabs-row .tabs-right {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+    }
+
+table.app-grid {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--color-surface);
+}
+
+    table.app-grid th {
+        background-color: var(--color-header-row);
+        color: var(--color-header-text);
+        padding: 14px 10px;
+        font-size: 13.5px;
+        font-weight: 700;
+        border: none;
+        border-bottom: 2px solid var(--color-border-strong);
+        text-align: center;
+    }
+
+    table.app-grid td {
+        padding: 14px 10px;
+        text-align: center;
+        border: none;
+        border-bottom: 1px solid var(--color-border);
+        font-size: 14px;
+        color: var(--color-text);
+    }
+
+    table.app-grid tbody tr {
+        transition: background-color 0.1s ease;
+    }
+
+        /* ✅ [2026-09-18] 손가락 커서(cursor:pointer)를 여기서 빼고 .row-clickable 로 옮겼다.
+           예전에는 모든 app-grid 표의 모든 행이 손가락이 되어, 클릭해도 아무 일이 없는
+           조회 전용 표(품번별 매출 실적, 품번 정보, 비교 상세 등)까지 눌러지는 것처럼 보였다. */
+        table.app-grid tbody tr:hover {
+            background-color: var(--color-row-click);
+        }
+
+/* ✅ 클릭하면 모달이 열리는 행에만 붙인다(문서 목록 등). */
+.row-clickable {
+    cursor: pointer;
+}
+
+/* ============================================================
+   ✅ [2026-09-21] 표 드래그 = 여러 칸 선택, Ctrl+C 로 복사 (partNumberTools.js)
+   조회 표(app-grid)와 품번 메모 그리드(pn-scratch-grid) 공통.
+   ============================================================ */
+table.app-grid.pn-col-selecting,
+table.app-grid.pn-col-selecting *,
+table.pn-scratch-grid.pn-col-selecting,
+table.pn-scratch-grid.pn-col-selecting * {
+    user-select: none;
+}
+
+table.app-grid td.pn-col-sel,
+table.pn-scratch-grid td.pn-col-sel {
+    background-color: #FFF1B8 !important;
+    box-shadow: inset 0 0 0 1px #F5C400;
+}
+
+/* ✅ [2026-09-30] 미리 만들어 둔 화면(K품번 기준 고객품번 조회)을 숨길 때: 배치(레이아웃)는 유지하고 안 보이게만.
+   display:none 은 보일 때 5,000행을 새로 배치해야 해서 쓰지 않는다. 높이 0 + 잘라내기라 다른 화면의 스크롤 길이에도 영향이 없다. */
+.keepalive-view.keepalive-hidden {
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    pointer-events: none;
+    /* ✅ [2026-10-02] 화면 탭: 숨은 탭은 브라우저가 배치(레이아웃)를 건너뛴다. 창 크기 변경·좌측 메뉴 접기 때
+       숨은 큰 표들을 다시 배치하지 않게. 그려 둔 상태는 보관되어 다시 보일 때 빠르다.
+       (돌아올 때 오히려 느려지면 이 한 줄만 지운다. visibility:hidden 은 JS 의 isShown 확인용으로 남겨 둔다) */
+    content-visibility: hidden;
+}
+
+/* ============================================================
+   ✅ [2026-10-02] 화면 탭 줄(TabBar.razor).
+   - 위치: 업무공간(.app-workspace = 상단 가로바·좌측 세로 메뉴가 정해진 뒤 남는 오른쪽 영역) 맨 위에 두되,
+     위로 끌어올려 상단 초록 가로바의 아랫부분에 올라앉는다(엣지 탭처럼 가로바를 먹고 들어감).
+     그래서 탭 줄은 세로 공간을 따로 차지하지 않고(높이 + 같은 크기의 음수 margin), 탭 아래 경계선도 없다.
+     왼쪽 시작은 좌측 메뉴 오른쪽 끝(메뉴를 접으면 함께 당겨진다). 오른쪽은 가로바 우측 문구·아이콘 자리를 비워 둔다
+     (--tabbar-reserve-right, 탭이 많으면 폭이 줄어든다).
+   - 높이: 엣지 기본 탭 줄(약 40px)의 절반. 창 크기와 관계없이 고정 px(--ui-y 배율을 쓰지 않음). 높이는 --tabbar-h 만 고친다.
+   - 폭: "중장기 매출 조회" 정도가 딱 보이는 크기. 더 긴 이름은 말줄임(마우스를 올리면 전체 이름).
+   - 모양: 페이지가 넘어가는 서류철 탭. 왼쪽은 살짝, 오른쪽은 더 비스듬히(대칭 사다리꼴과 왼쪽 직각의 절충, 사용자 요청).
+     탭끼리 살짝 겹치고 그림자로 겹쳐 떠 있는 느낌.
+   - 색: 좌측 세로 메뉴를 따른다 — 기본 #F0FCF5 바탕(초록 가로바 위라 살짝 비치게) + #4C4C4C 글자,
+     올리면 더 밝게 + #1B1D1F, 선택(보고 있는 탭)은 #E7F9EE + #03C75A 굵게(소메뉴 active 와 같음).
+   ============================================================ */
+:root {
+    --tabbar-h: 20px;
+    --tabbar-reserve-right: calc(440 * var(--ui-y));
+    /* ✅ [2026-10-02] 탭을 가로바 바닥보다 이만큼 더 내린다(탭 높이의 약 0.1). 회사 PC(배율/반올림 차이)에서
+       탭 바닥이 가로바 바닥보다 떠 보여서. 업무 화면 맨 위를 이만큼 살짝 덮는다. */
+    --tabbar-drop: 2px;
+    /* ✅ [2026-10-06] 업무공간 왼쪽 시작선 = 첫 번째 탭의 왼쪽 끝. 탭 줄 왼쪽 여백과 내용(.card) 왼쪽 여백이 이 값 하나를 같이 쓴다
+       (예전에는 내용이 24px 에서 시작해 좌측 메뉴와 불필요하게 떨어져 보였다, 사용자 요청). */
+    --content-start-x: 8px;
+}
+
+.app-workspace {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+    .app-workspace > .app-content {
+        min-height: 0;
+    }
+
+.tab-bar {
+    flex: 0 0 auto;
+    position: relative;
+    z-index: 20;
+    height: var(--tabbar-h);
+    margin-top: calc(var(--tabbar-drop) - var(--tabbar-h));
+    margin-bottom: calc(-1 * var(--tabbar-drop));
+    box-sizing: border-box;
+    display: flex;
+    align-items: flex-end;
+    padding: 0 var(--tabbar-reserve-right) 0 var(--content-start-x);
+    background: transparent;
+    overflow: hidden;
+    /* 탭 사이·주변의 빈 곳은 아래 가로바의 클릭을 막지 않는다. */
+    pointer-events: none;
+}
+
+    .tab-bar .tab-item {
+        position: relative;
+        z-index: 1;
+        flex: 0 1 130px;
+        min-width: 50px;
+        max-width: 130px;
+        height: calc(var(--tabbar-h) - 3px);
+        margin-right: -5px;
+        box-sizing: border-box;
+        display: flex;
+        align-items: center;
+        gap: 2px;
+        padding: 0 10px 0 9px;
+        font-size: 11px;
+        line-height: 1;
+        color: #4C4C4C;
+        cursor: pointer;
+        user-select: none;
+        pointer-events: auto;
+    }
+
+        /* 바탕: 왼쪽은 살짝만, 오른쪽은 더 비스듬히(대칭 사다리꼴과 왼쪽 직각의 절충). 위 모서리도 왼쪽은 조금, 오른쪽은 더 둥글게.
+           원근 회전의 기준점을 왼쪽에서 30% 위치로 두면 위쪽이 왼쪽 3 : 오른쪽 7 비율로 좁아진다.
+           이웃 탭과 5px 겹치고, 뒤에 오는 탭이 앞 탭 위에 얹혀 왼쪽으로 옅은 그림자를 드리워 겹쳐 떠 있는 느낌을 준다.
+           겹친 부분이 진해지지 않도록 바탕은 불투명색(#BCDDCB = 초록 가로바 위에 #F0FCF5 를 78% 덮은 색). */
+        .tab-bar .tab-item::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: #BCDDCB;
+            border-radius: 3px 6px 0 0;
+            box-shadow: -1px 0 3px rgba(0, 0, 0, 0.28);
+            transform: scaleY(1.1) perspective(8px) rotateX(2.5deg);
+            transform-origin: 30% 100%;
+        }
+
+        .tab-bar .tab-item:hover {
+            z-index: 2;
+            color: #1B1D1F;
+        }
+
+            .tab-bar .tab-item:hover::before {
+                background: #F0FCF5;
+            }
+
+        .tab-bar .tab-item.active {
+            z-index: 3;
+            color: #03C75A;
+            font-weight: 700;
+        }
+
+            .tab-bar .tab-item.active::before {
+                background: #E7F9EE;
+            }
+
+    .tab-bar .tab-item-title {
+        flex: 1 1 auto;
+        min-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .tab-bar .tab-item-close {
+        flex: 0 0 14px;
+        width: 14px;
+        height: 14px;
+        min-width: 0;
+        padding: 0;
+        margin: 0;
+        border: none;
+        border-radius: 3px;
+        background: transparent;
+        color: #8A949E;
+        font-size: 9px;
+        line-height: 14px;
+        cursor: pointer;
+    }
+
+        .tab-bar .tab-item-close:hover {
+            background: #D93025;
+            color: #FFFFFF;
+        }
+
+/* ✅ [2026-10-02] 좌측 소메뉴(MenuLink)는 href 없이 클릭으로 이동하므로 손가락 커서를 직접 준다. */
+.app-sidebar a.menu-link {
+    cursor: pointer;
+}
+
+/* ✅ [2026-09-30] 엑셀식 키보드 이동의 활성 칸(클릭한 칸 / Ctrl+방향키로 간 칸). 엑셀과 같은 초록 테두리. */
+table.app-grid td.pn-cell-cursor,
+table.pn-scratch-grid td.pn-cell-cursor {
+    box-shadow: inset 0 0 0 2px #217346 !important;
+}
+
+/* ✅ [2026-09-21] 품번 정보 조회 / 매출 실적 조회 공통: 월별 매출 실적 조회와 같은 좁은 행 간격. */
+table.app-grid.compact-grid th {
+    padding: 7px 8px;
+    font-size: 12px;
+}
+
+table.app-grid.compact-grid td {
+    padding: 4px 8px;
+    font-size: 12px;
+    line-height: 1.35;
+}
+
+    table.app-grid.compact-grid td.empty-row {
+        padding: 18px 8px;
+    }
+
+/* ✅ [2026-09-23] 기준 정보 조회 대분류의 표 4개(K품번 기준 / 고객품번 기준 / BOM 검색 / 판매처·납품처·지급처)는
+   행 세로 크기를 같게 맞춘다. 기준 = 고객품번 기준 K품번 조회(입력칸 24px + 위아래 여백 4px = 32px). */
+/* ✅ [2026-09-29] 데이터형 메뉴(1행 = 데이터 1건: K품번 기준 / 고객품번 기준 / BOM 검색 / 판매처·납품처·지급처 / 청구문서별 / 매출 수량 피벗)
+   행 높이 표준 = K품번 기준 고객품번 조회 기준 32px(글자 12px). 청구문서별·피벗 표도 아래 변수를 쓴다. */
+:root {
+    --data-row-height: 32px;
+    --data-row-font: 12px;
+}
+
+table.app-grid.compact-grid.kb-grid td {
+    height: var(--data-row-height);
+    box-sizing: border-box;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+    table.app-grid.compact-grid.kb-grid td.empty-row {
+        height: auto;
+        padding: 18px 8px;
+    }
+
+.pn-toast {
+    position: fixed;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(33, 33, 33, 0.92);
+    color: #FFFFFF;
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 3500;
+}
+
+    .pn-toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+
+/* ============================================================
+   ✅ [2026-09-18] 품번 메모 — 둥둥 떠 있는 팝업 (PartNumberScratchpad.razor)
+   모달 배경(1000)이나 달력(2501)보다 위, 재접속 안내(3000)보다 아래.
+   ============================================================ */
+/* ✅ [2026-09-21] 품번 메모 열기 버튼은 화면 우측 하단 구석에 붙인다(헤더 자리에서 뺐다).
+   세로 크기는 기존의 절반(위아래 여백 6px → 2px). 메모 창(z-index 2600)보다 아래에 둔다. */
+.pn-scratch-open-btn {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 2550;
+    border: 1px solid #D9CCF2;
+    border-right: none;
+    border-bottom: none;
+    background: #F1EAFB;
+    color: #6F42C1;
+    border-radius: 10px 0 0 0;
+    padding: 2px 12px;
+    font-size: 11.5px;
+    line-height: 1.25;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 -2px 8px rgba(0, 0, 0, 0.12);
+}
+
+    .pn-scratch-open-btn:hover,
+    .pn-scratch-open-btn.active {
+        background: #E3D7F7;
+    }
+
+.pn-scratch-panel {
+    position: fixed;
+    width: 330px;
+    z-index: 2600;
+    background: #FFFFFF;
+    border: 1px solid #CFD4DA;
+    border-radius: 12px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.22);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+    .pn-scratch-panel.minimized {
+        width: 210px;
+    }
+
+.pn-scratch-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 10px;
+    background: #F1EAFB;
+    border-bottom: 1px solid #E5E8EB;
+    cursor: move;
+    user-select: none;
+}
+
+.pn-scratch-title {
+    font-weight: 800;
+    font-size: 13px;
+    color: #6F42C1;
+}
+
+.pn-scratch-count {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #6F42C1;
+    background: #FFFFFF;
+    border-radius: 10px;
+    padding: 1px 8px;
+}
+
+.pn-scratch-spacer {
+    flex: 1 1 auto;
+}
+
+.pn-scratch-icon-btn {
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 13px;
+    color: #555555;
+    padding: 2px 6px;
+    border-radius: 6px;
+    line-height: 1;
+}
+
+    .pn-scratch-icon-btn:hover {
+        background: #E3D7F7;
+    }
+
+.pn-scratch-body {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pn-scratch-text {
+    width: 100%;
+    height: 230px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 12.5px;
+    line-height: 1.5;
+    border: 1px solid #CFD4DA;
+    border-radius: 8px;
+    padding: 8px;
+    box-sizing: border-box;
+}
+
+    .pn-scratch-text:focus {
+        outline: none;
+        border-color: #6F42C1;
+        box-shadow: 0 0 0 3px #F1EAFB;
+    }
+
+/* ✅ [2026-09-21] 그리드형 품번 메모: 행 22px 로 촘촘하게, 열 3개(폭 380 → 430px). */
+.pn-scratch-panel {
+    width: 430px;
+}
+
+.pn-scratch-grid-wrap {
+    max-height: 300px;
+    overflow: auto;
+    border: 1px solid #CFD4DA;
+    border-radius: 8px;
+}
+
+.pn-scratch-grid {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    font-size: 12px;
+}
+
+    .pn-scratch-grid th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background: #F1EAFB;
+        color: #6F42C1;
+        font-weight: 700;
+        font-size: 11.5px;
+        padding: 3px 4px;
+        border-bottom: 1px solid #D9CCEF;
+        text-align: center;
+    }
+
+    /* ✅ [2026-09-21] 헤더 칸 안 오른쪽의 작은 [열 복사] 버튼 */
+    .pn-scratch-grid th .pn-g-copy-btn {
+        float: right;
+        margin-left: 4px;
+        padding: 0 5px;
+        font-size: 10px;
+        line-height: 15px;
+        border: 1px solid #C9B8E8;
+        border-radius: 4px;
+        background: #FFFFFF;
+        color: #6F42C1;
+        cursor: pointer;
+    }
+
+        .pn-scratch-grid th .pn-g-copy-btn:hover {
+            background: #E3D7F7;
+        }
+
+    .pn-scratch-grid td {
+        padding: 0;
+        border-bottom: 1px solid #ECEEF1;
+        border-right: 1px solid #ECEEF1;
+        height: 22px;
+    }
+
+    .pn-scratch-grid .pn-g-num {
+        width: 30px;
+        text-align: center;
+        color: #A6A6A6;
+        font-size: 11px;
+    }
+
+    .pn-scratch-grid .pn-g-del {
+        width: 22px;
+        text-align: center;
+        border-right: none;
+    }
+
+    .pn-scratch-grid .pn-g-del-btn {
+        border: none;
+        background: transparent;
+        color: #C0C0C0;
+        cursor: pointer;
+        font-size: 11px;
+        line-height: 1;
+        padding: 2px 4px;
+    }
+
+        .pn-scratch-grid .pn-g-del-btn:hover {
+            color: #C0392B;
+        }
+
+    .pn-scratch-grid .pn-g-cell {
+        width: 100%;
+        height: 22px;
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        padding: 0 6px;
+        font-family: inherit;
+        font-size: 12px;
+        line-height: 22px;
+        background: transparent;
+    }
+
+        .pn-scratch-grid .pn-g-cell:focus {
+            background: #FFF8DC;
+            box-shadow: inset 0 0 0 2px #6F42C1;
+        }
+
+/* ✅ [2026-09-21] 시작 점검 경고 배너 — 메일용 압축의 .js.txt 를 되돌리지 않은 상태. */
+.startup-file-warning {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin: 0;
+    padding: 10px 18px;
+    background: #FFF4E5;
+    border-bottom: 2px solid #F0A500;
+    color: #7A4E00;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.startup-file-warning-icon {
+    flex: 0 0 auto;
+    font-size: 16px;
+    line-height: 1.4;
+}
+
+.startup-file-warning-text b {
+    color: #A34700;
+}
+
+.startup-file-warning-list {
+    display: inline-block;
+    margin-left: 4px;
+    font-weight: 800;
+    color: #A34700;
+    background: #FFFFFF;
+    border: 1px solid #F0C98A;
+    border-radius: 5px;
+    padding: 1px 8px;
+}
+
+/* ✅ [2026-09-21] 품번 메모 버튼 8개 — 4칸 × 2줄, 가로 폭을 모두 같게(패널 폭은 그대로 380px). */
+.pn-scratch-actions {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 5px;
+}
+
+    .pn-scratch-actions .btn {
+        display: block;
+        width: 100%;
+        min-width: 0;
+        padding: 5px 2px;
+        font-size: 11px;
+        line-height: 1.5;
+        text-align: center;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* ✅ [2026-09-22] 2줄은 버튼 5개: 폭을 줄이고 글자를 조금 작게.
+       ✅ [2026-10-12] 버튼 6개(M행삭제/E9행삭제/E제거/X제거/-추가/-제거): 팝업 폭은 그대로, 버튼 폭과 간격만 더 좁게. */
+    .pn-scratch-actions.pn-scratch-actions-6 {
+        grid-template-columns: repeat(6, 1fr);
+        gap: 3px;
+        margin-top: 5px;
+    }
+
+        .pn-scratch-actions.pn-scratch-actions-6 .btn {
+            padding: 5px 0;
+            font-size: 10.5px;
+            letter-spacing: -0.2px;
+        }
+
+/* ✅ [2026-09-22] 첫 글자가 E 인 K품번은 회색으로.
+   표의 기본 글자색 규칙(table.app-grid td → #222222)보다 우선순위가 높아야 하므로 td 선택자를 함께 적는다.
+   색을 바꾸려면 아래 rgb 값 하나만 고치면 된다(일반 K품번은 --color-text = rgb(34, 34, 34)). */
+.pn-e-part,
+table.app-grid td.pn-e-part,
+table.app-grid.compact-grid td.pn-e-part {
+    color: rgb(154, 154, 154);
+}
+
+/* ✅ [2026-09-22] 고객품번 열 헤더 옆의 아주 작은 [-추가]/[-제거] 토글 버튼. */
+.pn-hyphen-toggle {
+    display: inline-block;
+    margin-left: 5px;
+    padding: 0 4px;
+    height: 16px;
+    line-height: 14px;
+    font-size: 10px;
+    font-weight: 600;
+    color: #2962E3;
+    background: #FFFFFF;
+    border: 1px solid #C9D4F5;
+    border-radius: 3px;
+    cursor: pointer;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+    .pn-hyphen-toggle:hover {
+        background: #EEF3FF;
+    }
+
+    .pn-hyphen-toggle.on {
+        color: #FFFFFF;
+        background: #2962E3;
+        border-color: #2962E3;
+    }
+
+/* ✅ [2026-09-21] 품번 메모의 작은 질문 창('-' 추가 자릿수 선택). 기본 모달은 화면 절반 크기라 줄여서 쓴다. */
+.write-modal-box.pn-ask-box {
+    width: 440px;
+    max-width: 92vw;
+    min-width: 0;
+    height: auto;
+    min-height: 0;
+    max-height: 80vh;
+}
+
+.pn-ask-body {
+    padding: 30px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: auto;
+}
+
+.pn-ask-title {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 800;
+    color: #1B1D1F;
+}
+
+.pn-ask-desc {
+    margin: 0;
+    font-size: 13px;
+    color: #4C4C4C;
+    line-height: 1.6;
+}
+
+.pn-ask-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.pn-ask-label {
+    flex: 0 0 96px;
+    font-size: 13px;
+    font-weight: 700;
+    color: #1B1D1F;
+}
+
+.pn-ask-note {
+    margin: 0;
+    font-size: 12px;
+    color: #767676;
+}
+
+.pn-ask-warn {
+    margin: 0;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #C0392B;
+}
+
+.pn-ask-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 6px;
+}
+
+.pn-scratch-hint {
+    font-size: 11px;
+    color: #767676;
+    line-height: 1.45;
+}
+
+.pn-scratch-msg {
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #6F42C1;
+}
+
+    table.app-grid tr.total-row td {
+        background-color: var(--color-user-total-row);
+        font-weight: 700;
+    }
+
+/* ✅ 전체화면 [데이터] 탭에서만 적용되는 컬럼 고정폭 레이아웃.
+   colgroup에 지정된 <col style="width:...">가 실제로 반영되려면
+   table-layout이 fixed여야 한다(auto에서는 내용 길이에 따라 무시될 수 있음). */
+.fixed-col-layout {
+    table-layout: fixed;
+}
+
+input[type="text"], input:not([type]), select, textarea {
+    font-family: inherit;
+}
+
+    input.text-input, select.text-input {
+        border-radius: 10px !important;
+    }
+
+        input.text-input:focus, select.text-input:focus, textarea.text-area:focus {
+            outline: none;
+            border-color: var(--color-primary) !important;
+            box-shadow: 0 0 0 3px var(--color-primary-soft);
+        }
+
+.doc-title-center {
+    text-align: center;
+}
+
+.empty-row {
+    text-align: center;
+    color: #A6A6A6;
+    padding: 60px 0;
+}
+
+.link-text {
+    color: #03C75A;
+    text-decoration: underline;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13.5px;
+    font-family: inherit;
+}
+
+.vform-muted {
+    color: #A6A6A6;
+}
+
+.file-name-label {
+    margin-left: 10px;
+    color: #767676;
+    font-size: 13px;
+}
+
+/* ============================================================
+   ✅ 파일 업로드 버튼(InputFile) 스타일 — 반드시 전역(app.css)에 있어야 함.
+   razor.css(컴포넌트 스코프 CSS)는 <InputFile> 컴포넌트가 내부적으로
+   렌더링하는 <input type="file"> 태그에는 스코프 속성이 붙지 않아
+   적용되지 않는다. (DocumentWrite.razor / VehicleWrite.razor 공용)
+   ⚠️ 이 블록은 app.css를 전체 재작성할 때마다 누락되기 쉬우므로
+   절대 삭제하지 말 것.
+   ============================================================ */
+
+.file-upload-btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+    /* ✅ 요청사항: Tab으로 이동했을 때 취소/저장 버튼과 동일한 방식의
+       포커스 테두리를 표시한다. 실제로 Tab 포커스를 받는 요소는 label
+       안에 숨겨진 <input type="file">이므로, :focus-within(자식이 포커스를
+       받으면 부모에 스타일 적용)을 이용해 겉보기 버튼(label)에 테두리를
+       그린다. */
+    .file-upload-btn:focus-within {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+    }
+
+
+
+
+.file-upload-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.notice-text {
+    color: #E0392C;
+    font-size: 13px;
+    margin-top: 12px;
+}
+
+.review-cell {
+    white-space: pre-line;
+    line-height: 1.6;
+}
+
+.app-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+    background-color: #F4F6F8;
+}
+
+/* ✅ [2026-10-01] 상단 가로바 = 초록 + 흰 글씨.
+   [2026-10-02] 버튼(--color-primary #03C75A)과 같은 색이라 구분이 안 되어
+   가로바만 더 진한 초록(#006B35)으로 변경. 버튼색은 그대로 유지. */
+.app-header {
+    height: 60px;
+    flex: 0 0 auto;
+    background-color: #006B35;
+    border-bottom: none;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    position: relative;
+}
+
+/* ✅ ID 배지와 그 아래 KDOCS 경고 문구를 함께 세로로 쌓기 위해,
+   기존 absolute 단독 배치 대신 wrap 요소를 두고 그 안에서 배치한다. */
+.header-user-badge-wrap {
+    position: absolute;
+    top: 6px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    pointer-events: none;
+}
+
+.header-user-badge {
+    font-size: 8pt;
+    font-weight: 600;
+    /* ✅ [2026-10-01] 초록 가로바 위 흰 글씨 */
+    color: #FFFFFF;
+    white-space: nowrap;
+    letter-spacing: 0.2px;
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.hamburger-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 22px;
+    height: 16px;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+}
+
+    .hamburger-btn span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        border-radius: 1px;
+        background-color: #FFFFFF; /* ✅ [2026-10-01] 초록 가로바 위 흰색 */
+        transition: background-color 0.15s ease;
+    }
+
+    .hamburger-btn:hover span {
+        background-color: #D6F5E3;
+    }
+
+.app-logo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.1;
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+.app-logo-acronym {
+    display: block;
+    font-size: 19px;
+    font-weight: 800;
+    color: #FFFFFF;
+    letter-spacing: 0.3px;
+}
+
+.app-logo-fullname {
+    display: block;
+    font-size: 10.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85); /* ✅ [2026-10-01] 초록 가로바 위 흰 글씨(보조 문구는 살짝 투명) */
+    margin-top: 1px;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-tagline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.tagline-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    line-height: 1.35;
+}
+
+.tagline-main {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #FFFFFF;
+    white-space: nowrap;
+}
+
+.tagline-sub {
+    font-size: 11.5px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.85); /* ✅ [2026-10-01] 초록 가로바 위 흰 글씨(보조 문구는 살짝 투명) */
+    white-space: nowrap;
+}
+
+.tagline-icon {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 860px) {
+    .header-tagline {
+        display: none;
+    }
+}
+/* ✅ [2026-10-07] 관리자 전용 상단 회색 버튼(개발자 모드 토글)과 묶음(.header-admin-actions)은 버튼과 함께 지웠다. */
+
+
+
+
+.app-body {
+    flex: 1 1 auto;
+    display: flex;
+    min-height: 0;
+}
+
+/* ✅ [2026-10-01] 좌측 메뉴 그라데이션: 좌상단이 가장 진한 연두(#F0FCF5, 흰색과의 차이를 #E0F8EA 의 절반으로) → 우하단으로 갈수록 흰색.
+   우하단은 내용 영역(흰색)과 이어져 경계가 사라진다. 사이 회색 세로줄은 없음. */
+.app-sidebar {
+    position: relative;
+    width: 340px;
+    flex: 0 0 auto;
+    background: linear-gradient(to bottom right, #F0FCF5 0%, #FFFFFF 100%);
+    border-right: none;
+    transition: width 0.15s ease;
+    overflow: hidden;
+}
+
+    .app-sidebar.collapsed {
+        width: 0;
+    }
+
+.sidebar-menu {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 12px;
+    gap: 4px;
+}
+
+.app-sidebar.collapsed .sidebar-menu {
+    display: none;
+}
+
+.app-sidebar .sidebar-item, .app-sidebar a.sidebar-item:link, .app-sidebar a.sidebar-item:visited {
+    display: block;
+    padding: 10px 14px;
+    border-radius: 10px;
+    color: #4C4C4C !important;
+    text-decoration: none !important;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    cursor: pointer;
+    transition: background-color 0.12s ease, color 0.12s ease;
+    background-color: transparent;
+    white-space: nowrap;
+}
+
+    /* hover: 바탕보다 한 단계 진한 반투명 초록(그라데이션 어느 위치에서도 바탕보다 진해 보임). */
+    .app-sidebar .sidebar-item:hover {
+        background-color: rgba(3, 199, 90, 0.10) !important;
+        color: #1B1D1F !important;
+        text-decoration: none !important;
+    }
+
+.app-sidebar a.sidebar-item.active, .app-sidebar a.sidebar-item.active:visited, .app-sidebar a.sidebar-item.active:hover {
+    background-color: #E7F9EE !important;
+    color: #03C75A !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+}
+
+
+.app-sidebar .sidebar-item.sidebar-subitem {
+    padding-left: 48px !important;
+}
+
+.app-content {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: auto;
+    /* ✅ [2026-10-06] 세로 스크롤바 자리를 항상 비워 둔다. 행이 많아 스크롤바가 생기는 메뉴(K품번 기준 등)와
+       안 생기는 메뉴(고객품번 기준 등)의 내용 폭이 달라 [엑셀 다운로드] 등 오른쪽 끝 위치가 약 15px 어긋났다(사용자 지적). */
+    scrollbar-gutter: stable;
+    /* ✅ [2026-09-29] 회색 여백 제거(.card 가 영역을 채운다). 배경은 흰색으로 두어 카드보다 짧은 화면에서도 회색이 비치지 않게 한다. */
+    background-color: var(--color-surface);
+    padding: 0;
+}
+
+.write-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.write-modal-box {
+    position: relative;
+    background-color: #FFFFFF;
+    width: 50vw;
+    height: 80vh;
+    max-width: 900px;
+    min-width: 480px;
+    min-height: 500px;
+    border-radius: 16px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: width 0.15s ease, height 0.15s ease;
+}
+
+    .write-modal-box.doc-tall {
+        height: 88vh;
+    }
+
+    .write-modal-box.compare-wide {
+        width: 67vw;
+        max-width: 1260px;
+        height: 88vh;
+    }
+
+    .write-modal-box.is-fullscreen {
+        width: 100vw !important;
+        height: 100vh !important;
+        max-width: none !important;
+        border-radius: 0;
+    }
+
+    .write-modal-box.nested-offset {
+        transform: translate(7%, 4%);
+    }
+
+.write-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255,255,255,0.9);
+    color: #666666;
+    font-size: 15px;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+    .write-modal-close:hover {
+        background-color: #FFFFFF;
+        color: #E0392C;
+    }
+
+.write-modal-fullscreen-btn {
+    position: absolute;
+    top: 14px;
+    right: 54px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: rgba(255,255,255,0.9);
+    color: #666666;
+    cursor: pointer;
+    z-index: 10;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .write-modal-fullscreen-btn:hover {
+        background-color: #FFFFFF;
+        color: #03C75A;
+    }
+
+.write-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+
+.data-options {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 12px;
+    background-color: #F7F8FA;
+    padding: 12px 16px;
+    border-radius: 10px;
+    flex: 0 0 auto;
+}
+
+
+.data-options-left {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+.data-options label {
+    font-size: 13px;
+    color: #555555;
+    font-weight: 600;
+}
+
+/* ✅ [2026-10-06] 세로구간 2 = 검색창 영역 표준(모든 메뉴 공통, 자동 클릭 소메뉴·작성 창은 제외 — 그래서 별도 클래스).
+   - 높이 46px 고정(위아래 여백 3.5 + 안쪽 39px = 소탭·이전/다음 높이, 입력칸·버튼은 30px), 한 줄만(넘쳐도 줄바꿈하지 않는다), 아래 간격 12px(.data-options).
+     (2026-10-06 사용자: 63px(여백 12)는 커 보인다 → 여백만 줄여 46px. 이어서 입력칸 39 → 30px.)
+   - 순서: [소탭 토글(.seg-stack)] · 검색 입력/버튼 … · [이전/다음(.seg-stack), .search-area-right 로 맨 오른쪽].
+   - 여러 품번 붙여넣기 목록(.sp-multi-popup)이 아래로 펼쳐지므로 overflow 는 자르지 않는다. */
+.data-options.search-area {
+    height: 46px;
+    padding-top: 3.5px;
+    padding-bottom: 3.5px;
+    box-sizing: border-box;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+    .search-area > .data-options-left {
+        flex-wrap: nowrap;
+        min-width: 0;
+    }
+
+    /* ✅ [2026-10-06] 입력칸 39px → 30px(사용자: 회색 상자 대비 흰 입력칸이 너무 크다). 글자(14px)는 그대로, 위아래 안쪽 여백만 뺐다.
+       검색창 안 버튼(btn-sm)·제목 줄 버튼과 같은 30px. 소탭·이전/다음(.seg-stack)은 39px 그대로(사용자 결정). */
+    .search-area .text-input {
+        height: 30px;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    /* 좁은 창(예: 폭 1280)에서 한 줄에 다 안 들어가면 라벨·버튼·토글은 그대로 두고 입력칸만 조금씩 줄어든다
+       (예전에는 라벨이 먼저 찌그러져 "매출 발생 기간"이 세로로 한 글자씩 꺾였다). */
+    .search-area label,
+    .search-area .btn,
+    .search-area .seg-stack,
+    .search-area .sp-search-tilde {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    .search-area .data-options-left > input.text-input,
+    .search-area .pn-multi-wrap {
+        flex-shrink: 1;
+        min-width: 84px;
+    }
+
+/* 3. 내용 영역은 검색창 아래 12px(.data-options margin-bottom)에서 시작한다 — 첫 요소의 위 여백(<p> 기본 1em 등)이 끼어들지 않게. */
+.data-options.search-area + * {
+    margin-top: 0;
+}
+
+.search-area-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    margin-left: auto;
+}
+
+/* ✅ [2026-10-06] 소탭 토글 / 이전·다음: 버튼 2개를 위아래로 쌓아 가로 1칸만 쓴다(합계 39px = 입력칸 높이).
+   소탭(SegToggle)은 고른 쪽이 진한 초록, 이전/다음(StackPager)은 강조 없이 끝 페이지에서 비활성. */
+.seg-stack {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 1px;
+    flex: 0 0 auto;
+}
+
+    /* ✅ [2026-10-06] 모드(.seg-mode)가 여러 개면 서로 4px(8 - 4), 마지막 모드와 검색 조건 사이는 14px(8 + 6). */
+    .search-area .seg-mode + .seg-mode {
+        margin-left: -4px;
+    }
+
+    .search-area .seg-mode + :not(.seg-mode) {
+        margin-left: 6px;
+    }
+
+/* ✅ [2026-10-06] 폭: 4글자("상위포함", 11.5px 굵게)가 알맞게 들어가는 58px 을 최소폭으로(예전 64px + 좌우 10px 은 2글자 "국내/해외"에 너무 컸다).
+   더 긴 글자(예: "ERP 기준(본인 없음)")는 글자 길이만큼 늘어난다. */
+.seg-stack-btn {
+    height: 19px;
+    min-width: 58px;
+    padding: 0 6px;
+    border: none;
+    border-radius: 5px;
+    background-color: #E5E8EB;
+    color: #6B6B6B;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
+    line-height: 19px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+    .seg-stack-btn:hover:not(:disabled) {
+        background-color: #D8DCE1;
+        color: #333333;
+    }
+
+    .seg-stack-btn.selected,
+    .seg-stack-btn.selected:hover:not(:disabled) {
+        background-color: #03C75A;
+        color: #FFFFFF;
+    }
+
+    .seg-stack-btn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+    }
+
+/* ✅ [2026-10-06] 세로 3단 모드(SegSelect, 예: K품번 기준 15개/200개/5000개). 14px × 3 + 1px × 2 = 44px → 검색창(46px) 안에 위아래 1px. */
+.seg-n3 .seg-stack-btn {
+    height: 14px;
+    line-height: 14px;
+    font-size: 10.5px;
+}
+
+/* ✅ [2026-10-08] 세로 4단 모드(SegSelect, 예: K품번·고객품번 기준 20개/300개/4000개/10000개). 10px × 4 + 1px × 3 = 43px → 검색창(46px) 안.
+   검색창 높이는 그대로(영역별 높이 고정 — 사용자 결정). 글씨를 줄이고 버튼 안 좌우 여백도 줄였다(폭 = 가장 긴 글자). */
+.seg-n4 .seg-stack-btn {
+    height: 10px;
+    line-height: 10px;
+    font-size: 9px;
+    padding: 0 3px;
+    min-width: 0;
+}
+
+/* ✅ [2026-09-21] 매출 실적 공용 검색창(SalesPerformanceSearchBar) + 여러 품번 붙여넣기 팝업 */
+.sp-search-left {
+    position: relative;
+}
+
+/* ✅ [2026-10-06] 검색창 최우측 자리(.sp-search-right)는 없앴다 — [엑셀 다운로드]는 제목 줄 맨 오른쪽으로 올라갔다. */
+
+.sp-search-tilde {
+    color: #999999;
+    font-weight: 700;
+}
+
+/* ✅ [2026-09-23] 청구문서별 / 피벗 검색창의 "내부거래 제외" 체크박스. */
+.sp-internal-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #1B1D1F;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+/* ✅ [2026-09-21] PartNumberMultiInput: 여러 품번 붙여넣기 칸. 팝업은 이 칸 바로 아래에 뜬다. */
+.pn-multi-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex: 0 0 auto;
+}
+
+    .pn-multi-wrap .pn-multi-text {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .pn-multi-wrap .pn-multi-count {
+        flex: 1 1 auto;
+        min-width: 0;
+        background: #FFF1B8 !important;
+        font-weight: 700;
+        cursor: pointer;
+    }
+
+.pn-multi-clear {
+    flex: 0 0 auto;
+    border: 1px solid var(--color-border-strong);
+    background: #FFFFFF;
+    color: #767676;
+    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    line-height: 1;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+    .pn-multi-clear:hover {
+        color: #C0392B;
+        border-color: #C0392B;
+    }
+
+/* ✅ [2026-10-02] 붙여넣은 순서 정렬 토글: ✕(pn-multi-clear)와 같은 크기. 켜지면 파란색. */
+.pn-multi-sort {
+    flex: 0 0 auto;
+    border: 1px solid var(--color-border-strong);
+    background: #FFFFFF;
+    color: #767676;
+    border-radius: 6px;
+    width: 24px;
+    height: 24px;
+    line-height: 1;
+    cursor: pointer;
+    font-size: 12px;
+}
+
+    .pn-multi-sort:hover {
+        color: #2962E3;
+        border-color: #2962E3;
+    }
+
+    .pn-multi-sort.active {
+        background: #2962E3;
+        border-color: #2962E3;
+        color: #FFFFFF;
+    }
+
+.sp-multi-popup {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
+    z-index: 60;
+    width: 320px;
+    background: #FFFFFF;
+    border: 1px solid #CFD4DA;
+    border-radius: 10px;
+    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+    padding: 8px 10px 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.sp-multi-popup-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.sp-multi-popup-title {
+    font-size: 12.5px;
+    font-weight: 800;
+    color: #1B1D1F;
+}
+
+.sp-multi-popup-list {
+    width: 100%;
+    height: 200px;
+    resize: vertical;
+    box-sizing: border-box;
+    font-family: Consolas, "Pretendard", monospace;
+    font-size: 12px;
+    line-height: 1.5;
+    border: 1px solid #E5E8EB;
+    border-radius: 6px;
+    padding: 6px 8px;
+    background: #FAFAFA;
+}
+
+.sp-multi-popup-hint {
+    font-size: 11px;
+    color: #767676;
+}
+
+
+
+.num-input {
+    width: 70px;
+    padding: 7px 10px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+}
+
+.text-input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 14px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 10px;
+    font-size: 14px;
+}
+
+.data-grid-wrapper {
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+}
+
+/* ✅ "중장기 매출 조회" [데이터] 탭 표 전용 보조 클래스.
+   같은 클래스(.data-grid-wrapper)를 공유하는 다른 화면들(비교 조회 등)에는
+   전혀 영향을 주지 않도록, 이 화면에서만 추가로 붙는 클래스로 동작을 덮어쓴다.
+   ✅ 요청5(틀고정)를 위해, 이 표의 실제 스크롤은 바깥의 .docform-scroll-area
+   하나가 전담하도록 만든다. 이 래퍼 자체는 더 이상 스크롤 컨테이너가 되지
+   않도록 하고(overflow-x:auto 무효화), 내용(표) 실제 폭만큼 정확히 넓어지도록
+   inline-block으로 바꿔, 표가 넓어져도 테두리가 항상 표 전체를 정확히 감싼다. */
+.dd-data-grid-wrapper {
+    display: inline-block;
+    min-width: 100%;
+    overflow-x: visible;
+    vertical-align: top;
+}
+
+.grid-placeholder-text {
+    color: #A6A6A6;
+    line-height: 1.8;
+    padding: 40px 16px;
+    text-align: center;
+}
+
+.data-grid {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+    .data-grid td {
+        padding: 0 !important;
+    }
+
+    .data-grid .fixed-cell {
+        padding: 8px !important;
+        background-color: #F1F3F5;
+        font-weight: 700;
+        text-align: center;
+    }
+
+    .data-grid tr.total-row .fixed-cell {
+        background-color: #E5E8EB;
+    }
+
+    .data-grid tr.user-input-row td.grid-cell:not(.invalid-cell):not(.selected-cell) {
+        background-color: #FFFFFF;
+    }
+
+    .data-grid td.grid-cell {
+        padding: 8px !important;
+        font-size: 13.5px;
+        cursor: cell;
+        outline: none;
+        white-space: nowrap;
+        user-select: none;
+    }
+
+        .data-grid td.grid-cell:focus {
+            background-color: #D7E6F5;
+            outline: 2px solid #2962E3;
+            outline-offset: -2px;
+        }
+
+        .data-grid td.grid-cell:hover {
+            background-color: #F5F8FC;
+        }
+/* ============================================================
+   ✅ 그리드 붙여넣기(Ctrl+V) 안정화용 숨김 textarea.
+   일반 <td>에 포커스가 있는 상태에서는 브라우저가 Ctrl+V의 clipboardData를
+   안정적으로 전달하지 않는 경우가 많아(그리드 라이브러리들이 공통으로 쓰는
+   우회 기법), 화면에 보이지 않는 전용 textarea로 실제 포커스를 옮겨
+   paste 이벤트를 받는다. (DocumentWrite.razor 전용)
+   ============================================================ */
+.grid-paste-catcher {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    border: none;
+    opacity: 0;
+    overflow: hidden;
+    resize: none;
+    pointer-events: none;
+}
+
+.data-grid td.grid-cell.selected-cell {
+    background-color: #D7E6F5;
+    outline: 2px solid #2962E3;
+    outline-offset: -2px;
+}
+
+.grid-cell-input {
+    width: 100%;
+    box-sizing: border-box;
+    border: none;
+    padding: 8px;
+    font-size: 13.5px;
+    background: transparent;
+    border-radius: 0;
+}
+
+    .grid-cell-input:focus {
+        outline: 2px solid #03C75A;
+        outline-offset: -2px;
+        background-color: #EAF9F0;
+    }
+
+.align-center {
+    text-align: center;
+}
+
+.align-right {
+    text-align: right;
+}
+
+.invalid-cell {
+    background-color: #FDE2E0;
+}
+
+.vform-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    position: relative;
+}
+
+.vform-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    padding: 20px 40px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.vform-title {
+    flex: 0 0 auto;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: #1B1D1F;
+    margin-bottom: 32px;
+}
+
+.vform-table {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-top: 1px solid var(--color-border-soft-green);
+    overflow: hidden;
+}
+
+.vform-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--color-border-soft-green);
+    transition: background-color 0.12s ease;
+}
+
+    .vform-row.row-fixed {
+        flex: 0 0 58px;
+    }
+
+    .vform-row.row-flex {
+        /* ✅ 절대값 고정 대신 남는 공간 자동 채우기. VehicleWrite/VehicleInfoModal이
+           이 클래스를 공유하며, 팝업 전체 높이가 doc-tall(88vh)로 통일된 상태이므로
+           설명 영역이 매출 문서 작성/조회의 검토사항과 비슷한 비율로 커진다. */
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+
+    .vform-row:hover .vform-label {
+        background-color: var(--color-label-bg-hover);
+    }
+
+    .vform-row:hover .vform-value {
+        background-color: #FAFEFB;
+    }
+
+.vform-label {
+    flex: 0 0 180px;
+    background-color: var(--color-label-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #2F5E43;
+    padding: 0 10px;
+    line-height: 1.3;
+}
+
+.vform-value {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 22px;
+    gap: 10px;
+}
+
+.vform-row.row-flex .vform-value {
+    align-items: stretch;
+    padding: 14px 22px;
+    overflow-y: auto;
+}
+
+.vform-value .text-input, .vform-value select.text-input {
+    width: 100%;
+}
+
+.vform-value .text-area {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}
+
+.vform-static-text {
+    font-size: 14px;
+    color: var(--color-text);
+    width: 100%;
+}
+
+    .vform-static-text.vinfo-description {
+        white-space: pre-line;
+        line-height: 1.8;
+    }
+
+.docform-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    position: relative;
+}
+
+.docform-body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    padding: 16px 40px 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.docform-title {
+    flex: 0 0 auto;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: #1B1D1F;
+    margin-bottom: 16px;
+}
+
+.docform-table {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border-top: 1px solid var(--color-border-soft-green);
+    overflow: hidden;
+}
+
+.docform-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 1px solid var(--color-border-soft-green);
+    transition: background-color 0.12s ease;
+}
+
+    .docform-row.row-fixed {
+        flex: 0 0 42px;
+    }
+
+    .docform-row.row-flex {
+        flex: 1 1 auto;
+        min-height: 0;
+    }
+
+    .docform-row:hover .docform-label {
+        background-color: var(--color-label-bg-hover);
+    }
+
+    .docform-row:hover .docform-value {
+        background-color: #FAFEFB;
+    }
+
+.docform-label {
+    flex: 0 0 150px;
+    background-color: var(--color-label-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #2F5E43;
+    padding: 0 8px;
+    line-height: 1.25;
+}
+
+.docform-value {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    padding: 0 18px;
+    gap: 10px;
+}
+
+.docform-row.row-flex .docform-value {
+    align-items: stretch;
+    padding: 10px 18px;
+    overflow-y: auto;
+}
+
+.docform-value .text-input, .docform-value select.text-input {
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 13px;
+}
+
+.docform-value .docform-textarea {
+    flex: 1 1 auto;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 10px;
+    font-size: 13.5px;
+    resize: none;
+}
+
+.docform-static-text {
+    font-size: 13.5px;
+    color: var(--color-text);
+    width: 100%;
+}
+
+.docform-review {
+    white-space: pre-line;
+    line-height: 1.7;
+}
+
+.docform-scroll-area {
+    flex: 1 1 auto;
+    min-height: 0;
+    /* ✅ 요청5(틀고정): 이 영역이 이 화면에서 유일한 스크롤 컨테이너가 되도록
+       세로/가로 모두 auto로 명시한다(기존에는 overflow-y만 auto였지만,
+       CSS 규칙상 사실상 가로도 이미 auto로 취급되고 있었다 — 이번에 명시적으로
+       고정하여 sticky 위치 계산이 항상 이 컨테이너를 기준으로 정확히
+       이루어지도록 보장한다). */
+    overflow: auto;
+}
+
+.dim-chip-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.dim-chip {
+    border: 1px dashed var(--color-primary);
+    background-color: var(--color-primary-soft);
+    color: #1F7A44;
+    border-radius: 999px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+    .dim-chip:hover {
+        background-color: #D5F3E1;
+    }
+
+.col-remove-btn {
+    border: none;
+    background: rgba(0,0,0,0.08);
+    color: #666666;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    font-size: 11px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+    .col-remove-btn:hover {
+        background: #E0392C;
+        color: #FFFFFF;
+    }
+
+.graph-tab-shell {
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    height: 100%;
+    /* ✅ [원복] margin-top 트릭은 flex:1 1 auto인 .graph-chart-area가
+       빈 공간을 다시 채워버려 효과가 없었다(차트만 늘어나는 부작용).
+       근본 원인(요약표 높이 계산값 오차)을 고쳤으므로 이 값은 문서 간
+       Y 시작 위치 통일을 위한 작은 고정값으로만 사용한다. */
+    padding-top: 4px;
+}
+
+/* ✅ [핵심 수정] 표 행 높이 계산은 브라우저 렌더링에 따라 1~2px의 미세한
+   오차가 생길 수 있다. 이 오차를 완벽히 0으로 맞추려 하기보다,
+   "그래프 탭에서는 어떤 경우에도 세로 스크롤이 생기지 않는다"를 확실히
+   보장하기 위해 이 영역 자체를 overflow:hidden으로 강제한다.
+   (.docform-scroll-area의 overflow:auto보다 더 구체적인 선택자를 사용해
+   확실히 덮어쓴다.) 만에 하나 계산이 1~2px 넘치더라도 스크롤바 대신
+   그 미세한 여백만 살짝 잘릴 뿐이라 육안상 차이가 거의 없다. */
+.docform-scroll-area.graph-tab-shell {
+    overflow: hidden;
+}
+
+.graph-chart-area {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+}
+
+    .graph-chart-area > * {
+        flex: 1 1 auto;
+        min-height: 0;
+        width: 100%;
+    }
+
+.graph-summary-area {
+    /* ✅ overflow:hidden으로 인해 표의 마지막 행("합계")이 미세한 높이 오차로
+       잘려 보이는 문제를 근본적으로 제거한다. 이 영역은 이미 flex:0 0 auto로
+       "표 내용에 필요한 높이만큼만" 차지하도록 되어 있으므로, overflow를
+       숨길 필요가 없다(오히려 숨기면 잘림의 원인이 된다). */
+    flex: 0 0 auto;
+    overflow: visible;
+}
+
+.graph-summary-table {
+    table-layout: fixed;
+}
+
+    .graph-summary-table tbody tr:first-child td {
+        border-top: 1px solid var(--color-border-strong) !important;
+    }
+
+table.app-grid.graph-summary-table th,
+table.app-grid.graph-summary-table td {
+    padding: 0px 6px !important;
+    font-size: 12px !important;
+    line-height: 18px !important;
+    height: 18px !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.list-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* ✅ [2026-10-06] 제목 영역과 검색창 영역 사이 간격 20px → 8px(40%, 사용자 요청: 검색창이 제목과 너무 떨어져 보였다). */
+    margin-bottom: 8px;
+    height: 35px;
+    gap: 12px;
+}
+
+/* ✅ [2026-10-06] 세로구간 1 = 제목 줄 표준(모든 메뉴 공통).
+   예전에는 min-height 35px 이라 오른쪽 내용(버튼은 글꼴·줄높이가 정해지지 않아 약 35~37px, 상태 글은 길면 2~3줄)에 따라
+   줄이 늘어나 제목과 그 아래 내용의 Y 위치가 메뉴·등급마다 1~10px 흔들렸다. 이제 높이를 35px 로 고정한다.
+   - 제목은 항상 왼쪽 끝, 나머지(건수·상태 글 → 버튼)는 모두 오른쪽 끝으로 붙는다(제목의 margin-right:auto).
+   - 줄 안의 버튼은 모든 메뉴에서 같은 작은 크기(높이 30px, 글자 13px = btn-sm)다. btn-sm 을 안 붙인 버튼도 여기서 맞춘다.
+   - 순서: 제목 … 건수·상태 글 · [화면별 버튼들] · [엑셀 다운로드](항상 맨 오른쪽 끝, 2026-10-06 검색창에서 올라옴).
+   - 문서 목록 아래의 페이지 이동 줄(DocListPager)은 없앴다(이전/다음은 검색창 맨 오른쪽, 건수·쪽 정보는 .toolbar-count-box). */
+    .list-toolbar .btn {
+        height: 30px;
+        padding: 0 14px;
+        font-size: 13px;
+    }
+
+.page-title {
+    font-size: 19px;
+    font-weight: 800;
+    color: #1B1D1F;
+    margin: 0 auto 0 0;
+    line-height: 1.2;
+    white-space: nowrap;
+    flex: 0 0 auto;
+}
+
+/* ✅ [2026-10-06] 제목 줄 오른쪽의 회색 건수·상태 글. 한 줄로만 보이고 넘치면 말줄임(…). */
+.toolbar-info {
+    font-size: 12.5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    min-width: 0;
+}
+
+/* ✅ [2026-10-06] 제목 줄 오른쪽의 두 줄 건수 상자(청구문서별의 .sp-count-box 를 공용으로 옮김). 두 줄 합계 약 34px(제목 줄 35px 안).
+   첫째 줄 = 건수(청구문서별은 "보관 대상: … 총 N건"), 둘째 줄 = "1~15 (페이지 1 / 3)". */
+.toolbar-count-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+    font-size: 12.5px;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+    .toolbar-count-box .toolbar-count-sub {
+        font-size: 12px;
+        color: #6B6B6B;
+    }
+
+.toolbar-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.doc-list-grid {
+    table-layout: fixed;
+}
+
+    /* ✅ [2026-09-18] 목록 표라고 해서 전부 클릭 대상은 아니므로(원자재 관리 등 빈 목록),
+       손가락 커서는 .row-clickable 이 붙은 행에서만 나온다. */
+    .doc-list-grid tbody tr {
+        transition: background-color 0.1s ease;
+    }
+
+        .doc-list-grid tbody tr.row-selected {
+            background-color: var(--color-primary-soft);
+        }
+
+    .doc-list-grid tbody td {
+        padding: 0 !important;
+        height: auto;
+        vertical-align: top;
+    }
+
+/* ✅ [2026-09-29] 문서형 메뉴(1행 = 작성문서 1개: 중장기 매출 조회 / 고객 중장기 조회 / 차량 판매 계획 / 매출 비교 / 월별 매출 실적 조회)
+   행 높이 표준 = 중장기 매출 조회 기준 56px. 월별 매출 실적 조회의 34px 예외는 없앴다. */
+:root {
+    --doc-row-height: 56px;
+}
+
+/* ✅ [2026-09-29] 24인치(1920×1080) 기준 "문서 15건 + 페이지 줄이 스크롤 없이" 보이려면 브라우저 안쪽 높이가 1080px(F11 전체화면)일 때는
+   56px 행으로 정확히 들어가지만, 탭·주소줄이 보이는 보통의 최대화 창(안쪽 약 945px)에서는 56px × 15행이 넘친다(측정: 14행째에서 잘림).
+   그래서 창 안쪽 높이가 1060px 미만이면 문서 행만 45px 로 줄여 15건이 들어가게 한다(데이터형 표는 영향 없음). 이 예외를 원치 않으면 이 블록만 지우면 된다. */
+@media (max-height: 1060px) {
+    :root {
+        --doc-row-height: 45px;
+    }
+}
+
+.cell-fixed {
+    height: var(--doc-row-height);
+    box-sizing: border-box;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    padding: 0 10px;
+}
+
+/* ✅ [2026-09-29] 월별 매출 실적 조회 목록의 행 높이(34px)·헤더 패딩 예외를 없애고 다른 문서형 목록과 같은 표준(56px)을 쓴다.
+   제목은 한 줄로만 보이는 규칙만 남긴다. */
+.sp-monthly-grid .cell-title-clip {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* ✅ [2026-10-06] 문서 목록 아래 페이지 이동 줄(.doc-list-pager)은 없앴다 — 이전/다음은 검색창 맨 오른쪽(StackPager). */
+
+/* ✅ [2026-10-15] 점검 필요 문서의 목록 빨간 글씨(.sp-review-row)는 없앴다 — 목록에서는 다른 문서와 똑같이 보인다. */
+
+/* 상세 화면 "내용"의 ★ 점검 필요 줄 */
+.docform-review .sp-review-line {
+    color: #C0392B;
+    font-weight: 700;
+}
+
+.cell-center {
+    justify-content: center;
+    text-align: center;
+}
+
+.cell-nowrap {
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cell-title-clip {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    width: 100%;
+    text-align: left;
+    line-height: 1.3;
+    font-weight: 500;
+    color: #1B1D1F;
+    word-break: break-word;
+}
+
+.checkbox-cell {
+    text-align: center;
+}
+
+.sel-box {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    box-sizing: border-box;
+    flex-shrink: 0;
+}
+
+    .sel-box .sel-native {
+        position: absolute;
+        inset: 0;
+        width: 20px;
+        height: 20px;
+        margin: 0;
+        padding: 0;
+        opacity: 0;
+        cursor: pointer;
+        z-index: 2;
+    }
+
+    .sel-box .sel-visual {
+        position: absolute;
+        inset: 0;
+        width: 20px;
+        height: 20px;
+        box-sizing: border-box;
+        border: 1.4px solid #AAAAAA;
+        border-radius: 4px;
+        background-color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+    }
+
+    .sel-box .sel-native:checked + .sel-visual {
+        border-color: #03C75A;
+        background-color: #03C75A;
+    }
+
+        .sel-box .sel-native:checked + .sel-visual::after {
+            content: "✓";
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+    .sel-box .row-number {
+        color: #A6A6A6;
+        font-weight: 400;
+        font-size: 13px;
+        line-height: 1;
+    }
+
+.sel-box-empty {
+    box-sizing: border-box;
+    border: 1.4px solid #AAAAAA;
+    border-radius: 4px;
+}
+
+.sel-box-selected {
+    box-sizing: border-box;
+    border: 1.4px solid #03C75A;
+    border-radius: 4px;
+    color: #03C75A;
+    font-weight: 800;
+    font-size: 13px;
+}
+
+.title-cell {
+}
+
+.cdm-shell {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+.cdm-title {
+    flex: 0 0 auto;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 800;
+    color: #1B1D1F;
+    padding: 18px 20px 0;
+}
+
+.cdm-body {
+    flex: 1 1 auto;
+    min-height: 0;
+}
+
+    .cdm-body > * {
+        height: 100%;
+    }
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    position: relative;
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    max-width: 92vw;
+    max-height: 88vh;
+    overflow-y: auto;
+}
+
+.modal-header {
+    position: relative;
+    margin-bottom: 16px;
+    padding-right: 30px;
+}
+
+    .modal-header h3 {
+        margin: 0;
+        font-size: 17px;
+        font-weight: 800;
+        color: #1B1D1F;
+        text-align: center;
+    }
+
+.modal-close-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: none;
+    background: transparent;
+    font-size: 16px;
+    cursor: pointer;
+    color: #999999;
+}
+
+.modal-footer {
+    margin-top: 18px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modal-footer-actions {
+    flex: 0 0 auto;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 20px 32px;
+    border-top: none;
+    background-color: #FFFFFF;
+}
+
+.compare-panel-row {
+    display: flex;
+    height: 100%;
+    min-height: 0;
+}
+
+.compare-panel {
+    flex: 1 1 50%;
+    min-width: 0;
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.compare-panel-right {
+    border-left: 1px solid var(--color-border);
+}
+
+#blazor-error-ui {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 2000;
+    background: #FFF3CD;
+    color: #664D03;
+    border-top: 1px solid #E8C674;
+    padding: 12px 20px;
+    font-size: 13.5px;
+    text-align: center;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+}
+
+    #blazor-error-ui .reload {
+        color: #03C75A;
+        font-weight: 700;
+        text-decoration: underline;
+        margin-left: 10px;
+        cursor: pointer;
+    }
+
+    #blazor-error-ui .dismiss {
+        position: absolute;
+        right: 16px;
+        top: 10px;
+        cursor: pointer;
+        color: #999999;
+    }
+
+#components-reconnect-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0, 0, 0, 0.55);
+    align-items: center;
+    justify-content: center;
+}
+
+    #components-reconnect-modal.components-reconnect-show,
+    #components-reconnect-modal.components-reconnect-failed,
+    #components-reconnect-modal.components-reconnect-rejected {
+        display: flex;
+    }
+
+.reconnect-box {
+    background: #FFFFFF;
+    border-radius: 16px;
+    padding: 28px 32px;
+    text-align: center;
+    max-width: 360px;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.reconnect-text-show {
+    display: none;
+    color: #444444;
+    font-size: 14px;
+    margin: 0 0 8px;
+}
+
+.reconnect-text-failed {
+    display: none;
+    color: #E0392C;
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0 0 16px;
+    line-height: 1.6;
+}
+
+#components-reconnect-modal.components-reconnect-show .reconnect-text-show {
+    display: block;
+}
+
+#components-reconnect-modal.components-reconnect-failed .reconnect-text-failed,
+#components-reconnect-modal.components-reconnect-rejected .reconnect-text-failed {
+    display: block;
+}
+
+.reconnect-btn {
+    display: none;
+    border: none;
+    border-radius: 8px;
+    background-color: #03C75A;
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 13.5px;
+    padding: 9px 20px;
+    cursor: pointer;
+}
+
+#components-reconnect-modal.components-reconnect-failed .reconnect-btn,
+#components-reconnect-modal.components-reconnect-rejected .reconnect-btn {
+    display: inline-block;
+}
+
+.grid-error-box {
+    text-align: center;
+    padding: 40px 20px;
+    color: #664D03;
+    background-color: #FFF3CD;
+    border: 1px solid #E8C674;
+    border-radius: 12px;
+    line-height: 1.6;
+}
+
+    .grid-error-box p {
+        margin: 0 0 12px;
+    }
+
+.full-source-fab {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 500;
+}
+
+    .full-source-fab:disabled,
+    .full-source-fab.is-loading {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+/* ============================================================
+   개발자모드 - 팝업(컴포넌트) 클래스명 태그.
+   창 1개 = C# 컴포넌트 클래스 1개를 그대로 보여주기 위한 표시 규칙.
+   DevClassTag.razor 컴포넌트가 이 클래스를 사용하며, 각 팝업의
+   shell(docform-shell, vform-shell) 안 맨 끝에 배치된다.
+   ============================================================ */
+.dev-class-tag {
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    transform: translateX(-50%);
+    font-size: 10pt;
+    color: #888888;
+    background-color: rgba(255,255,255,0.85);
+    padding: 1px 8px;
+    border-radius: 3px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 99999;
+}
+
+/* ============================================================
+   ✅ "중장기 매출 작성(DocumentWrite)"과 "중장기 매출 조회(DocumentDetail)"
+   전용 공용 규칙. 두 화면이 완전히 동일한 클래스를 그대로 참조하도록 하여,
+   "검토 사항"처럼 남는 공간을 채우는 행의 실제 높이가 항상 정확히
+   일치하게 만든다.
+   ============================================================ */
+.docform-tight-bottom {
+
+    padding-bottom: 10px;
+}
+
+.docform-footer-actions {
+    /* ✅ flex 흐름에서 완전히 제거하고, 개발자모드 "전체코드 인쇄" 버튼과
+       동일한 방식으로 팝업(.docform-shell, position:relative) 기준
+       최우측·최하단에 여백 없이 딱 붙인다. 더 이상 그래프 영역의 높이를
+       한 치도 잠식하지 않는다. */
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: auto;
+    top: auto;
+    width: auto;
+    display: block;
+    margin: 0;
+    padding: 0;
+    background-color: transparent;
+    z-index: 20;
+}
+
+/* ✅ [원복] 취소/저장(DocumentWrite, VehicleWrite)과 수정(VehicleInfoModal)
+   버튼이 이 클래스를 공유하고 있어, 아래쪽 전용 클래스로 옮기기 전의
+   원래 모양(작은 사각 버튼)으로 되돌린다. */
+.docform-footer-btn {
+    padding: 6px 12px !important;
+    font-size: 9.3px !important;
+}
+
+/* ✅ [신규] "중장기 매출 조회"(DocumentDetail) 팝업 우측 하단 모서리에
+   여백 없이 붙는 "수정" 버튼 전용 클래스. 다른 화면의 취소/저장/수정
+   버튼과는 완전히 분리되어 서로 영향을 주지 않는다. */
+.doc-detail-corner-edit-btn {
+    padding: 2px 10px !important;
+    line-height: 1.2 !important;
+    font-size: 8.5px !important;
+    border-radius: 0 0 16px 0 !important;
+    margin: 0 !important;
+}
+
+/* ============================================================
+   ✅ 관리자 전용 - 시작 시 점검용 등급 선택 팝업(RoleSelectModal) 스타일.
+   write-modal-overlay(화면 전체를 덮는 어두운 배경)를 그대로 재사용하고,
+   내부 박스만 이 화면 전용으로 새로 만든다.
+   ============================================================ */
+.role-select-box {
+    background-color: #FFFFFF;
+    border-radius: 16px;
+    padding: 32px 36px;
+    width: 420px;
+    max-width: 92vw;
+    text-align: center;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+}
+
+.role-select-title {
+    margin: 0 0 8px;
+    font-size: 17px;
+    font-weight: 800;
+    color: #1B1D1F;
+}
+
+.role-select-sub {
+    margin: 0 0 20px;
+    font-size: 12.5px;
+    color: #767676;
+    line-height: 1.5;
+}
+
+.role-select-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.role-select-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 12px;
+    width: 100%;
+}
+
+.role-select-btn-title {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.role-select-btn-desc {
+    font-size: 11.5px;
+    font-weight: 500;
+    opacity: 0.8;
+}
+
+/* ✅ [2026-10-07] 회로 연결 전에 등급을 누르면(App.razor ksisbRoleEarly.pick) 창을 바로 숨기고, 연결되면 그 등급이 적용된다. */
+html.ksisb-role-picked .role-select-overlay {
+    display: none;
+}
+/* ============================================================
+   ✅ "작성 일자" 입력창 옆 달력 선택 버튼.
+   실제 <input type="date">는 투명하게 숨기고 그 위에 달력 이모지
+   버튼만 보이게 하여, 버튼을 누르면 브라우저 기본 달력 팝업이 뜨도록 한다.
+   (file-upload-btn/file-upload-input과 동일한 "투명 오버레이" 기법)
+   ============================================================ */
+.date-input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+    .date-input-wrap .text-input {
+        flex: 1 1 auto;
+    }
+
+
+.date-picker-input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.date-picker-btn {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+    .date-picker-btn:hover {
+        background-color: var(--color-primary-hover);
+    }
+
+    .date-picker-btn svg {
+        pointer-events: none;
+    }
+
+/* ============================================================
+   ✅ 커스텀 달력 팝업(DatePickerPopup) 전용 스타일.
+   브라우저 기본 달력은 위치/색상을 CSS로 제어할 수 없어, 직접 만든
+   미니 달력을 초록 버튼 바로 아래(오른쪽 정렬)에 띄운다. 네이버 느낌의
+   연초록 헤더 + 진초록 포인트 컬러로 앱 전역 팔레트와 통일했다.
+   ============================================================ */
+.date-calendar-clickcatcher {
+    position: fixed;
+    inset: 0;
+    background: transparent;
+    z-index: 2500;
+}
+
+.date-calendar-popup {
+    position: absolute;
+    top: calc(100% + 6px);
+    right: 0;
+    width: 260px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border-soft-green);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    padding: 12px;
+    z-index: 2501;
+}
+
+.date-calendar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--color-primary-soft);
+    border-radius: 8px;
+    padding: 6px 8px;
+    margin-bottom: 8px;
+}
+
+.date-calendar-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1F7A44;
+}
+
+.date-calendar-nav-btn {
+    border: none;
+    background: transparent;
+    color: #1F7A44;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    line-height: 1;
+}
+
+    .date-calendar-nav-btn:hover {
+        background-color: rgba(3,199,90,0.15);
+    }
+
+.date-calendar-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+    .date-calendar-table th {
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--color-text-sub);
+        padding: 4px 0;
+        text-align: center;
+    }
+
+    .date-calendar-table td {
+        text-align: center;
+        font-size: 12.5px;
+        padding: 0;
+        height: 28px;
+        cursor: pointer;
+        border-radius: 6px;
+        color: var(--color-text);
+    }
+
+.date-calendar-empty {
+    cursor: default !important;
+}
+
+.date-calendar-day:hover {
+    background-color: var(--color-row-click);
+}
+
+.date-calendar-day.is-today {
+    border: 1px solid var(--color-primary);
+    box-sizing: border-box;
+}
+
+.date-calendar-day.is-selected {
+    background-color: var(--color-primary);
+    color: #FFFFFF;
+    font-weight: 700;
+}
+
+.date-calendar-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+    margin-top: 8px;
+    border-top: 1px solid var(--color-border-soft-green);
+    padding-top: 8px;
+}
+
+.date-calendar-text-btn {
+    border: none;
+    background: transparent;
+    color: var(--color-primary);
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 4px 8px;
+    border-radius: 6px;
+}
+
+    .date-calendar-text-btn:hover {
+        background-color: var(--color-primary-soft);
+    }
+
+
+.dim-header-cell {
+    cursor: pointer;
+}
+
+    .dim-header-cell:hover {
+        background-color: #EAF7EE;
+    }
+
+/* ============================================================
+   ✅ "중장기 매출 조회" - [데이터] 탭 표 헤더 안의 정렬/제외 버튼.
+   ============================================================ */
+.col-header-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 0;
+}
+
+.col-header-name {
+    white-space: normal;
+    word-break: keep-all;
+    line-height: 1.25;
+}
+
+.col-header-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.col-sort-btn {
+    border: none;
+    background: transparent;
+    color: #B0B0B0;
+    font-size: 10px;
+    line-height: 1;
+    padding: 3px 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+    .col-sort-btn:hover {
+        background-color: rgba(3,199,90,0.12);
+        color: #03C75A;
+    }
+
+    .col-sort-btn.active {
+        color: #FFFFFF;
+        background-color: #03C75A;
+    }
+
+/* ============================================================
+   ✅ 요청5(틀고정): 헤더 텍스트 행(사업구분 등 컬럼명이 있는 행)을
+   스크롤 시에도 항상 화면에 보이도록 고정한다. top 값은 검색 바가
+   있을 때(40px)와 없을 때(0px)로 DocumentDetail.razor가 인라인
+   style(--sticky-header-top)로 넘겨준다.
+   ============================================================ */
+.sticky-header-row th {
+    position: sticky;
+    top: var(--sticky-header-top, 0px);
+    z-index: 5;
+}
+
+/* ============================================================
+   ✅ 요청1(테두리 제거) + 요청5(틀고정): 검색 바를 표(테두리로 감싸인
+   .data-grid-wrapper) 완전히 바깥의 독립된 요소로 분리한다. 배경은
+   페이지 배경과 동일한 흰색(스크롤 시 아래 내용이 비치지 않도록 하기
+   위한 최소한의 불투명 배경)이며, 테두리는 전혀 없다.
+   ============================================================ */
+.col-search-bar-outer {
+    position: sticky;
+    top: 0;
+    z-index: 8;
+    height: 40px;
+    background-color: #FFFFFF;
+    border: none;
+    box-shadow: none;
+}
+
+.col-search-bar-row {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 0;
+}
+
+.col-search-bar-cell {
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+}
+
+.col-search-bar-chips {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+/* ✅ 네이버 스타일 - 초록 테두리 알약형 검색창. 흰색 배경으로 표(회색 헤더)
+   위에 살짝 떠 보이는 독립된 검색바처럼 보이게 한다. */
+.col-search-wrap {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background-color: #FFFFFF;
+    border: 1.4px solid #03C75A;
+    border-radius: 999px;
+    padding: 3px 5px 3px 12px;
+    width: 100%;
+    box-sizing: border-box;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+}
+
+.col-search-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 11px;
+    font-weight: 600;
+    color: #1B1D1F;
+    padding: 2px 0;
+}
+
+    /* ✅ 요청2: "내용" 탭 라벨 영역(--color-label-bg, 연한 민트색)과 동일한
+       매우 옅은 색으로 예시글씨를 표시한다. */
+    .col-search-input::placeholder {
+        color: #D5F3E1;
+        font-weight: 500;
+    }
+
+    /* ✅ 요청3: 검색창 내부를 클릭해 커서를 두면(포커스), 값이 비어있어도
+       예시글씨가 완전히 사라진다(값을 입력할 때까지 기다리지 않음). */
+    .col-search-input:focus::placeholder {
+        color: transparent;
+    }
+
+.col-search-btn {
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border: none;
+    background: transparent;
+    color: #03C75A;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 50%;
+}
+
+    .col-search-btn:hover {
+        background-color: rgba(3,199,90,0.15);
+    }
+
+    .col-search-btn svg {
+        pointer-events: none;
+    }
+/* ============================================================
+   ✅ 사이드바 - "중장기 매출" 대메뉴(접기/펼치기) + 하위 소메뉴 3개.
+   소메뉴(.sidebar-item)와 완전히 동일한 폰트/여백/hover 색상을 사용해,
+   "버튼"이 아니라 목록의 일부처럼 보이도록 한다(박스/배경/테두리 없음).
+   ============================================================ */
+.sidebar-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar-group-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    width: 100%;
+    /* ✅ .app-sidebar a.sidebar-item과 동일한 패딩/줄높이를 사용해
+       버튼처럼 도드라져 보이지 않게 한다. */
+    padding: 10px 14px;
+    border: none;
+    background-color: transparent;
+    border-radius: 10px;
+    font-size: 13.5px;
+    font-weight: 500;
+    line-height: 1.4;
+    /* ✅ 접힌(+) 상태 기본 글자색 = 소메뉴 기본 글자색과 동일 */
+    color: #4C4C4C;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+    /* ✅ 소메뉴(.sidebar-item)의 hover와 완전히 동일한 배경색 */
+    .sidebar-group-header:hover {
+        background-color: rgba(3, 199, 90, 0.10);
+        color: #1B1D1F;
+    }
+
+    /* ✅ 펼친(－) 상태: 소메뉴를 클릭(active)했을 때와 동일한
+       연초록 배경 + 초록색 글씨 + 굵은 글씨로 표시하여, 대메뉴가
+       선택되어 있음을 명확히 알 수 있게 한다. */
+    .sidebar-group-header.expanded {
+        background-color: #E7F9EE;
+        color: #03C75A;
+        font-weight: 700;
+    }
+
+        .sidebar-group-header.expanded:hover {
+            background-color: #E7F9EE;
+            color: #03C75A;
+        }
+
+.sidebar-group-toggle {
+    /* ✅ 박스/배경 없이 순수 기호만 표시하여 "버튼처럼" 보이지 않게 한다. */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 14px;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: inherit;
+    color: inherit;
+    line-height: 1;
+}
+
+.sidebar-group-title {
+    white-space: nowrap;
+}
+
+.sidebar-submenu {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+@keyframes kdocs-login-blink {
+    0%, 100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.2;
+    }
+}
+
+.kdocs-login-alert {
+    color: #E0392C;
+    font-weight: 800;
+    animation: kdocs-login-blink 1s ease-in-out infinite;
+}
+
+/* ✅ 헤더(ID 표시 아래) 전용 보조 스타일. 좁은 헤더 공간에 맞게
+   글자 크기만 조금 더 작게 조정한다. */
+.kdocs-login-alert-header {
+    font-size: 8.5pt;
+    white-space: nowrap;
+    /* ✅ [2026-10-01] 초록 가로바 위에서 빨간 글씨가 보이도록 흰 바탕 알약 */
+    background: #FFFFFF;
+    padding: 0 8px;
+    border-radius: 999px;
+}
+
+.sap-test-result-box {
+    width: 620px;
+    max-width: 92vw;
+}
+
+.sap-test-result-text {
+    display: block;
+    width: 100%;
+    height: 320px;
+    box-sizing: border-box;
+    padding: 14px 16px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 12px;
+    font-family: 'Consolas', 'D2Coding', monospace;
+    font-size: 12.5px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-word;
+    resize: vertical;
+    background-color: #FAFBFC;
+    color: var(--color-text);
+    cursor: text;
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+    .sap-test-result-text:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px var(--color-primary-soft);
+    }
+
+/* ============================================================
+   ✅ [신규] 화면 좌측 하단 - 관리자 전용 버튼 스택.
+   위 줄: 테스트 버튼 모음(.corner-test-group) - 예) [SAP테스트]
+   아래 줄: 코드 인쇄 버튼 4개(.corner-export-group)
+   두 줄 모두 이 컨테이너 하나만 fixed로 고정하므로,
+   각 줄마다 개별적으로 위치를 잡을 필요가 없어졌다.
+   ============================================================ */
+.corner-bottom-left-stack {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 99999;
+}
+
+.corner-test-group {
+    display: flex;
+    box-shadow: 1px -1px 4px rgba(0,0,0,0.08);
+}
+
+.corner-test-btn {
+    border: none;
+    background-color: #E5E8EB;
+    color: #666666;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 9px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-left: 1px solid rgba(255,255,255,0.7);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+    .corner-test-btn:first-child {
+        border-left: none;
+        border-radius: 4px 0 0 0;
+    }
+
+    .corner-test-btn:hover:not(:disabled) {
+        background-color: #03C75A;
+        color: #FFFFFF;
+    }
+
+    .corner-test-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+
+.corner-export-group {
+    display: flex;
+    box-shadow: 1px 1px 4px rgba(0,0,0,0.08);
+}
+
+.corner-export-btn {
+    border: none;
+    background-color: #E5E8EB;
+    color: #666666;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 9px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-left: 1px solid rgba(255,255,255,0.7);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+    .corner-export-btn:first-child {
+        border-left: none;
+    }
+
+    .corner-export-btn:last-child {
+        border-radius: 0 0 0 4px;
+    }
+
+    .corner-export-btn:hover:not(:disabled) {
+        background-color: #03C75A;
+        color: #FFFFFF;
+    }
+
+    .corner-export-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+
+
+
+
+.corner-export-btn {
+    border: none;
+    background-color: #E5E8EB;
+    color: #666666;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 9px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-left: 1px solid rgba(255,255,255,0.7);
+    transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+    .corner-export-btn:first-child {
+        border-left: none;
+    }
+
+    .corner-export-btn:last-child {
+        border-radius: 0 0 0 4px;
+    }
+
+    .corner-export-btn:hover:not(:disabled) {
+        background-color: #03C75A;
+        color: #FFFFFF;
+    }
+
+    .corner-export-btn:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+
+/* ============================================================
+   ✅ [2026-09-23] 화면 크기 비례 배율 — 상단 가로바(세로 기준)와 좌측 메뉴(가로 기준).
+   기준 모니터: 24인치 1920×1080 (여기서 배율 1 = 지금까지의 px 값 그대로).
+   - 가로가 줄면 좌측 메뉴 폭·글꼴·여백이 같은 비율로 줄고,
+   - 세로가 줄면 상단 바 높이·로고 글꼴·아이콘·배지가 같은 비율로 준다.
+   배율은 0.6 ~ 1.25 로 제한한다(너무 작은 노트북에서 글자가 깨질 정도로 작아지거나, 큰 모니터에서 과하게 커지지 않게).
+   본문(우하단 내용 영역)은 px 그대로이므로 화면이 작으면 내용 영역의 픽셀 폭만 줄어든다.
+   ============================================================ */
+:root {
+    --ui-x: clamp(0.6px, calc(100vw / 1920), 1.25px); /* 가로 배율: 1px = 1920 기준 1px */
+    --ui-y: clamp(0.6px, calc(100vh / 1080), 1.25px); /* 세로 배율: 1px = 1080 기준 1px */
+}
+
+/* ---------- 상단 가로바: 세로 배율 ---------- */
+/* ✅ [2026-10-01] 높이 60 → 45(75%, 사용자 요청). 글꼴·여백은 그대로. */
+.app-header {
+    height: calc(45 * var(--ui-y));
+    padding: 0 calc(24 * var(--ui-y));
+}
+
+.header-left {
+    gap: calc(18 * var(--ui-y));
+}
+
+.hamburger-btn {
+    width: calc(22 * var(--ui-y));
+    height: calc(16 * var(--ui-y));
+}
+
+    .hamburger-btn span {
+        height: calc(2 * var(--ui-y));
+    }
+
+.app-logo-acronym {
+    font-size: calc(19 * var(--ui-y));
+}
+
+.app-logo-fullname {
+    font-size: calc(10.5 * var(--ui-y));
+}
+
+.header-user-badge-wrap {
+    top: calc(6 * var(--ui-y));
+}
+
+.header-user-badge {
+    font-size: calc(10.7 * var(--ui-y));
+}
+
+.kdocs-login-alert-header {
+    font-size: calc(11.3 * var(--ui-y));
+}
+
+.header-right {
+    gap: calc(20 * var(--ui-y));
+}
+
+.header-tagline {
+    gap: calc(12 * var(--ui-y));
+}
+
+.tagline-main {
+    font-size: calc(15 * var(--ui-y)); /* ✅ [2026-10-01] 13.5 → 15 (첫째 줄 조금 크게) */
+}
+
+.tagline-sub {
+    font-size: calc(11.5 * var(--ui-y));
+}
+
+.tagline-icon {
+    width: calc(34 * var(--ui-y));
+    height: calc(34 * var(--ui-y));
+}
+
+/* ---------- 좌측 메뉴: 가로 배율 ----------
+   ✅ [2026-09-30] 글꼴과 여백의 배율을 분리했다.
+   - 예전에는 폭·여백·글꼴이 모두 --ui-x 로 같이 줄어, 1920 보다 조금만 좁아져도 메뉴 글씨가 바로 작아졌다.
+   - 이제 글꼴(--sb-font)은 화면 폭 70%(1344px)까지 13.5px 그대로이고, 그 아래에서만 줄어든다(최소 0.8 = 10.8px).
+   - 여백(--sb-pad)만 폭에 비례해 줄어들고(최소 0.5), 사이드바 폭은 min-width: fit-content 로
+     가장 긴 소메뉴("ㄴ 청구문서별 매출 실적 조회")가 잘리지 않는 폭 아래로는 내려가지 않는다.
+   즉 폭이 줄면 "여백만 줄이며 사이드바를 좁히고", 글자는 70% 까지 그대로다. */
+:root {
+    --sb-pad: clamp(0.5px, calc(100vw / 1920), 1px);   /* 여백 배율: 1920 기준 1, 폭에 비례 */
+    --sb-font: clamp(0.8px, calc(100vw / 1344), 1px);  /* 글꼴 배율: 1344px(70%) 이상이면 1 */
+}
+
+.app-sidebar {
+    width: calc(340 * var(--ui-x));
+    min-width: fit-content;
+}
+
+    .app-sidebar.collapsed {
+        width: 0;
+        min-width: 0;
+    }
+
+.sidebar-menu {
+    padding: calc(16 * var(--sb-pad)) calc(12 * var(--sb-pad));
+    gap: calc(4 * var(--sb-pad));
+}
+
+.app-sidebar .sidebar-item, .app-sidebar a.sidebar-item:link, .app-sidebar a.sidebar-item:visited {
+    padding: calc(10 * var(--sb-pad)) calc(14 * var(--sb-pad));
+    border-radius: calc(10 * var(--sb-pad));
+    font-size: calc(13.5 * var(--sb-font));
+}
+
+.app-sidebar .sidebar-item.sidebar-subitem {
+    padding-left: calc(48 * var(--sb-pad)) !important;
+}
+
+.sidebar-group-header {
+    gap: calc(6 * var(--sb-pad));
+    padding: calc(10 * var(--sb-pad)) calc(14 * var(--sb-pad));
+    border-radius: calc(10 * var(--sb-pad));
+    font-size: calc(13.5 * var(--sb-font));
+}
+
+.sidebar-group-toggle {
+    width: calc(14 * var(--sb-pad));
+    font-size: calc(11 * var(--sb-font));
+}
+
+.sidebar-submenu {
+    gap: calc(2 * var(--sb-pad));
+}
+
+/* ✅ [2026-10-01] 미등록 사용자: 좌측 메뉴는 보이지만 흐리게, 누르면 안내 팝업만 뜬다(MainLayout). */
+.app-sidebar.sidebar-locked .sidebar-group-header {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* 미등록 사용자가 주소로 직접 들어온 화면 */
+.unregistered-block {
+    text-align: center;
+    padding-top: 80px;
+}
+
+/* ============================================================
+   ✅ [2026-10-06] 관리자 > 사용 로그(UsageLogPage) + 관리자 진입 시 주간 접속자 요약 창(AdminWeeklySummaryModal)
+   ============================================================ */
+.search-area .text-input.ul-date {
+    width: 104px;
+    flex: 0 0 auto;
+}
+
+.search-area select.text-input.ul-select {
+    width: 104px;
+    height: 30px;
+    padding: 0 8px;
+    flex: 0 0 auto;
+    background-color: #FFFFFF;
+}
+
+/* 표: 기본은 한 줄(넘치면 말줄임 없이 그대로), 대상·화면·자주 쓴 메뉴 같은 긴 칸만 줄바꿈 + 왼쪽 정렬 */
+table.app-grid.ul-grid td {
+    white-space: nowrap;
+}
+
+    table.app-grid.ul-grid td.ul-wrap {
+        white-space: normal;
+        text-align: left;
+        word-break: break-all;
+    }
+
+    table.app-grid.ul-grid tr.ul-row-connect td {
+        background-color: #F3FBF6; /* 접속 행은 연한 초록으로 구분(세션 시작점) */
+    }
+
+/* 종류 배지 */
+.ul-kind {
+    display: inline-block;
+    padding: 1px 7px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 700;
+    background-color: #E5E8EB;
+    color: #4C4C4C;
+    white-space: nowrap;
+}
+
+    .ul-kind.ul-kind-connect { background-color: #DDF5E6; color: #0B7A3B; }
+    .ul-kind.ul-kind-disconnect { background-color: #FCE4E1; color: #B3261E; }
+    .ul-kind.ul-kind-menu { background-color: #E3ECFC; color: #1F4EC0; }
+    .ul-kind.ul-kind-click { background-color: #F1EAFB; color: #6F42C1; }
+
+/* [요약] 모드의 두 표 제목 */
+.ul-subtitle {
+    margin: 0 0 6px;
+    font-size: 14px;
+    font-weight: 800;
+    color: #1B1D1F;
+}
+
+    .ul-subtitle + table + .ul-subtitle,
+    table + .ul-subtitle {
+        margin-top: 16px;
+    }
+
+.grid-placeholder-text.ul-footnote {
+    padding: 14px 0 0;
+    font-size: 11.5px;
+    text-align: left;
+    line-height: 1.6;
+}
+
+/* 주간 접속자 요약 창: 소형 창(.pn-ask-box) 규칙을 따르되 표가 들어가므로 넓게 */
+.write-modal-box.pn-ask-box.ul-weekly-box {
+    width: 880px;
+    max-width: 94vw;
+    max-height: 84vh;
+}
+
+.ul-weekly-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background-color: #F7F8FA;
+    font-size: 12.5px;
+    color: #4C4C4C;
+}
+
+    .ul-weekly-stats .ul-weekly-stat b {
+        font-size: 16px;
+        font-weight: 800;
+        color: #1B1D1F;
+        margin-right: 2px;
+    }
+
+.ul-weekly-table-wrap {
+    overflow: auto;
+    max-height: 50vh;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+}
+
+    .ul-weekly-table-wrap table.app-grid th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+    }
+
+/* ✅ [2026-10-06] 관리자 > 코드 전문 인쇄(SourceExportPage) 안내 표: 내용 칸은 왼쪽 정렬·줄바꿈. */
+table.app-grid.se-grid td.se-left {
+    text-align: left;
+    white-space: normal;
+    line-height: 1.5;
+}
+
+/* ============================================================
+   ✅ [2026-10-06 2차] 사용 로그 점검용 표시: 수준(주의/오류) 행 색, 새 종류 배지, 결과 배지, 느린 작업, 접속ID 링크
+   ============================================================ */
+table.app-grid.ul-grid tr.ul-row-warn td {
+    background-color: #FFF8E6;
+}
+
+table.app-grid.ul-grid tr.ul-row-error td {
+    background-color: #FDECEA;
+}
+
+.ul-kind.ul-kind-op { background-color: #E6F4F1; color: #0F7A6A; }
+.ul-kind.ul-kind-error { background-color: #E0392C; color: #FFFFFF; }
+.ul-kind.ul-kind-warn { background-color: #FFE7B3; color: #8A5A00; }
+.ul-kind.ul-kind-env { background-color: #EEF1F4; color: #5C6B7A; }
+
+.ul-result {
+    display: inline-block;
+    padding: 1px 6px;
+    border-radius: 9px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+    .ul-result.ul-result-ok { background-color: #DDF5E6; color: #0B7A3B; }
+    .ul-result.ul-result-warn { background-color: #FFE7B3; color: #8A5A00; }
+    .ul-result.ul-result-bad { background-color: #E0392C; color: #FFFFFF; }
+
+table.app-grid.ul-grid td.ul-slow {
+    color: #D9730D;
+    font-weight: 700;
+}
+
+table.app-grid.ul-grid td.ul-error {
+    color: #B3261E;
+    font-size: 11.5px;
+}
+
+.ul-bad {
+    color: #E0392C;
+    font-weight: 700;
+}
+
+.ul-session-link {
+    border: none;
+    background: none;
+    padding: 0;
+    color: #2962E3;
+    font-family: Consolas, monospace;
+    font-size: 11.5px;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.search-area .btn.ul-session-chip {
+    font-family: Consolas, monospace;
+    flex-shrink: 0;
+}
+
+.write-modal-box.pn-ask-box.ul-weekly-box {
+    width: 1040px;
+}
+
+.ul-weekly-stats .ul-weekly-stat.ul-weekly-bad,
+.ul-weekly-stats .ul-weekly-stat.ul-weekly-bad b {
+    color: #E0392C;
+}
+
+/* ============================================================
+   ✅ [2026-10-06] SAP 연동 진행 로그 공용 칸(SapProgressLog): 진행 중 경과 시간 줄 + 최신 줄 자동 스크롤.
+   ============================================================ */
+.sap-progress-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 6px;
+    font-size: 12.5px;
+    color: #1F4EC0;
+}
+
+    .sap-progress-status b {
+        font-variant-numeric: tabular-nums;
+    }
+
+.sap-progress-hint {
+    color: #767676;
+    font-size: 11.5px;
+}
+
+.sap-progress-spinner {
+    width: 12px;
+    height: 12px;
+    border: 2px solid #C9D6F5;
+    border-top-color: #2962E3;
+    border-radius: 50%;
+    animation: sap-progress-spin 0.9s linear infinite;
+    flex: 0 0 auto;
+}
+
+@keyframes sap-progress-spin {
+    to { transform: rotate(360deg); }
+}
+
+/* SAP 매출 실적 업로드 창: 로그 칸이 창 남은 높이를 채운다(예전 textarea 의 flex:1 과 같다). */
+.sap-test-result-box .sap-progress {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    margin-top: 10px;
+}
+
+.sap-progress .sap-test-result-text.sap-modal-log {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 120px;
+}
+
+/* ✅ [2026-10-06] K품번 기준 고객품번 조회: 붙여넣은 K품번 중 데이터가 없는 행의 고객품번 칸("고객품번 없는 K품번"). */
+table.app-grid td.pnk-missing-cust {
+    color: #C0392B;
+    font-weight: 600;
+}
+
+/* ============================================================
+   ✅ [2026-10-13] 수주잔고 그래프 조회(OrderBacklogList / Write / Detail / Graph).
+   작성 창은 중장기 매출 문서 작성 창의 틀(.write-modal-box.doc-tall + .docform-*)을 그대로 쓴다.
+   [데이터 입력 ☞]을 누른 상태(.obg-split):
+     - 화면 좌우 여백은 창 위아래 여백과 같다(창 높이 88vh → 위아래 6vh 씩이므로 좌우도 6vh). 화면 끝까지 채우지 않는다.
+     - 작성 창(.obg-half)은 왼쪽으로 가고 가로가 원래의 절반(50vw·최대 900px → 25vw·최대 450px)이 된다.
+     - 그 오른쪽의 입력 창(.obg-input-box)은 남는 가로를 모두 쓴다(세로는 작성 창과 같다).
+   ============================================================ */
+.write-modal-overlay.obg-split {
+    justify-content: flex-start;
+    gap: 12px;
+    padding: 0 6vh;
+}
+
+.write-modal-box.obg-half {
+    flex: 0 0 auto;
+    width: 25vw;
+    max-width: 450px;
+    min-width: 240px;
+}
+
+.write-modal-box.obg-input-box {
+    flex: 1 1 auto;
+    width: auto;
+    max-width: none;
+    min-width: 320px;
+}
+
+.write-modal-box.obg-hidden {
+    display: none;
+}
+
+/* 절반 폭 작성 창: 그래프가 보이도록 여백과 항목 이름 칸을 줄인다. */
+.obg-half .docform-body {
+    padding: 16px 12px 10px;
+}
+
+.obg-half .docform-title {
+    font-size: 15px;
+}
+
+.obg-half .docform-label {
+    flex-basis: 62px;
+    font-size: 11px;
+    padding: 0 4px;
+    word-break: keep-all;
+}
+
+.obg-half .docform-value {
+    padding: 0 8px;
+    gap: 6px;
+}
+
+.obg-half .docform-row.row-flex .docform-value {
+    padding: 8px 4px;
+}
+
+.obg-half .modal-footer-actions {
+    padding: 12px 12px;
+}
+
+.obg-half .obg-data-status {
+    display: none;
+}
+
+.obg-split-btn {
+    flex: 0 0 auto;
+    white-space: nowrap;
+}
+
+/* [데이터 입력 ☞] / [☜ 돌아가기]의 손가락 표시: 글자 크기 그대로면 너무 작아 따로 키운다. */
+.obg-split-btn,
+.obg-back-btn {
+    gap: 6px;
+}
+
+.obg-hand {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.obg-data-status {
+    margin-left: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 입력 창 왼쪽 위의 [☜ 돌아가기](작성 창의 [데이터 입력 ☞]과 짝). */
+.obg-back-btn {
+    position: absolute;
+    top: 12px;
+    left: 16px;
+    z-index: 10;
+}
+
+/* '그래프' 칸: 남는 높이를 그래프(SalesChart) + 요약 표가 채운다(중장기 매출 조회 [그래프] 탭과 같은 배치). */
+.docform-row.row-flex .docform-value.obg-graph-value {
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+}
+
+.obg-graph {
+    flex: 1 1 auto;
+    min-width: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 요약 표: '그래프' 칸은 항목 이름 칸만큼 좁아 연도 열이 약 50px 이다. 기본 여백(6px) · 글자(12px)면
+   굵은 합계 줄의 5자리 숫자가 말줄임(…)으로 잘리므로 여백과 글자를 줄인다. */
+table.app-grid.graph-summary-table.obg-summary-table th,
+table.app-grid.graph-summary-table.obg-summary-table td {
+    padding: 0 2px !important;
+    /* ✅ [2026-10-14] [그림] 탭의 그래프 글자 배율(--obg-summary-scale)을 요약 표도 따라간다(행 높이 포함). */
+    font-size: calc(11px * var(--obg-summary-scale, 1)) !important;
+    line-height: calc(18px * var(--obg-summary-scale, 1)) !important;
+    height: calc(18px * var(--obg-summary-scale, 1)) !important;
+}
+
+/* ✅ [2026-10-15] 수주잔고 그래프(그래프 · 요약 표 · 범례) 글꼴 = 현대하모니L(회사 PC 기본 장착).
+   설치된 글꼴의 이름 표기가 PC 마다 다를 수 있어 흔한 표기를 모두 적고, 없으면 앱 기본 글꼴로 넘어간다. */
+/* ✅ [2026-10-17] 캡처에서 현대하모니L 이 아닌 글꼴(Pretendard)로 보인 문제(사용자 확인).
+   브라우저(Chromium)는 글꼴을 '가족 이름 + 굵기'로 찾는데, 현대하모니는 가족 이름이 '현대하모니'이고 L 은 굵기(Light)일 수 있어
+   "현대하모니 L" 같은 이름이 가족 이름으로는 안 맞을 수 있다. 그래서 L 글꼴 하나를 글꼴 이름(전체 이름 · PostScript 이름)으로 직접 찾아
+   우리 이름("KSIS 현대하모니L")을 붙인다(local()). 굵게 쓰는 글자(합계 · 막대 안 숫자)도 이 L 글꼴을 굵게 그린다.
+   그래도 못 찾으면 가족 이름 표기들 → '현대하모니'(L 이 아닌 굵기가 쓰일 수 있음) → 앱 기본 글꼴 순서. */
+@font-face {
+    font-family: "KSIS 현대하모니L";
+    src: local("현대하모니 L"), local("현대하모니L"), local("현대하모니 Light"),
+         local("HyundaiHarmony L"), local("HyundaiHarmonyL"), local("Hyundai Harmony L"), local("HyundaiHarmony Light"),
+         local("HyundaiHarmony-L"), local("HyundaiHarmonyL-Regular"), local("HyundaiHarmony-Light"), local("HyundaiHarmonyLight");
+    font-weight: 300;
+}
+
+.obg-graph {
+    font-family: "KSIS 현대하모니L", "현대하모니L", "현대하모니 L", "HyundaiHarmonyL", "HyundaiHarmony L", "Hyundai Harmony L",
+                 "현대하모니", "HyundaiHarmony", "Hyundai Harmony",
+                 'Pretendard', 'Malgun Gothic', sans-serif;
+}
+
+/* ✅ [2026-10-14] 요약 표 맨 아래 '근거 합계'(자료 근거 문서의 합계): 합계 줄과 구분되게 옅은 회청색. */
+table.app-grid.obg-summary-table tr.obg-base-total-row td {
+    background-color: #EEF1F5;
+    color: #44546A;
+    font-weight: 600;
+}
+
+.obg-graph-empty {
+    margin: auto;
+    padding: 0 8px;
+    color: #A6A6A6;
+    font-size: 13px;
+    line-height: 1.7;
+    text-align: center;
+}
+
+.obg-graph-note {
+    flex: 0 0 auto;
+    font-size: 11.5px;
+    color: #B26A00;
+}
+
+/* 창 아래쪽(취소/저장, 임시저장 왼쪽)의 안내 · 오류 글 — 알림 창 대신 쓴다. */
+.obg-msg {
+    margin-right: auto;
+    align-self: center;
+    min-width: 0;
+    font-size: 12px;
+    line-height: 1.4;
+    color: #1F7A44;
+}
+
+    .obg-msg.obg-msg-error {
+        color: #E0392C;
+    }
+
+    .obg-msg.obg-msg-pending {
+        color: #B26A00;
+    }
+
+.notice-text.obg-grid-msg {
+    margin: 0 0 8px;
+}
+
+/* 데이터 입력 표: 글자 칸 3개(실적보고 / 품목군 / 프로젝트명)와 연도 칸의 최소 폭. */
+.obg-data-grid th.obg-col-text {
+    min-width: 96px;
+}
+
+/* ✅ [2026-10-14] 물량 / 가격 / 매출 묶음 아래 연도 칸(머리글 2줄). 매출 칸은 자동 계산이라 회색 바탕 · 오른쪽 맞춤. */
+.obg-data-grid th.obg-col-num {
+    min-width: 72px;
+}
+
+.obg-data-grid th.obg-col-usg {
+    min-width: 52px;
+}
+
+/* ✅ [2026-10-14] 자동 점검: 같은 연도에 물량 · 가격 중 한쪽만 있을 때 빈 쪽 칸(주황) + 표 위 안내 글. */
+.obg-data-grid td.obg-mismatch-cell {
+    background-color: #FFE8CC;
+    box-shadow: inset 0 0 0 2px #F08C00;
+}
+
+.obg-check-msg {
+    color: #B35900;
+    font-weight: 600;
+}
+
+/* ✅ [2026-10-15] 그래프구분 순서 안내(빨간 글 — 사용자 요청, 팝업 아님). */
+.obg-order-msg {
+    color: #D32F2F;
+    font-weight: 700;
+}
+
+/* 맨 왼쪽 '점검' 열(화면에만 있는 좁은 열): 통과(초록) / 년도불일치 · USG없음(주황). */
+.obg-data-grid th.obg-col-check {
+    width: 64px;
+    min-width: 64px;
+    font-size: 11px;
+}
+
+.obg-data-grid td.obg-check-cell {
+    width: 64px;
+    padding: 2px 4px;
+    font-size: 11px;
+    line-height: 1.35;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #FAFAFA;
+}
+
+.obg-data-grid td.obg-check-cell.obg-check-ok {
+    color: #2F7D4A;
+    font-weight: 600;
+}
+
+.obg-data-grid td.obg-check-cell.obg-check-bad {
+    color: #B35900;
+    font-weight: 700;
+    background-color: #FFF3E0;
+}
+
+/* ✅ [2026-10-14] 행 합계 2열(물량합계 · 매출합계): 자동 계산 칸과 같은 바탕에 조금 더 진하게. */
+.obg-data-grid th.obg-col-sum {
+    min-width: 76px;
+}
+
+.obg-data-grid td.obg-rev-cell.obg-sum-cell,
+table.app-grid.obg-view-grid td.obg-rev-cell.obg-sum-cell {
+    font-weight: 700;
+    color: #1F4A33;
+    background-color: #E8F1EB;
+}
+
+.obg-data-grid th.obg-col-rev {
+    min-width: 64px;
+}
+
+.obg-data-grid th.obg-col-yeargroup,
+.obg-view-grid th.obg-col-yeargroup {
+    text-align: center;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.obg-data-grid thead tr:last-child th {
+    padding-top: 6px;
+    padding-bottom: 6px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.obg-data-grid td.obg-rev-cell {
+    text-align: right;
+    font-weight: 600;
+    color: #2F5E43;
+    background-color: #F4F8F5;
+    white-space: nowrap;
+}
+
+table.app-grid.obg-view-grid td.obg-rev-cell {
+    font-weight: 600;
+    color: #2F5E43;
+    background-color: #F4F8F5;
+}
+
+/* 데이터 입력 표 맨 아래 '합계' 줄([임시저장]한 값의 연도별 합). 표를 고친 뒤 다시 임시저장하기 전에는 흐리게. */
+.obg-data-grid tr.total-row td.obg-total-num {
+    text-align: right;
+    white-space: nowrap;
+}
+
+.obg-data-grid tr.total-row.obg-total-stale td {
+    color: #A6A6A6;
+}
+
+/* ============================================================
+   조회 창 [그림] 탭: PPT 에 잘라 붙일 그래프. 그래프 자리(.obg-fig-frame)의 가로·세로만 바꾸므로
+   늘리고 줄여도 글자 크기는 그대로다. 점선은 캡처할 범위 표시(그래프 밖 7px, 그림에는 들어가지 않게 잘라 낸다).
+   ============================================================ */
+/* ✅ [2026-10-14] 조절 줄 2개(크기·표시 / 색·글자·범례). 검색창(.data-options)과 같은 회색 바탕, 한 줄에 안 들어가면 줄바꿈. */
+/* ✅ [2026-10-15] 왼쪽 = [기본/비교] 모드(세로 2단), 오른쪽 = 조절 줄들(.obg-fig-lines). */
+.obg-fig-controls {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 6px;
+    background-color: #F7F8FA;
+    padding: 8px 14px;
+    border-radius: 10px;
+}
+
+.obg-fig-lines {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.obg-fig-line {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* 첫 줄 오른쪽 끝: 저장 상태 글 + [기본값] + [저장]. */
+.obg-fig-save {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.obg-fig-save-state {
+    font-size: 12px;
+    color: #767676;
+}
+
+    .obg-fig-save-state.obg-fig-save-dirty {
+        color: #B26A00;
+        font-weight: 600;
+    }
+
+    .obg-fig-line label {
+        font-size: 13px;
+        color: #555555;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .obg-fig-line .num-input {
+        padding: 4px 8px;
+        font-size: 12.5px;
+    }
+
+    .obg-fig-line .btn-sm {
+        padding: 4px 10px;
+        font-size: 12px;
+    }
+
+.obg-fig-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+}
+
+.obg-fig-sub {
+    font-size: 12px;
+    color: #767676;
+    white-space: nowrap;
+}
+
+.obg-fig-pct {
+    min-width: 38px;
+    font-size: 12px;
+    color: #333333;
+}
+
+.obg-fig-sep {
+    width: 1px;
+    height: 20px;
+    background-color: #D8DCE1;
+    margin: 0 4px;
+}
+
+.obg-fig-range-short {
+    width: 110px;
+}
+
+/* ✅ [2026-10-15] 글자 크기 4개 · 요약 표 크기 슬라이더(한 줄에 들어가게 짧게). */
+.obg-fig-range-mini {
+    width: 80px;
+}
+
+.text-input.obg-fig-select {
+    width: auto;
+    padding: 4px 8px;
+    font-size: 12.5px;
+}
+
+/* 색 고르기(OrderBacklogColorPicker): 단추 + 바로 아래 고르기 칸. */
+.obg-cp {
+    position: relative;
+    display: inline-block;
+}
+
+.obg-cp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 28px;
+    padding: 0 10px 0 6px;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 8px;
+    background-color: #FFFFFF;
+    font-size: 12.5px;
+    color: #333333;
+    cursor: pointer;
+}
+
+    .obg-cp-btn.open {
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 3px var(--color-primary-soft);
+    }
+
+.obg-cp-swatch {
+    width: 16px;
+    height: 16px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
+}
+
+.obg-cp-pop {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    z-index: 60;
+    width: 262px;
+    padding: 10px 12px 12px;
+    background-color: #FFFFFF;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+
+.obg-cp-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.obg-cp-close {
+    border: none;
+    background: transparent;
+    font-size: 14px;
+    color: #666666;
+    cursor: pointer;
+    padding: 0 4px;
+}
+
+.obg-cp-sec {
+    font-size: 11.5px;
+    color: #767676;
+    margin: 8px 0 4px;
+}
+
+.obg-cp-row,
+.obg-cp-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 20px);
+    gap: 3px;
+}
+
+.obg-cp-cell {
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.12);
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+    .obg-cp-cell.base {
+        margin-bottom: 3px;
+    }
+
+    .obg-cp-cell:hover {
+        outline: 2px solid #2962E3;
+        outline-offset: 1px;
+    }
+
+    .obg-cp-cell.selected {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 1px;
+    }
+
+.obg-cp-more {
+    margin-top: 10px;
+    width: 100%;
+}
+
+.obg-cp-custom {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 6px;
+}
+
+    .obg-cp-custom label {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 12px;
+        color: #555555;
+    }
+
+.num-input.obg-cp-num {
+    width: 46px;
+    padding: 3px 5px;
+    font-size: 12px;
+    text-align: right;
+}
+
+.num-input.obg-cp-hex {
+    width: 76px;
+    padding: 3px 6px;
+    font-size: 12px;
+    font-family: Consolas, monospace;
+}
+
+.obg-cp-native {
+    width: 28px;
+    height: 24px;
+    padding: 0;
+    border: 1px solid var(--color-border-strong);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+}
+
+.obg-cp-preview {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+/* ✅ [2026-10-16] 조절 줄 2개에 다 들어가게 가로 · 세로 슬라이더를 줄이고(150 → 110px),
+   짧은 슬라이더(-short · -mini)가 이 규칙에 덮이지 않게 한다(같은 강도라 뒤에 있는 150px 가 이기던 문제). */
+.obg-fig-range {
+    width: 110px;
+    accent-color: var(--color-primary);
+}
+
+    .obg-fig-range.obg-fig-range-short {
+        width: 100px;
+    }
+
+    .obg-fig-range.obg-fig-range-mini {
+        width: 70px;
+    }
+
+.num-input.obg-fig-num {
+    width: 62px;
+    text-align: right;
+}
+
+.data-options label.obg-fig-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-left: 8px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.obg-fig-warn {
+    margin-left: 8px;
+    font-size: 12px;
+    color: #B26A00;
+}
+
+/* ✅ [2026-10-16] 둘째 줄 오른쪽 끝: 퍼센트 모드 + 그 간격(띄우기 / 줄 간격)을 붙여 둔다. */
+.obg-fig-right {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+/* ✅ [2026-10-17] 조절 칸 왼쪽: 모드 2×2([기본/비교] · [원본/편집]).
+   ✅ [2026-10-18] 가로 자리를 아끼려고 한 줄로 세로로 쌓는다(기본 / 비교 / 원본 / 편집 — 사용자 요청). */
+.obg-fig-modes {
+    flex: 0 0 auto;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 3px;
+}
+
+/* ✅ [2026-10-18] 조절 줄 이름은 가로 3글자까지: 두 낱말 이름은 두 줄로(데이터/표현, 작은/막대, 합계/표현 …) — 조절 줄 2줄 유지(사용자 대원칙). */
+.obg-fig-line label.obg-fig-label2 {
+    line-height: 1.15;
+    text-align: center;
+}
+
+/* ✅ [2026-10-18] 작성 · 수정 창 제목 칸: 같은 제목의 문서가 있으면 칸 바로 아래 빨간 안내(그때만 그 줄이 늘어난다). */
+.docform-row.row-fixed:has(.doc-title-dup) {
+    flex: 0 0 auto;
+    min-height: 42px;
+}
+
+.vform-row.row-fixed:has(.doc-title-dup) {
+    flex: 0 0 auto;
+    min-height: 58px;
+}
+
+.doc-title-cell:has(.doc-title-dup) {
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: center;
+    gap: 3px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+}
+
+.doc-title-dup {
+    font-size: 12.5px;
+    font-weight: 600;
+    line-height: 1.3;
+    color: #D32F2F;
+}
+
+/* ✅ [2026-10-18] 세로축 경계(최소 ~ 최대) 칸. */
+.num-input.obg-axis-num {
+    width: 64px;
+    text-align: right;
+}
+
+/* ✅ [2026-10-17] [편집] 줄: 연도마다 옮길 금액 칸. */
+.num-input.obg-move-num {
+    width: 64px;
+    text-align: right;
+}
+
+/* ✅ [2026-10-17] 수주잔고 작성 창 맨 위 [복붙](기존 문서 가져오기). */
+.obg-copy-bar {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 8px;
+}
+
+.text-input.obg-copy-select {
+    width: auto;
+    min-width: 320px;
+    max-width: 100%;
+    padding: 4px 8px;
+    font-size: 13px;
+}
+
+.obg-copy-msg {
+    font-size: 12.5px;
+    color: #2E7D32;
+}
+
+/* ✅ [2026-10-16] 알림 줄(있을 때만, 조절 줄 아래). */
+.obg-fig-warn-line {
+    flex: 0 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 14px;
+    margin: -2px 0 6px;
+}
+
+    .obg-fig-warn-line .obg-fig-warn {
+        margin-left: 14px;
+    }
+
+/* ✅ [2026-10-16] 색 고르기 칸 맨 위: 채우기 [단색 | 패턴]. */
+.obg-cp-fill {
+    display: flex;
+    gap: 0;
+    margin-bottom: 4px;
+}
+
+.obg-cp-fill-btn {
+    flex: 1 1 0;
+    height: 26px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    border: 1px solid var(--color-border-strong);
+    background-color: #FFFFFF;
+    font-size: 12px;
+    color: #555555;
+    cursor: pointer;
+}
+
+    .obg-cp-fill-btn:first-child {
+        border-radius: 6px 0 0 6px;
+    }
+
+    .obg-cp-fill-btn:last-child {
+        border-radius: 0 6px 6px 0;
+        border-left: none;
+    }
+
+    .obg-cp-fill-btn.selected {
+        background-color: var(--color-primary-soft);
+        border-color: var(--color-primary);
+        color: #1B2A4A;
+        font-weight: 700;
+    }
+
+.obg-cp-fill-sample {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.obg-fig-hint {
+    flex: 0 0 auto;
+    margin: 0 0 6px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #767676;
+}
+
+/* 그림 자리. 안쪽 크기(여백 제외)를 obgFigure.watch 가 재서 그림의 최대 크기로 쓰므로 스크롤이 생기지 않는다(overflow hidden). */
+.obg-fig-stage {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow: hidden;
+    padding: 10px;
+}
+
+/* ✅ [2026-10-22] 그림 틀 = 그래프(위, .obg-fig-chart) + 아래 부분(.obg-fig-bottom: 도넛 · 표) + 글상자(틀 기준 % 자리).
+   글꼴은 그래프(.obg-graph)와 같은 현대하모니L 계열 — 도넛 · 표 · 글상자도 같은 글꼴. */
+.obg-fig-frame {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFFFFF;
+    outline: 1px dashed #B8C0CC;
+    outline-offset: 7px;
+    font-family: "KSIS 현대하모니L", "현대하모니L", "현대하모니 L", "HyundaiHarmonyL", "HyundaiHarmony L", "Hyundai Harmony L",
+                 "현대하모니", "HyundaiHarmony", "Hyundai Harmony",
+                 'Pretendard', 'Malgun Gothic', sans-serif;
+}
+
+.obg-fig-chart {
+    flex: 0 0 auto;
+    display: flex;
+    min-height: 0;
+}
+
+.obg-fig-bottom {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: row;
+    min-height: 0;
+    overflow: hidden;
+}
+
+.obg-fig-donut-area {
+    flex: 0 0 auto;
+    display: flex;
+}
+
+.obg-fig-table-area {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    padding: 6px 10px;
+    box-sizing: border-box;
+}
+
+.obg-fig-part-empty {
+    margin: auto;
+    color: #A6A6A6;
+    font-size: 12px;
+}
+
+/* 글상자: 끌어서 옮긴다(App.razor obgFigure). 선택한 글상자만 점선 테두리(outline 은 [PPT 복사]에 안 들어간다). 범례(z 5)보다 위. */
+.obg-fig-textbox {
+    position: absolute;
+    z-index: 6;
+    cursor: move;
+    user-select: none;
+    touch-action: none;
+    line-height: 1.25;
+    white-space: nowrap;
+}
+
+    .obg-fig-textbox.obg-fig-textbox-selected {
+        outline: 1px dashed #4472C4;
+        outline-offset: 2px;
+    }
+
+/* 조절 칸: 부분 고르기(맨 왼쪽 4단) · 도넛 제목 칸 · 글상자 글 칸 · 합친 행 표시. */
+.obg-fig-part {
+    flex: 0 0 auto;
+}
+
+.text-input.obg-fig-title {
+    width: 240px;
+    padding: 4px 8px;
+    font-size: 12.5px;
+}
+
+.text-input.obg-fig-textarea {
+    width: 300px;
+    height: 40px;
+    padding: 4px 8px;
+    font-size: 12.5px;
+    resize: none;
+    line-height: 1.3;
+}
+
+.obg-fig-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border: 1px solid #D8DCE1;
+    border-radius: 10px;
+    background-color: #FFFFFF;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.obg-fig-chip-x {
+    border: none;
+    background: none;
+    padding: 0 2px;
+    cursor: pointer;
+    color: #767676;
+    font-size: 11px;
+}
+
+.btn.obg-fig-chip-selected {
+    border-color: #4472C4;
+    color: #4472C4;
+}
+
+/* ✅ [2026-10-14] 그림 탭: 범례(왼쪽 위 · 오른쪽 위)는 끌어서 옮긴다(App.razor obgFigure). */
+.obg-fig-frame .schart-legend-tl .schart-legend,
+.obg-fig-frame .schart-legend-tr .schart-legend {
+    cursor: move;
+    user-select: none;
+    touch-action: none;
+}
+
+.obg-fig-frame .schart-legend.obg-legend-dragging {
+    outline: 1px dashed #4472C4;
+}
+
+table.app-grid.obg-view-grid th,
+table.app-grid.obg-view-grid td {
+    padding: 8px 10px;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+    table.app-grid.obg-view-grid td.align-right {
+        text-align: right;
+    }
+
+    .obg-copy-msg.obg-copy-err {
+        color: #D32F2F;
+    }
+
+/* ============================================================
+   ✅ [2026-10-18] 관리자 > 사용자 관리(UserManagementPage): 사번 · 이름 · 권한 목록.
+   행 높이는 데이터형 표준(32px) — 줄 안 입력칸은 24px 로 맞춘다. 추가 줄은 연한 초록, 수정 줄은 연한 노랑, 삭제 확인 줄은 연한 빨강.
+   ============================================================ */
+.um-info {
+    margin: 0 0 12px;
+    padding: 10px 14px;
+    border-radius: 10px;
+    background-color: #EEF4FF;
+    color: #2B3A55;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+    .um-info.um-info-warn {
+        background-color: #FFF8E6;
+        color: #6B4A00;
+    }
+
+.um-msg {
+    margin: 0 0 10px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+    .um-msg.um-msg-ok {
+        color: #0F7A3E;
+    }
+
+    .um-msg.um-msg-err {
+        color: #E0392C;
+    }
+
+.text-input.um-select {
+    width: auto;
+    min-width: 110px;
+    padding: 0 8px;
+    font-size: 12.5px;
+}
+
+table.app-grid.um-grid .text-input.um-input,
+table.app-grid.um-grid .text-input.um-select {
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+table.app-grid.um-grid .text-input.um-input {
+    width: 100%;
+}
+
+table.app-grid.um-grid td.um-actions {
+    text-align: left;
+    white-space: nowrap;
+}
+
+    table.app-grid.um-grid td.um-actions .btn {
+        height: 24px;
+        padding: 0 10px;
+        font-size: 12px;
+        margin-right: 4px;
+    }
+
+table.app-grid.um-grid tr.um-add-row td {
+    background-color: #F1FAF4;
+}
+
+table.app-grid.um-grid tr.um-row-edit td {
+    background-color: #FFFBEA;
+}
+
+table.app-grid.um-grid tr.um-row-delete td {
+    background-color: #FDECEA;
+}
+
+.um-hint {
+    margin-left: 6px;
+    font-size: 12px;
+    color: #8A8A8A;
+}
+
+.um-confirm {
+    margin-right: 8px;
+    font-weight: 600;
+    color: #C0392B;
+}
+
+.um-role {
+    display: inline-block;
+    padding: 1px 8px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 600;
+}
+
+    .um-role.um-role-admin { background-color: #E8EAF6; color: #3949AB; }
+    .um-role.um-role-writer { background-color: #E6F4F1; color: #0F7A6A; }
+    .um-role.um-role-general { background-color: #F1F3F5; color: #555555; }
+
+/* ✅ [2026-10-19] 중장기 매출 작성 창 [데이터 입력] 표 위 안내(알림 창 대신). 빨강 = 확인 필요, 초록 = 처리 결과. */
+.notice-text.dw-grid-msg {
+    margin: 0 0 8px;
+}
+
+    .notice-text.dw-grid-msg.dw-grid-msg-info {
+        color: #2E7D32;
+    }
+
+/* ============================================================
+   ✅ [2026-10-23] 관리자 > 버전 관리(VersionManagementPage): 회사 송부 zip 버전별 bat · 커밋 · 푸시 · 회사 게시 · 영업실 공지.
+   표 틀은 사용자 관리(um-grid)와 같다. 칸 색: 초록 = 됨, 빨강 = 해야 함, 회색 = 해당 없음 / 건너뜀 / 포함.
+   ============================================================ */
+.um-info.vm-info div + div {
+    margin-top: 2px;
+}
+
+.um-info.vm-info .vm-info-sub {
+    margin-top: 6px;
+    color: #6B7A90;
+    font-size: 12.5px;
+}
+
+table.app-grid.vm-grid td {
+    text-align: left;
+}
+
+table.app-grid.vm-grid td.vm-version {
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+table.app-grid.vm-grid tr.vm-row-current td {
+    background-color: #F4F8FF;
+}
+
+table.app-grid.vm-grid td.vm-summary {
+    cursor: pointer;
+}
+
+.vm-toggle {
+    display: inline-block;
+    width: 16px;
+    color: #8A8A8A;
+}
+
+.vm-cell {
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+    .vm-cell.vm-ok { color: #0F7A3E; font-weight: 600; }
+    .vm-cell.vm-need { color: #E0392C; font-weight: 600; }
+    .vm-cell.vm-muted { color: #8A8A8A; }
+
+table.app-grid.vm-grid tr.vm-notes-row td {
+    background-color: #FAFBFC;
+}
+
+.vm-notes {
+    margin: 4px 0;
+    white-space: pre-wrap;
+    font-family: inherit;
+    font-size: 12.5px;
+    line-height: 1.6;
+    color: #333333;
+}
+
+.vm-notes-meta {
+    margin-bottom: 4px;
+    font-size: 11.5px;
+    color: #8A8A8A;
+}
+
+.vm-notice-box {
+    margin: 0 0 12px;
+}
+
+.vm-notice-title {
+    margin-bottom: 6px;
+    font-size: 13px;
+    font-weight: 600;
+    color: #2B3A55;
+}
+
+.text-input.vm-notice-text {
+    width: 100%;
+    height: auto;
+    padding: 8px 10px;
+    font-size: 12.5px;
+    line-height: 1.6;
+    resize: vertical;
+}

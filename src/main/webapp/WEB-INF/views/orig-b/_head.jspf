@@ -1,0 +1,11 @@
+<%@ page pageEncoding="UTF-8"%>
+<%--
+  ② KSIS-B 원래 화면 공통 머리. KSIS_B 저장소(69ea7ee) App.razor 와 같이 Pretendard(CDN) + app.css(복사본, /orig-b/).
+  마크업은 Blazor 화면(.razor)이 그려 내는 HTML 과 같은 클래스로 썼다.
+--%>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${empty param.tab ? 'KSIS-B' : param.tab}</title>
+<link rel="stylesheet" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="<c:url value='/orig-b/app.css'/>">
+<link rel="stylesheet" href="<c:url value='/demo/demo-pane.css'/>">

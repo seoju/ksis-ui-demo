@@ -1,0 +1,21 @@
+<%@ page pageEncoding="UTF-8"%>
+<%--
+  요구사항 화면 공통 머리(③ A 요구사항 · ④ B 요구사항이 같이 쓴다).
+  다른 점은 색 테마 파일 한 줄(ksis-theme-a.css / ksis-theme-b.css)과 시스템 이름 글자뿐이다.
+  KSIS-A 에 적용할 때는 includeCSS.jsp / includeJS.jsp 에 아래 링크 · 스크립트를 넣는다.
+--%>
+<c:set var="sysCode" value="${theme == 'b' ? 'KSIS-B' : 'KSIS-A'}"/>
+<c:set var="sysName" value="영업정보시스템(${sysCode})"/>
+<%-- [2번] KSIS-B 는 지금 프로그램처럼 빌드버전을 붙인다(시연은 버전을 몰라 1234-5678). KSIS-A 는 빌드버전 없음 --%>
+<c:set var="sysFull" value="Kefico Sales Information System · ${theme == 'b' ? 'Bridge 1234-5678' : 'Advanced'}"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${sysCode} 영업정보시스템</title>
+<link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-theme-${theme}.css'/>">
+<link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-common.css'/>">
+<link rel="stylesheet" href="<c:url value='/demo/demo-pane.css'/>">
+<script src="<c:url value='/ksis-ui/js/ksis-dialog.js'/>"></script>
+<script src="<c:url value='/ksis-ui/js/ksis-modal.js'/>"></script>
+<script src="<c:url value='/ksis-ui/js/ksis-select.js'/>"></script>
+<script src="<c:url value='/ksis-ui/js/ksis-date.js'/>"></script>
+<script src="<c:url value='/ksis-ui/js/ksis-file.js'/>"></script>
