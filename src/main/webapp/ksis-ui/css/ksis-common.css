@@ -280,12 +280,13 @@ button, input, select, textarea { font-family: inherit; }
 	min-height: 0;
 }
 
-/* [14번] 화면 탭(2안) : 사내 다른 시스템의 책갈피 탭을 그대로 옮김(그 화면 캡처를 픽셀로 재서 맞춤).
+/* [14번] 화면 탭(2안) : 사내 다른 시스템의 책갈피 탭을 그대로 옮김(그 시스템의 탭 그림 · 화면 캡처를 픽셀로 재서 맞춤).
    - 탭 줄 : 가로바 아래 따로 선 40px 줄, 탭은 아래에 붙음. 탭이 없으면 줄 자체가 없다(JS 가 .k-tabbar 를 비운다 → :empty 로 숨김)
    - 탭 한 개 = 세 부분
-       ① 왼쪽(.k-tab-l, 폭 15px) : 아래 발끝에서 S 곡선으로 올라가 위 왼쪽이 둥근 작은 영역
+       ① 왼쪽(.k-tab-l, 곡선 폭 16px) : 아래 발끝에서 S 곡선으로 올라가 위 왼쪽이 둥근 작은 영역
        ② 가운데(.k-tab 자체) : 글자 · ✕ 가 있는 직사각형. 높이 32px, 글자 12px 굵게, 폭은 글자만큼(최대 200px)
-       ③ 오른쪽(.k-tab-r, 폭 22px) : 위 왼쪽에서 오른쪽 아래로 자연스럽게 내려가는 곡선 + 바깥쪽 옅은 그림자
+       ③ 오른쪽(.k-tab-r, 곡선 폭 23px) : 위 왼쪽에서 오른쪽 아래로 자연스럽게 내려가는 곡선 + 바깥쪽 옅은 그림자
+       ①③ 곡선은 참고 시스템의 탭 그림(tab_sprite.png)에서 픽셀로 따 온 좌표(ksis-layout.js TAB_EDGES)
    - ①③ 은 가운데보다 1px 짧다 → 양쪽 발끝 아래로 탭 줄 바탕색(연한 남색) 선이 1px 보인다(가운데는 본문까지 닿음)
    - 탭 사이 : 가운데끼리 25px(왼쪽 10 + 오른쪽 15). 왼쪽 탭의 ③ 이 오른쪽 탭의 ① 위에 겹친다(앞 탭이 위, 보는 탭은 맨 위)
    - 보는 탭은 흰 바탕(아래 본문과 이어짐) + 진한 글자, 안 보는 탭은 연한 바탕 + 회색 글자 */
@@ -296,7 +297,7 @@ button, input, select, textarea { font-family: inherit; }
 	display: flex;
 	align-items: flex-end;
 	height: var(--k-tabbar-h);
-	padding: 0 0 0 calc(var(--k-content-start-x) + 5px); /* ① 발끝 = 내용 왼쪽 시작선 */
+	padding: 0 0 0 calc(var(--k-content-start-x) + 3.5px); /* ① 발끝 = 내용 왼쪽 시작선 */
 	overflow: hidden;
 	background: var(--k-tabbar-bg);
 }
@@ -324,22 +325,20 @@ button, input, select, textarea { font-family: inherit; }
 .k-tab-l,
 .k-tab-r {
 	position: absolute;
-	top: 0;
-	height: calc(var(--k-tab-h) - 1px);
+	top: -4px;                 /* 그림 위쪽 그림자 자리 4px */
+	height: 35px;              /* 곡선 31px(탭보다 1px 짧음 → 발끝 아래 바탕색 선) + 위 4px */
 	overflow: visible;
 	pointer-events: none;
 }
-.k-tab-l { left: -14px; width: 15px; } /* 가운데와 1px 겹쳐 이음매가 안 보이게 */
-.k-tab-r {
-	right: -21px;
-	width: 22px;
-	filter: drop-shadow(2px 0 3px rgba(0, 0, 0, .10));
-	clip-path: polygon(-8px -8px, calc(100% + 8px) -8px, calc(100% + 8px) 100%, -2px 100%, -2px 0, -8px 0); /* 그림자가 가운데 쪽 · 아래 1px 선으로 번지지 않게 */
-}
+.k-tab-l { left: -19px; width: 20px; }  /* 곡선 폭 16px(가운데와 1px 겹침) + 왼쪽 그림자 자리 4px */
+.k-tab-r { right: -34px; width: 35px; filter: drop-shadow(2.5px -1px 1px rgba(0, 0, 0, .09)); } /* 가운데와 1px 겹침, 곡선 + 그림자 */
 .k-tab-l path,
 .k-tab-r path { fill: var(--k-tab-fill); }
 .k-tab:hover { --k-tab-fill: var(--k-tab-hover-bg); color: var(--k-text-title); }
 .k-tab.active { --k-tab-fill: var(--k-tab-active-bg); z-index: 99 !important; color: var(--k-tab-active-text); }
+/* 보는 탭 · 마우스 올린 탭은 왼쪽 곡선에도 그림자(원본 그림과 같음) */
+.k-tab:hover .k-tab-l,
+.k-tab.active .k-tab-l { filter: drop-shadow(-3px -.5px 1px rgba(0, 0, 0, .09)); }
 .k-tab-title {
 	flex: 1 1 auto;
 	min-width: 0;

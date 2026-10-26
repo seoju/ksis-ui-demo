@@ -27,7 +27,7 @@
 	/* 화면 탭 — 14번(2안 : 가로바 아래 따로 선 탭 줄, 책갈피 탭) */
 	--k-tabbar-bg: #C3D1E5;        /* 탭 줄 바탕 */
 	--k-tab-bg: #E5EAF1;           /* 안 보는 탭 */
-	--k-tab-hover-bg: #F3F6FA;     /* 마우스 올림 */
+	--k-tab-hover-bg: #E6EFFF;     /* 마우스 올림 */
 	--k-tab-active-bg: #FFFFFF;      /* 보는 탭 = 본문과 같은 흰 바탕 */
 	--k-tab-text: #9F9F9F;           /* 안 보는 탭 글자 */
 	--k-tab-active-text: #323232;    /* 보는 탭 글자 */

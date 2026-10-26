@@ -23,10 +23,11 @@
 	var ksis = window.ksis = window.ksis || {};
 	var MAX_TABS = 10;
 	var OPEN_KEY = "ksis.menu.open";
-	// [14번] 책갈피 탭의 왼쪽 S 곡선(15×31) · 오른쪽 내려가는 곡선(22×31). 색은 CSS(--k-tab-fill)
+	// [14번] 책갈피 탭의 왼쪽 S 곡선 · 오른쪽 내려가는 곡선. 참고한 사내 시스템의 탭 그림(tab_sprite.png, 2배 크기)의
+	//        곡선을 픽셀 단위로 따서 그 좌표 그대로 옮김(viewBox 도 그림 좌표). 색은 CSS(--k-tab-fill)로 바꿈
 	var TAB_EDGES =
-		'<svg class="k-tab-l" viewBox="0 0 15 31" aria-hidden="true"><path d="M0 31C4 31 6.5 28.5 6.5 24.5V6C6.5 2.5 8 0 11 0H15V31Z"/></svg>' +
-		'<svg class="k-tab-r" viewBox="0 0 22 31" aria-hidden="true"><path d="M-3 0H.5C3.5 0 4.8 1.8 5.6 3.4L20.4 31H-3Z"/></svg>';
+		'<svg class="k-tab-l" viewBox="0 0 40 70" aria-hidden="true"><path d="M40 8L30.05 8L30.05 8.5L27.55 9.5L25.06 11.5L23.12 14.5L22.05 17.5L21.79 20.5L21.79 54.5L21.47 57.5L20.68 60.5L19.22 63.5L17.68 65.5L13.68 68.5L11.18 69.5L11.18 70L40 70Z"/></svg>' +
+		'<svg class="k-tab-r" viewBox="50 0 70 70" aria-hidden="true"><path d="M50 8L55.96 8L55.96 8.5L60.65 11.5L62.65 14.5L89.76 65.5L91.65 67.5L95.62 69.5L95.62 70L50 70Z"/></svg>';
 
 	ksis.layout = {
 		init: function (options) {
