@@ -68,7 +68,7 @@
 	<section class="tr-pane is-a" data-kind="req"><div class="tr-head"><b>2안</b> KSIS-A 요구사항<span>사내 다른 시스템의 책갈피 탭(탭 그림 · CSS 에서 따 옴), 높이 32px</span><a href="${u3a}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u3a}" title="2안 KSIS-A"></iframe></div></section>
 	<section class="tr-pane is-b" data-kind="req"><div class="tr-head"><b>2안</b> KSIS-B 요구사항<span>2안의 B 색(초록)</span><a href="${u3b}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u3b}" title="2안 KSIS-B"></iframe></div></section>
 
-	<section class="tr-pane is-a" data-kind="req"><div class="tr-head"><b>3안</b> KSIS-A 요구사항<span>2안 탭을 진한 가로바 위로 겹쳐 올림, 연한 띠 최소(1920×1080 에서 8px)</span><a href="${u4a}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u4a}" title="3안 KSIS-A"></iframe></div></section>
+	<section class="tr-pane is-a" data-kind="req"><div class="tr-head"><b>3안</b> KSIS-A 요구사항<span>2안 탭을 진한 가로바 위로 겹쳐 올림, 가로바를 가리는 건 탭뿐, 아래 띠는 흰색(1920×1080 에서 8px)</span><a href="${u4a}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u4a}" title="3안 KSIS-A"></iframe></div></section>
 	<section class="tr-pane is-b" data-kind="req"><div class="tr-head"><b>3안</b> KSIS-B 요구사항<span>3안의 B 색(초록)</span><a href="${u4b}" target="_blank" rel="noopener">새 창 ↗</a></div><div class="tr-body"><iframe src="${u4b}" title="3안 KSIS-B"></iframe></div></section>
 </main>
 
