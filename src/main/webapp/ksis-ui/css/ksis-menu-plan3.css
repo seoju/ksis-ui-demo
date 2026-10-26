@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* =====================================================================
+   [11번] 좌측 메뉴 3안 — 흰 바탕 + 선택 소메뉴 왼쪽 주색 막대.
+   - 바탕은 흰색 한 색, 본문과는 오른쪽 1px 연회색 선으로만 나눈다.
+   - 선택한 소메뉴 : 아주 연한 주색 바탕 + 주색 굵은 글자 + 왼쪽에 주색 막대(3px).
+   - 펼친 대메뉴 : 바탕 없이 진한 굵은 글자(무엇이 펼쳐졌는지는 －와 아래 소메뉴로 보임).
+   탭 검토 화면에서 ?menuPlan=3 일 때만 덧붙인다.
+   ===================================================================== */
+:root {
+	--k-menu-grad-start: #FFFFFF; --k-menu-grad-end: #FFFFFF;
+	--k-menu-text: #4C4C4C;
+	--k-menu-hover-bg: #F3F5F8; --k-menu-hover-text: #1B1D1F;
+	--k-menu-active-text: var(--k-primary);
+}
+:root[data-theme="a"] { --k-menu-active-bg: #F5F9FE; }
+:root[data-theme="b"] { --k-menu-active-bg: #F0FCF5; }
+.k-sidebar { box-shadow: inset -1px 0 0 #E4E7EB; }
+.k-menu-group-header.expanded,
+.k-menu-group-header.expanded:hover { background: transparent; color: #1B1D1F; }
+.k-menu-group-header.expanded:hover { background: var(--k-menu-hover-bg); }
+.k-menu-item { position: relative; }
+.k-menu-item.active::after {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 22%;
+	bottom: 22%;
+	width: 3px;
+	border-radius: 2px;
+	background: var(--k-primary);
+}

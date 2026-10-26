@@ -185,7 +185,7 @@ button, input, select, textarea { font-family: inherit; }
 
 /* [3번] 좌측 메뉴 폭 : 340px × 가로 배율, 가장 긴 소메뉴보다 좁아지지 않음
    [11번] 바탕 : 왼쪽 위 연한 주색 → 오른쪽 아래 흰색 대각선 그라데이션, 내용과의 경계선 없음
-   메뉴 색은 --k-menu-* 변수로 바꿀 수 있다(값이 없으면 지금 요구사항 색). 좌측 메뉴 색 검토 화면(/sidebar)이 이 변수로 후보 색을 입혀 본다 */
+   메뉴 색은 --k-menu-* 변수로 바꿀 수 있다(값이 없으면 지금 요구사항 색). 탭 검토 화면의 좌측 메뉴 2~5안(ksis-menu-plan2~5.css)이 이 변수로 색을 바꿔 본다 */
 .k-sidebar {
 	position: relative;
 	flex: 0 0 auto;

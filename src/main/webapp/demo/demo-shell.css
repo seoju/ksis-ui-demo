@@ -123,44 +123,31 @@ table.ds-files { width: 100%; border-collapse: collapse; background: #FFFFFF; bo
 
 .ds-card.is-summary { border-color: #B9D3F7; background: #F5F9FF; }
 
-/* 탭 검토(/tabs) : 줄 = 기존 · 1안 · 2안 · 3안, 칸 = A · B. 칸 안 화면은 실제 크기(900px 높이로 열고 위쪽만 보임) */
-.ds-tabrev { display: grid; gap: 6px; padding: 6px; }
+/* 탭 검토(/tabs) : 탭 1~3안 × 좌측 메뉴 1~5안 × A·B 조합. 줄 = 조합, 칸 = A · B.
+   칸 안 화면은 실제 크기(900px 높이로 열고 위쪽만 보임) */
+.tr-bar { position: sticky; top: var(--ds-top-h); z-index: 9; display: flex; flex-wrap: wrap; align-items: center; gap: 4px 14px; padding: 5px 10px; background: #FFFFFF; border-bottom: 1px solid var(--ds-line); font-size: 12px; }
+.tr-bar label { display: inline-flex; align-items: center; gap: 5px; color: var(--ds-ink-2); font-weight: 600; white-space: nowrap; }
+.tr-bar select { font: inherit; font-weight: 500; padding: 2px 4px; border: 1px solid var(--ds-line); border-radius: 5px; background: #FFFFFF; color: var(--ds-ink); }
+.tr-bar .tr-check input { margin: 0; }
+.tr-bar .tr-sep { width: 1px; height: 18px; background: var(--ds-line); }
+body.axis-tab .tr-fix-tab, body.axis-menu .tr-fix-menu, body:not(.axis-tab):not(.axis-menu) .tr-fix-tab, body:not(.axis-tab):not(.axis-menu) .tr-fix-menu { display: none; }
+.ds-tabrev { --tr-bar-h: 34px; display: grid; gap: 6px; padding: 6px; }
 .ds-tabrev.mode-two { grid-template-columns: 1fr 1fr; }
-.ds-tabrev.mode-one { grid-template-columns: 1fr; }
+.ds-tabrev.mode-one, .ds-tabrev.mode-a, .ds-tabrev.mode-b { grid-template-columns: 1fr; }
+.ds-tabrev.mode-a .tr-b, .ds-tabrev.mode-b .tr-a { display: none; }
 .tr-pane { display: flex; flex-direction: column; min-width: 0; background: #FFFFFF; border: 1px solid var(--ds-line); border-radius: 8px; overflow: hidden; }
-.tr-head { display: flex; align-items: baseline; gap: 8px; padding: 3px 10px; font-size: 12px; font-weight: 700; border-bottom: 1px solid var(--ds-line); white-space: nowrap; }
-.tr-head b { display: inline-block; min-width: 34px; padding: 0 6px; border-radius: 4px; background: var(--ds-ink); color: #FFFFFF; text-align: center; }
-.tr-pane.is-orig .tr-head b { background: var(--ds-orig); }
+.tr-head { display: flex; align-items: baseline; gap: 6px; padding: 3px 10px; font-size: 12px; font-weight: 700; border-bottom: 1px solid var(--ds-line); white-space: nowrap; }
+.tr-head b { display: inline-block; padding: 0 6px; border-radius: 4px; background: var(--ds-ink); color: #FFFFFF; text-align: center; }
+.tr-head b.t-menu { background: #6B4FB8; }
+.tr-head b.t-orig { background: var(--ds-orig); }
+.tr-head em { font-style: normal; }
 .tr-pane.is-a .tr-head { box-shadow: inset 0 2px 0 var(--ds-a); }
 .tr-pane.is-b .tr-head { box-shadow: inset 0 2px 0 var(--ds-b); }
 .tr-head span { font-weight: 500; color: var(--ds-ink-3); overflow: hidden; text-overflow: ellipsis; flex: 1 1 auto; }
 .tr-head a { color: var(--ds-ink-2); text-decoration: none; font-weight: 500; }
-.tr-body { position: relative; overflow: auto hidden; scrollbar-width: thin; height: max(150px, calc((100vh - var(--ds-top-h) - 30px - 4 * 24px) / 4)); }
-.ds-tabrev.mode-one .tr-body { height: 190px; }
+.tr-body { position: relative; overflow: auto hidden; scrollbar-width: thin; height: var(--tr-h, 220px); }
+/* 화면에 맞춤 : 줄 수만큼 나눠 한 화면에(너무 작아지면 150px 에서 멈추고 스크롤) */
+.ds-tabrev.h-fit .tr-body { height: max(150px, calc((100vh - var(--ds-top-h) - var(--tr-bar-h) - 12px - var(--tr-rows) * 30px) / var(--tr-rows))); }
+.ds-tabrev.h-fit.mode-one .tr-body { height: max(150px, calc((100vh - var(--ds-top-h) - var(--tr-bar-h) - 12px - var(--tr-rows) * 60px) / (var(--tr-rows) * 2))); }
 .tr-body iframe { display: block; width: 100%; max-width: none; height: 900px; border: 0; }
-.tr-pane.is-empty .tr-body { display: flex; align-items: center; justify-content: center; background: repeating-linear-gradient(45deg, #FAFBFC 0 10px, #F3F5F7 10px 20px); }
-.tr-pane.is-empty .tr-body p { margin: 0; color: var(--ds-ink-3); font-weight: 600; }
 .ds-card.is-tabs { border-color: #F2C98B; background: #FFF9F0; }
-
-/* 좌측 메뉴 색 검토(/sidebar) : 왼쪽 6칸(A 줄 · B 줄 × 기존 · 지금 · 후보) + 오른쪽 색 고르기 */
-.ds-sbrev { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 6px; padding: 6px; height: calc(100vh - var(--ds-top-h)); }
-.sb-panes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-auto-rows: minmax(0, 1fr); gap: 6px; min-height: 0; }
-.ds-sbrev.mode-a .sb-b, .ds-sbrev.mode-b .sb-a { display: none; }
-.sb-panes .tr-body { height: auto; flex: 1 1 auto; overflow: hidden; }
-.sb-panes .tr-pane.is-try .tr-head b { background: #B26A00; }
-.sb-ctrl { overflow: auto; background: #FFFFFF; border: 1px solid var(--ds-line); border-radius: 8px; padding: 10px 12px; }
-.sb-ctrl h3 { font-size: 13px; margin: 6px 0 6px; }
-.sb-ctrl h3 small { font-weight: 500; color: var(--ds-ink-3); font-size: 11px; margin-left: 4px; }
-.sb-presets { display: flex; flex-direction: column; gap: 4px; margin-bottom: 10px; }
-.sb-presets button { display: flex; align-items: center; gap: 6px; padding: 5px 8px; border: 1px solid var(--ds-line); border-radius: 6px; background: #FFFFFF; font: inherit; font-size: 12px; text-align: left; cursor: pointer; }
-.sb-presets button:hover { border-color: var(--ds-ink-3); }
-.sb-presets button.on { border-color: var(--ds-ink); box-shadow: inset 0 0 0 1px var(--ds-ink); font-weight: 700; }
-.sb-presets i { flex: 0 0 18px; height: 18px; border-radius: 4px; border: 1px solid rgba(0, 0, 0, .12); }
-table.sb-colors { width: 100%; border-collapse: collapse; font-size: 12px; }
-.sb-colors th { text-align: left; font-weight: 500; color: var(--ds-ink-2); padding: 2px 4px 2px 0; }
-.sb-colors thead th { text-align: center; font-weight: 700; color: var(--ds-ink); }
-.sb-colors td { width: 46px; text-align: center; }
-.sb-colors input[type=color] { width: 40px; height: 24px; padding: 0; border: 1px solid var(--ds-line); border-radius: 4px; background: none; cursor: pointer; }
-.sb-hint { color: var(--ds-ink-3); font-size: 11.5px; margin: 8px 0; }
-.sb-ctrl textarea { width: 100%; font: 11.5px/1.5 ui-monospace, Consolas, monospace; border: 1px solid var(--ds-line); border-radius: 6px; padding: 6px; resize: vertical; }
-.ds-card.is-sidebar { border-color: #C8B8F0; background: #F8F5FF; }

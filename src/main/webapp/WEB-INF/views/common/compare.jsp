@@ -17,8 +17,7 @@
 		<c:forEach var="a" items="${areas}">
 			<a href="<c:url value='/compare/${a.key}'/>" class="${a == area ? 'on' : ''}">${a.title}<small>${a.range}</small></a>
 		</c:forEach>
-		<a href="<c:url value='/tabs'/>">탭 검토<small>14번</small></a>
-		<a href="<c:url value='/sidebar'/>">좌측 메뉴 색<small>11번</small></a>
+		<a href="<c:url value='/tabs'/>">탭 검토<small>14 · 11번</small></a>
 	</nav>
 	<div class="ds-ctrl">
 		<label>보기

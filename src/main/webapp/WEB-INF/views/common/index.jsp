@@ -34,15 +34,11 @@
 			</a>
 		</c:forEach>
 		<a class="ds-card is-tabs" href="<c:url value='/tabs'/>">
-			<span class="range">14번 · 2안 가지</span>
+			<span class="range">14 · 11번 · 2안 가지</span>
 			<b>탭 검토</b>
-			<span>화면 탭의 기존 A·B, 1안, 2안, 3안을 A·B 로 한 화면에 나란히</span>
+			<span>화면 탭 1~3안 × 좌측 메뉴 색 1~5안 × A·B 조합(30가지)을 골라 한 화면에 나란히</span>
 		</a>
-		<a class="ds-card is-sidebar" href="<c:url value='/sidebar'/>">
-			<span class="range">11번 · 2안 가지</span>
-			<b>좌측 메뉴 색 검토</b>
-			<span>좌측 세로 메뉴(대메뉴 · 소메뉴) 색을 기존 · 지금 요구사항 · 후보로 나란히, 색을 바로 바꿔 보기</span>
-		</a>
+
 	</div>
 
 	<h2>KSIS-A 에 옮길 파일</h2>

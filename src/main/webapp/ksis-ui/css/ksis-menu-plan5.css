@@ -1,0 +1,25 @@
+@charset "utf-8";
+/* =====================================================================
+   [11번] 좌측 메뉴 5안 — 가로바 색을 옅게 깔고, 선택은 가로바 색으로 채움.
+   - 바탕 : 가로바 색이 아주 옅게 섞인 색(위 → 아래로 조금 더 밝게). 가로바와 같은 색 계열이라 틀이 하나로 보인다.
+   - 선택한 소메뉴 : 가로바 색(A 진한 남색 / B 진한 초록) 채움 + 흰 굵은 글자 — 지금 어디 있는지 가장 또렷하다.
+   - 펼친 대메뉴 : 바탕 없이 가로바 색 굵은 글자.
+   탭 검토 화면에서 ?menuPlan=5 일 때만 덧붙인다.
+   ===================================================================== */
+:root { --k-menu-text: #3B4352; --k-menu-active-text: #FFFFFF; }
+:root[data-theme="a"] {
+	--k-menu-grad-start: #E6ECF7; --k-menu-grad-end: #F6F8FC;
+	--k-menu-hover-bg: #D9E2F3; --k-menu-hover-text: #082878;
+	--k-menu-active-bg: #082878;
+	--k-menu-group-open: #082878;
+}
+:root[data-theme="b"] {
+	--k-menu-grad-start: #E4F1E9; --k-menu-grad-end: #F5FAF7;
+	--k-menu-hover-bg: #D5EADD; --k-menu-hover-text: #006B35;
+	--k-menu-active-bg: #006B35;
+	--k-menu-group-open: #006B35;
+}
+.k-sidebar { background: linear-gradient(to bottom, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%); }
+.k-menu-group-header.expanded,
+.k-menu-group-header.expanded:hover { background: transparent; color: var(--k-menu-group-open); }
+.k-menu-group-header.expanded:hover { background: var(--k-menu-hover-bg); }

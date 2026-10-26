@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* =====================================================================
+   [11번] 좌측 메뉴 4안 — 연회색 바탕 + 선택은 흰 카드.
+   - 바탕은 연회색 한 색. 선택한 소메뉴만 흰 바탕 + 옅은 그림자로 떠 보이고 글자는 주색 굵게.
+   - 펼친 대메뉴 : 바탕 없이 진한 굵은 글자.
+   - 본문(흰색)과 메뉴(회색)가 바탕색으로 나뉘어 경계선이 필요 없다.
+   탭 검토 화면에서 ?menuPlan=4 일 때만 덧붙인다.
+   ===================================================================== */
+:root {
+	--k-menu-grad-start: #F2F4F7; --k-menu-grad-end: #F2F4F7;
+	--k-menu-text: #4C4C4C;
+	--k-menu-hover-bg: #E7EAEF; --k-menu-hover-text: #1B1D1F;
+	--k-menu-active-bg: #FFFFFF; --k-menu-active-text: var(--k-primary);
+}
+.k-menu-group-header.expanded,
+.k-menu-group-header.expanded:hover { background: transparent; color: #1B1D1F; }
+.k-menu-group-header.expanded:hover { background: var(--k-menu-hover-bg); }
+.k-menu-item.active { box-shadow: 0 1px 3px rgba(16, 24, 40, .10), 0 0 0 1px rgba(16, 24, 40, .04); }

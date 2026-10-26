@@ -1,0 +1,18 @@
+@charset "utf-8";
+/* =====================================================================
+   [11번] 좌측 메뉴 2안 — 진한 메뉴(가로바 색을 그대로 이어서). 가로바와 좌측 메뉴가 ㄱ자로 이어진 진한 틀이 된다.
+   탭 검토 화면에서 ?menuPlan=2 일 때만 ksis-common.css 뒤에 덧붙인다(1안 = 지금 요구사항, 이 파일 없음).
+   색만 바꾼다(ksis-common.css 의 --k-menu-* 변수).
+   ===================================================================== */
+:root[data-theme="a"] {
+	--k-menu-grad-start: #082878; --k-menu-grad-end: #0E3A9E;
+	--k-menu-text: #DCE5F7;
+	--k-menu-hover-bg: #1C47A8; --k-menu-hover-text: #FFFFFF;
+	--k-menu-active-bg: #3488FF; --k-menu-active-text: #FFFFFF;
+}
+:root[data-theme="b"] {
+	--k-menu-grad-start: #006B35; --k-menu-grad-end: #008A45;
+	--k-menu-text: #DDF2E5;
+	--k-menu-hover-bg: #0B8547; --k-menu-hover-text: #FFFFFF;
+	--k-menu-active-bg: #03C75A; --k-menu-active-text: #FFFFFF;
+}
