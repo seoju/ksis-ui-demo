@@ -25,7 +25,8 @@
 	--k-tab-bg: #E4F1E9;
 	--k-tab-hover-bg: #F2F9F5;
 	--k-tab-active-bg: #FFFFFF;
-	--k-tab-text: #8A94A6;
+	--k-tab-text: #9F9F9F;
+	--k-tab-active-text: #323232;
 
 	--k-edit-border: #9FEAC0;
 	--k-edit-press: #D2F5E2;

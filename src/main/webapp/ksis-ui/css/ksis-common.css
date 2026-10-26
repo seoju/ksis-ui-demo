@@ -74,7 +74,6 @@
 	/* [14번] 화면 탭 줄(2안 : 가로바 아래 따로 선 책갈피 탭 줄) */
 	--k-tabbar-h: 40px;
 	--k-tab-h: 32px;
-	--k-tab-slant: 14px; /* 탭 오른쪽 비스듬한 어깨 폭(바꾸면 .k-tab::after 기울기도 같이) */
 	--k-content-start-x: 8px; /* [6번] 내용 왼쪽 시작선 = 첫 탭 왼쪽 끝 */
 }
 
@@ -281,10 +280,15 @@ button, input, select, textarea { font-family: inherit; }
 	min-height: 0;
 }
 
-/* [14번] 화면 탭(2안) : 가로바 아래 따로 선 40px 탭 줄 위에 책갈피 모양 탭. 탭 높이 32px, 글자 12px 굵게, 폭 최대 200px.
-   책갈피 = 왼쪽은 곧게 서고 위 왼쪽 모서리만 살짝 둥글게, 오른쪽은 비스듬한 어깨(::after)로 내려옴.
-   보는 탭은 흰 바탕(아래 본문과 이어짐) + 진한 글자, 안 보는 탭은 연한 바탕 + 회색 글자.
-   탭이 없으면 줄 자체가 없다(JS 가 .k-tabbar 를 비운다 → :empty 로 숨김) */
+/* [14번] 화면 탭(2안) : 사내 다른 시스템의 책갈피 탭을 그대로 옮김(그 화면 캡처를 픽셀로 재서 맞춤).
+   - 탭 줄 : 가로바 아래 따로 선 40px 줄, 탭은 아래에 붙음. 탭이 없으면 줄 자체가 없다(JS 가 .k-tabbar 를 비운다 → :empty 로 숨김)
+   - 탭 한 개 = 세 부분
+       ① 왼쪽(.k-tab-l, 폭 15px) : 아래 발끝에서 S 곡선으로 올라가 위 왼쪽이 둥근 작은 영역
+       ② 가운데(.k-tab 자체) : 글자 · ✕ 가 있는 직사각형. 높이 32px, 글자 12px 굵게, 폭은 글자만큼(최대 200px)
+       ③ 오른쪽(.k-tab-r, 폭 22px) : 위 왼쪽에서 오른쪽 아래로 자연스럽게 내려가는 곡선 + 바깥쪽 옅은 그림자
+   - ①③ 은 가운데보다 1px 짧다 → 양쪽 발끝 아래로 탭 줄 바탕색(연한 남색) 선이 1px 보인다(가운데는 본문까지 닿음)
+   - 탭 사이 : 가운데끼리 25px(왼쪽 10 + 오른쪽 15). 왼쪽 탭의 ③ 이 오른쪽 탭의 ① 위에 겹친다(앞 탭이 위, 보는 탭은 맨 위)
+   - 보는 탭은 흰 바탕(아래 본문과 이어짐) + 진한 글자, 안 보는 탭은 연한 바탕 + 회색 글자 */
 .k-tabbar {
 	position: relative;
 	z-index: 20;
@@ -292,23 +296,24 @@ button, input, select, textarea { font-family: inherit; }
 	display: flex;
 	align-items: flex-end;
 	height: var(--k-tabbar-h);
-	padding: 0 0 0 var(--k-content-start-x);
+	padding: 0 0 0 calc(var(--k-content-start-x) + 5px); /* ① 발끝 = 내용 왼쪽 시작선 */
 	overflow: hidden;
 	background: var(--k-tabbar-bg);
 }
 .k-tabbar:empty { display: none; }
 .k-tab {
+	--k-tab-fill: var(--k-tab-bg);
 	position: relative;
-	z-index: 1;
 	flex: 0 1 auto;
 	display: flex;
 	align-items: center;
-	gap: 8px;
-	min-width: 60px;
+	gap: 6px;
+	min-width: 40px;
 	max-width: 200px;
 	height: var(--k-tab-h);
-	margin-right: calc(var(--k-tab-slant) + 4px);
-	padding: 0 4px 0 14px;
+	margin: 0 15px 0 10px;
+	padding: 0 2px 0 4px;
+	background: var(--k-tab-fill);
 	font-size: 12px;
 	font-weight: 700;
 	line-height: 1;
@@ -316,35 +321,25 @@ button, input, select, textarea { font-family: inherit; }
 	cursor: pointer;
 	user-select: none;
 }
-.k-tab::before,
-.k-tab::after {
-	content: "";
+.k-tab-l,
+.k-tab-r {
 	position: absolute;
-	z-index: -1;
 	top: 0;
-	bottom: 0;
-	background: var(--k-tab-bg);
+	height: calc(var(--k-tab-h) - 1px);
+	overflow: visible;
+	pointer-events: none;
 }
-.k-tab::before {
-	left: 0;
-	right: 0;
-	border-radius: 4px 0 0 0;
+.k-tab-l { left: -14px; width: 15px; } /* 가운데와 1px 겹쳐 이음매가 안 보이게 */
+.k-tab-r {
+	right: -21px;
+	width: 22px;
+	filter: drop-shadow(2px 0 3px rgba(0, 0, 0, .10));
+	clip-path: polygon(-8px -8px, calc(100% + 8px) -8px, calc(100% + 8px) 100%, -2px 100%, -2px 0, -8px 0); /* 그림자가 가운데 쪽 · 아래 1px 선으로 번지지 않게 */
 }
-/* 오른쪽 어깨 : 아래쪽은 탭 끝에서 --k-tab-slant 만큼 더 나가고 위쪽은 탭 끝에 닿는 비스듬한 면 */
-.k-tab::after {
-	right: calc(-1 * var(--k-tab-slant));
-	width: calc(var(--k-tab-slant) + 10px);
-	border-radius: 0 7px 0 0;
-	box-shadow: 2px 0 2px rgba(0, 0, 0, .10);
-	transform: skewX(23.6deg); /* = atan(14 / 32) : 어깨 폭 14px · 탭 높이 32px */
-	transform-origin: 0 100%;
-}
-.k-tab:hover { z-index: 2; color: var(--k-text-title); }
-.k-tab:hover::before,
-.k-tab:hover::after { background: var(--k-tab-hover-bg); }
-.k-tab.active { z-index: 3; color: var(--k-text-title); }
-.k-tab.active::before,
-.k-tab.active::after { background: var(--k-tab-active-bg); }
+.k-tab-l path,
+.k-tab-r path { fill: var(--k-tab-fill); }
+.k-tab:hover { --k-tab-fill: var(--k-tab-hover-bg); color: var(--k-text-title); }
+.k-tab.active { --k-tab-fill: var(--k-tab-active-bg); z-index: 99 !important; color: var(--k-tab-active-text); }
 .k-tab-title {
 	flex: 1 1 auto;
 	min-width: 0;
@@ -354,16 +349,17 @@ button, input, select, textarea { font-family: inherit; }
 }
 /* [18번] 탭 닫기 ✕ */
 .k-tab-close {
-	flex: 0 0 18px;
-	width: 18px;
-	height: 18px;
+	flex: 0 0 12px;
+	width: 12px;
+	height: 16px;
 	padding: 0;
 	border: none;
 	border-radius: 3px;
 	background: transparent;
 	color: inherit;
 	font-size: 12px;
-	line-height: 18px;
+	font-weight: 400;
+	line-height: 16px;
 	cursor: pointer;
 }
 .k-tab-close:hover { background: #D93025; color: #FFFFFF; }

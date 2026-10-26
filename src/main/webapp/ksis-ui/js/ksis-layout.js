@@ -23,6 +23,10 @@
 	var ksis = window.ksis = window.ksis || {};
 	var MAX_TABS = 10;
 	var OPEN_KEY = "ksis.menu.open";
+	// [14번] 책갈피 탭의 왼쪽 S 곡선(15×31) · 오른쪽 내려가는 곡선(22×31). 색은 CSS(--k-tab-fill)
+	var TAB_EDGES =
+		'<svg class="k-tab-l" viewBox="0 0 15 31" aria-hidden="true"><path d="M0 31C4 31 6.5 28.5 6.5 24.5V6C6.5 2.5 8 0 11 0H15V31Z"/></svg>' +
+		'<svg class="k-tab-r" viewBox="0 0 22 31" aria-hidden="true"><path d="M-3 0H.5C3.5 0 4.8 1.8 5.6 3.4L20.4 31H-3Z"/></svg>';
 
 	ksis.layout = {
 		init: function (options) {
@@ -136,13 +140,14 @@
 
 			function renderTabs() {
 				tabbar.innerHTML = "";
-				tabs.forEach(function (t) {
+				tabs.forEach(function (t, i) {
 					var el = document.createElement("div");
 					el.className = "k-tab" + (t === active ? " active" : "");
 					el.setAttribute("role", "tab");
 					el.title = t.title;
-					el.innerHTML = '<span class="k-tab-title"></span><button type="button" class="k-tab-close" title="탭 닫기">✕</button>';
-					el.firstChild.textContent = t.title;
+					el.style.zIndex = tabs.length - i; // 앞 탭의 오른쪽 곡선이 뒤 탭의 왼쪽 곡선 위로(보는 탭은 CSS 로 맨 위)
+					el.innerHTML = TAB_EDGES + '<span class="k-tab-title"></span><button type="button" class="k-tab-close" title="탭 닫기">✕</button>';
+					el.querySelector(".k-tab-title").textContent = t.title;
 					el.addEventListener("click", function (e) {
 						if (e.target.closest(".k-tab-close")) close(t);
 						else if (t !== active) activate(t);

@@ -29,7 +29,8 @@
 	--k-tab-bg: #E5EAF1;           /* 안 보는 탭 */
 	--k-tab-hover-bg: #F3F6FA;     /* 마우스 올림 */
 	--k-tab-active-bg: #FFFFFF;      /* 보는 탭 = 본문과 같은 흰 바탕 */
-	--k-tab-text: #8A94A6;           /* 안 보는 탭 글자 */
+	--k-tab-text: #9F9F9F;           /* 안 보는 탭 글자 */
+	--k-tab-active-text: #323232;    /* 보는 탭 글자 */
 
 	/* 수정 버튼(테두리 버튼) — 21·24·25번 */
 	--k-edit-border: #B2D0FC;
