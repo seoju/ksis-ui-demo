@@ -71,9 +71,10 @@
 	--k-sb-pad: clamp(0.5px, calc(100vw / 1920), 1px);
 	--k-sb-font: clamp(0.8px, calc(100vw / 1344), 1px);
 
-	/* [14번] 화면 탭 줄 */
-	--k-tabbar-h: 20px;
-	--k-tabbar-drop: 2px;
+	/* [14번] 화면 탭 줄(2안 : 가로바 아래 따로 선 책갈피 탭 줄) */
+	--k-tabbar-h: 40px;
+	--k-tab-h: 32px;
+	--k-tab-slant: 14px; /* 탭 오른쪽 비스듬한 어깨 폭(바꾸면 .k-tab::after 기울기도 같이) */
 	--k-content-start-x: 8px; /* [6번] 내용 왼쪽 시작선 = 첫 탭 왼쪽 끝 */
 }
 
@@ -280,7 +281,9 @@ button, input, select, textarea { font-family: inherit; }
 	min-height: 0;
 }
 
-/* [14번] 화면 탭 : 가로바 아랫부분에 걸쳐 앉은 서류철 모양. 높이 20px, 폭 최대 130px, 글자 11px.
+/* [14번] 화면 탭(2안) : 가로바 아래 따로 선 40px 탭 줄 위에 책갈피 모양 탭. 탭 높이 32px, 글자 12px 굵게, 폭 최대 200px.
+   책갈피 = 왼쪽은 곧게 서고 위 왼쪽 모서리만 살짝 둥글게, 오른쪽은 비스듬한 어깨(::after)로 내려옴.
+   보는 탭은 흰 바탕(아래 본문과 이어짐) + 진한 글자, 안 보는 탭은 연한 바탕 + 회색 글자.
    탭이 없으면 줄 자체가 없다(JS 가 .k-tabbar 를 비운다 → :empty 로 숨김) */
 .k-tabbar {
 	position: relative;
@@ -289,48 +292,59 @@ button, input, select, textarea { font-family: inherit; }
 	display: flex;
 	align-items: flex-end;
 	height: var(--k-tabbar-h);
-	margin-top: calc(var(--k-tabbar-drop) - var(--k-tabbar-h));
-	margin-bottom: calc(-1 * var(--k-tabbar-drop));
-	padding: 0 calc(440 * var(--k-ui-y)) 0 var(--k-content-start-x);
+	padding: 0 0 0 var(--k-content-start-x);
 	overflow: hidden;
-	background: transparent;
-	pointer-events: none;
+	background: var(--k-tabbar-bg);
 }
 .k-tabbar:empty { display: none; }
 .k-tab {
 	position: relative;
 	z-index: 1;
-	flex: 0 1 130px;
+	flex: 0 1 auto;
 	display: flex;
 	align-items: center;
-	gap: 2px;
-	min-width: 50px;
-	max-width: 130px;
-	height: calc(var(--k-tabbar-h) - 3px);
-	margin-right: -5px;
-	padding: 0 10px 0 9px;
-	font-size: 11px;
+	gap: 8px;
+	min-width: 60px;
+	max-width: 200px;
+	height: var(--k-tab-h);
+	margin-right: calc(var(--k-tab-slant) + 4px);
+	padding: 0 4px 0 14px;
+	font-size: 12px;
+	font-weight: 700;
 	line-height: 1;
-	color: #4C4C4C;
+	color: var(--k-tab-text);
 	cursor: pointer;
 	user-select: none;
-	pointer-events: auto;
 }
-.k-tab::before {
+.k-tab::before,
+.k-tab::after {
 	content: "";
 	position: absolute;
-	inset: 0;
 	z-index: -1;
+	top: 0;
+	bottom: 0;
 	background: var(--k-tab-bg);
-	border-radius: 3px 6px 0 0;
-	box-shadow: -1px 0 3px rgba(0, 0, 0, .28);
-	transform: scaleY(1.1) perspective(8px) rotateX(2.5deg);
-	transform-origin: 30% 100%;
+}
+.k-tab::before {
+	left: 0;
+	right: 0;
+	border-radius: 4px 0 0 0;
+}
+/* 오른쪽 어깨 : 아래쪽은 탭 끝에서 --k-tab-slant 만큼 더 나가고 위쪽은 탭 끝에 닿는 비스듬한 면 */
+.k-tab::after {
+	right: calc(-1 * var(--k-tab-slant));
+	width: calc(var(--k-tab-slant) + 10px);
+	border-radius: 0 7px 0 0;
+	box-shadow: 2px 0 2px rgba(0, 0, 0, .10);
+	transform: skewX(23.6deg); /* = atan(14 / 32) : 어깨 폭 14px · 탭 높이 32px */
+	transform-origin: 0 100%;
 }
 .k-tab:hover { z-index: 2; color: var(--k-text-title); }
-.k-tab:hover::before { background: var(--k-tab-hover-bg); }
-.k-tab.active { z-index: 3; color: var(--k-primary); font-weight: 700; }
-.k-tab.active::before { background: var(--k-tab-active-bg); }
+.k-tab:hover::before,
+.k-tab:hover::after { background: var(--k-tab-hover-bg); }
+.k-tab.active { z-index: 3; color: var(--k-text-title); }
+.k-tab.active::before,
+.k-tab.active::after { background: var(--k-tab-active-bg); }
 .k-tab-title {
 	flex: 1 1 auto;
 	min-width: 0;
@@ -340,16 +354,16 @@ button, input, select, textarea { font-family: inherit; }
 }
 /* [18번] 탭 닫기 ✕ */
 .k-tab-close {
-	flex: 0 0 14px;
-	width: 14px;
-	height: 14px;
+	flex: 0 0 18px;
+	width: 18px;
+	height: 18px;
 	padding: 0;
 	border: none;
 	border-radius: 3px;
 	background: transparent;
-	color: #8A949E;
-	font-size: 9px;
-	line-height: 14px;
+	color: inherit;
+	font-size: 12px;
+	line-height: 18px;
 	cursor: pointer;
 }
 .k-tab-close:hover { background: #D93025; color: #FFFFFF; }

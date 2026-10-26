@@ -21,9 +21,11 @@
 
 	--k-menu-grad-start: #F0FCF5;
 
-	--k-tab-bg: #BCDDCB;
-	--k-tab-hover-bg: #F0FCF5;
-	--k-tab-active-bg: #E7F9EE;
+	--k-tabbar-bg: #C4DFCF;
+	--k-tab-bg: #E4F1E9;
+	--k-tab-hover-bg: #F2F9F5;
+	--k-tab-active-bg: #FFFFFF;
+	--k-tab-text: #8A94A6;
 
 	--k-edit-border: #9FEAC0;
 	--k-edit-press: #D2F5E2;

@@ -44,7 +44,7 @@
 		</nav>
 
 		<div class="k-workspace">
-			<%-- [14번] 화면 탭 줄(탭이 없으면 줄도 없음) --%>
+			<%-- [14번] 화면 탭 줄(2안 : 가로바 아래 40px 줄, 책갈피 탭. 탭이 없으면 줄도 없음) --%>
 			<div class="k-tabbar" role="tablist"></div>
 			<%-- [6번] 본문 : 흰 영역이 꽉 채움 --%>
 			<main class="k-content">
