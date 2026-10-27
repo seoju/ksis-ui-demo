@@ -310,7 +310,9 @@ button, input, select, textarea { font-family: inherit; }
        ② 가운데(.k-tab 자체) : 글자 · ✕ 가 있는 직사각형. 높이 32px, 글자 12px 굵게, 폭은 글자만큼(최대 200px)
        ③ 오른쪽(.k-tab-r, 곡선 폭 23px) : 위 왼쪽에서 오른쪽 아래로 자연스럽게 내려가는 곡선 + 바깥쪽 옅은 그림자
        ①③ 곡선은 참고 시스템의 탭 그림(tab_sprite.png)에서 픽셀로 따 온 좌표(ksis-layout.js TAB_EDGES)
-   - ①③ 은 가운데보다 1px 짧다 → 양쪽 발끝 아래로 뒤 바탕색 선이 1px 보인다(가운데는 본문까지 닿음)
+   - ①③ 은 가운데보다 1px 짧다 → 양쪽 발끝 아래로 뒤 바탕색 선이 1px 보인다
+     안 보는 탭(회색)은 가운데도 아래 1px 을 비워 바닥을 한 줄로 맞춘다(가운데만 튀어나와 보이지 않게).
+     보는 탭(흰색)은 가운데가 본문까지 닿아 아래 업무 영역과 그대로 이어진다
    - 탭 사이 : 가운데끼리 25px(왼쪽 10 + 오른쪽 15). 왼쪽 탭의 ③ 이 오른쪽 탭의 ① 위에 겹친다(앞 탭이 위, 보는 탭은 맨 위)
    - 보는 탭은 흰 바탕(아래 본문과 이어짐) + 진한 글자, 안 보는 탭은 연한 바탕 + 회색 글자 */
 .k-tabbar {
@@ -367,6 +369,8 @@ button, input, select, textarea { font-family: inherit; }
 .k-tab-r path { fill: var(--k-tab-fill); }
 .k-tab:hover { --k-tab-fill: var(--k-tab-hover-bg); color: var(--k-text-title); }
 .k-tab.active { --k-tab-fill: var(--k-tab-active-bg); z-index: 99 !important; color: var(--k-tab-active-text); }
+/* 안 보는 탭 : 가운데 바탕을 아래 1px 남기고 칠함 → 양쪽 곡선 발끝 아래 선과 같은 높이로 바닥선이 한 줄 */
+.k-tab:not(.active) { background: linear-gradient(var(--k-tab-fill), var(--k-tab-fill)) 0 0 / 100% calc(100% - 1px) no-repeat; }
 /* 보는 탭 · 마우스 올린 탭은 왼쪽 곡선에도 그림자(원본 그림과 같음) */
 .k-tab:hover .k-tab-l,
 .k-tab.active .k-tab-l { filter: drop-shadow(-3px -.5px 1px rgba(0, 0, 0, .09)); }
