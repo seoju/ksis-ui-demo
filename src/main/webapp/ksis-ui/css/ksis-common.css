@@ -70,12 +70,16 @@
 	--k-ui-y: clamp(0.6px, calc(100vh / 1080), 1.25px);
 	--k-sb-pad: clamp(0.5px, calc(100vw / 1920), 1px);
 	--k-sb-font: clamp(0.8px, calc(100vw / 1344), 1px);
+	--k-sidebar-w: 240px; /* [3번] 좌측 메뉴 폭 */
 
 	/* [14번] 화면 탭 : 책갈피 탭(높이 32px)을 진한 가로바 위로 겹쳐 올린다.
 	   올리는 높이 = 가로바 높이 - 가로바 가운데 사번 문구 아래끝 - 1px(문구 아래끝은 ksis-layout.js 가 재서 --k-badge-bottom 으로 줌) */
 	--k-tab-h: 32px;
 	--k-tab-rise: calc(45 * var(--k-ui-y) - var(--k-badge-bottom, calc(21 * var(--k-ui-y))) - 1px);
 	--k-content-start-x: 8px; /* [14번] 첫 탭 왼쪽 발끝 위치(업무 영역 왼쪽 끝에서) */
+	/* [14번] 첫 탭 자리(화면 왼쪽 끝에서) : 업무 영역 왼쪽 끝과 시스템 심볼 오른쪽 + 24px 중 더 오른쪽.
+	   좌측 메뉴를 접든 펴든 같은 자리(심볼 오른쪽 끝은 ksis-layout.js 가 재서 --k-header-left-w 로 줌) */
+	--k-tab-x: max(calc(var(--k-sidebar-w) + var(--k-content-start-x) + 3.5px), calc(var(--k-header-left-w, 0px) + 24px));
 	/* [6번] 업무 화면 좌우 여백(같은 값 → 표 · 검색 영역이 업무 영역 가운데). [47번] 제목은 검색 영역 안쪽 여백만큼 더 들어가 검색 영역 첫 글자와 맞춤 */
 	--k-card-pad-x: 24px;
 	--k-search-pad-x: 16px;
@@ -106,9 +110,12 @@ button, input, select, textarea { font-family: inherit; }
 	background: var(--k-surface);
 }
 
-/* [1번] 전체 폭 상단 가로바. 높이 45px × 세로 배율. 오른쪽 안내 문구 · 아이콘 없음 */
+/* [1번] 전체 폭 상단 가로바. 높이 45px × 세로 배율. 오른쪽 안내 문구 · 아이콘 없음.
+   아래로 그림자를 드리워 좌측 메뉴 · 업무 영역보다 떠 보이게 한다.
+   쌓는 순서(아래 → 위) : 업무 영역 → 좌측 메뉴(z 5) → 가로바(z 10) → 탭 줄(z 20, 가로바 위로 겹쳐 올라온 책갈피) */
 .k-header {
 	position: relative;
+	z-index: 10;
 	flex: 0 0 auto;
 	display: flex;
 	align-items: center;
@@ -116,6 +123,7 @@ button, input, select, textarea { font-family: inherit; }
 	padding: 0 calc(24 * var(--k-ui-y));
 	background: var(--k-topbar);
 	color: #FFFFFF;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
 }
 .k-header-left {
 	display: flex;
@@ -146,12 +154,13 @@ button, input, select, textarea { font-family: inherit; }
 .k-hamburger:hover span { background: var(--k-topbar-hamburger-hover); }
 
 /* [2번] 시스템 심볼(그림, 흰 바탕을 따낸 투명 PNG). 누르면 탭을 모두 닫고 메인 화면으로.
-   가로바(45px) 안에 높이 34px × 세로 배율, 폭은 그림 비율대로(약 90px). KSIS-B 는 그림이 없어도 같은 자리를 비워 둔다 */
+   심볼 본체 오른쪽 'A' 아래 빈 곳에 영문 줄(Kefico Sales Information System - Advanced)을 작게 넣어 그림이 오른쪽으로 길다.
+   가로바(45px) 안에 높이 35px × 세로 배율, 폭은 그림 비율대로(약 202px). KSIS-B 는 그림이 없어도 같은 자리를 비워 둔다 */
 .k-logo {
 	display: flex;
 	align-items: center;
-	height: calc(34 * var(--k-ui-y));
-	min-width: calc(90 * var(--k-ui-y));
+	height: calc(35 * var(--k-ui-y));
+	min-width: calc(202 * var(--k-ui-y));
 	cursor: pointer;
 	user-select: none;
 }
@@ -184,17 +193,20 @@ button, input, select, textarea { font-family: inherit; }
 
 /* [3번] 좌측 메뉴 폭 : 240px 고정(기존 KSIS-A 와 같은 방식 · 같은 폭, 화면 크기와 상관없음). 긴 소메뉴는 끝을 … 로 줄임
    [11번] 바탕 : 진한 메뉴. 가로바 색 계열이지만 가로바보다 한 단계 연하게(진하기 80%) 해 가로바와 구분,
-          왼쪽 위 → 오른쪽 아래로 조금 더 연해지는 대각선 그라데이션(색은 테마 파일 --k-menu-*) */
+          왼쪽 위 → 오른쪽 아래로 조금 더 연해지는 대각선 그라데이션(색은 테마 파일 --k-menu-*)
+          오른쪽으로 그림자를 드리워(업무 영역 왼쪽 끝에만 보임) 업무 영역보다 위에 있는 것처럼. 경계선은 없음(기존 KSIS-A 처럼) */
 .k-sidebar {
 	position: relative;
+	z-index: 5;
 	flex: 0 0 auto;
-	width: 240px;
+	width: var(--k-sidebar-w);
 	overflow: hidden;
 	background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%);
-	transition: width .15s ease;
+	box-shadow: 2px 0 10px rgba(0, 0, 0, .18);
+	transition: width .15s ease, box-shadow .15s ease;
 }
-/* [4번] 접으면 폭 0(완전히 숨김, 0.15초). 접은 상태는 저장하지 않는다 */
-.k-sidebar.collapsed { width: 0; min-width: 0; }
+/* [4번] 접으면 폭 0(완전히 숨김, 0.15초) · 그림자도 없앰. 접은 상태는 저장하지 않는다 */
+.k-sidebar.collapsed { width: 0; min-width: 0; box-shadow: none; }
 .k-sidebar.collapsed .k-menu { display: none; }
 
 .k-menu {
@@ -283,7 +295,8 @@ button, input, select, textarea { font-family: inherit; }
    - 탭 줄 : 따로 칠하지 않는다(투명). 가로바를 가리는 것은 탭(책갈피)뿐이고, 가로바 아래로 내려온 부분은 뒤의 흰 바탕이 보여 흰 띠가 된다.
              탭 위끝은 가로바 가운데 사번 문구 바로 아래(1px 띄움)까지. 1920×1080 이면 탭 32px 중 24px 가 가로바 안, 흰 띠 8px.
              탭이 없으면 줄 자체가 없다(JS 가 .k-tabbar 를 비운다 → :empty 로 숨김)
-   - 좌측 메뉴를 접으면 탭 줄이 시스템 심볼 아래까지 오므로, 심볼을 피해 그 오른쪽부터 탭을 놓는다(ksis-layout.js 가 폭을 잼)
+   - 첫 탭 자리는 화면 기준으로 고정(--k-tab-x) : 좌측 메뉴를 접든 펴든 탭은 움직이지 않는다.
+     업무 영역 왼쪽 끝과 시스템 심볼 오른쪽 + 24px 중 더 오른쪽(1920×1080 이면 심볼이 길어 심볼 쪽, 화면 왼쪽에서 290px)
    - 탭 한 개 = 세 부분
        ① 왼쪽(.k-tab-l, 곡선 폭 16px) : 아래 발끝에서 S 곡선으로 올라가 위 왼쪽이 둥근 작은 영역
        ② 가운데(.k-tab 자체) : 글자 · ✕ 가 있는 직사각형. 높이 32px, 글자 12px 굵게, 폭은 글자만큼(최대 200px)
@@ -300,14 +313,15 @@ button, input, select, textarea { font-family: inherit; }
 	align-items: flex-end;
 	height: calc(var(--k-tab-h) + 4px);                 /* 탭 + 위 그림자 자리 4px */
 	margin-top: calc(-1 * (var(--k-tab-rise) + 4px));   /* 가로바 안으로 올림 */
-	padding: 0 0 0 calc(var(--k-content-start-x) + 3.5px);
+	padding: 0 0 0 calc(var(--k-tab-x) - var(--k-sidebar-w)); /* 업무 영역은 좌측 메뉴 폭만큼 오른쪽에서 시작하므로 그만큼 뺌 */
 	overflow: hidden;
 	background: transparent;
 	pointer-events: none;                               /* 탭 사이 빈 곳은 아래 가로바 클릭을 막지 않음 */
+	transition: padding-left .15s ease;                 /* 좌측 메뉴 폭 바뀜(.15s ease)과 같이 움직여 화면에서는 탭이 제자리 */
 }
-/* 좌측 메뉴를 접었을 때 : 시스템 심볼(≡ 포함) 오른쪽부터 */
+/* 좌측 메뉴를 접었을 때 : 업무 영역이 화면 왼쪽 끝부터라 --k-tab-x 그대로 */
 .k-sidebar.collapsed + .k-workspace .k-tabbar {
-	padding-left: calc(var(--k-header-left-w, 300px) + 24px);
+	padding-left: var(--k-tab-x);
 }
 .k-tabbar:empty { display: none; }
 .k-tab {

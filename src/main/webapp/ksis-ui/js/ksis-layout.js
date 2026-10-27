@@ -43,7 +43,7 @@
 			// ---- [4번] 메뉴 접기 ----
 			var ham = document.querySelector(".k-hamburger");
 			if (ham) ham.addEventListener("click", function () { sidebar.classList.toggle("collapsed"); });
-			// 가로바 왼쪽(≡ + 시스템 심볼) 오른쪽 끝 위치. 탭 줄이 가로바와 겹치므로 메뉴를 접었을 때 이 오른쪽부터 탭을 놓는다
+			// 가로바 왼쪽(≡ + 시스템 심볼) 오른쪽 끝 위치. 탭 줄이 가로바와 겹치므로 첫 탭은 이보다 오른쪽에 놓는다(ksis-common.css --k-tab-x)
 			// 가운데 사번 문구 아래끝도 잰다(탭 위끝을 이 아래까지만 올린다)
 			var headLeft = document.querySelector(".k-header-left");
 			var badge = document.querySelector(".k-user-badge");
