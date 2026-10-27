@@ -13,10 +13,17 @@
 <title>${sysCode} 영업정보시스템</title>
 <link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-theme-${theme}.css'/>">
 <link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-common.css'/>">
-<%-- 탭 검토(/tabs) 전용 : ?tabPlan=1 이면 탭만 1안 모양으로, ?tabPlan=3 이면 3안(가로바 위로 올림). 2안이 기본 --%>
-<c:if test="${param.tabPlan == '1' || param.tabPlan == '3'}"><link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-tabs-plan${param.tabPlan}.css'/>"></c:if>
-<%-- 탭 검토(/tabs) 전용 : ?menuPlan=2~5 이면 좌측 메뉴 색을 그 안으로(1안 = 지금 요구사항이 기본) --%>
-<c:if test="${fn:length(param.menuPlan) == 1 && fn:contains('2345', param.menuPlan)}"><link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-menu-plan${param.menuPlan}.css'/>"></c:if>
+<%-- 탭 검토(/tabs) 전용. 값이 없으면 아무것도 덧붙이지 않아 main(1차 검토본)과 똑같다(탭 1안 · 좌측 메뉴 1안).
+     ?tabPlan=2 : 탭 2안(책갈피 탭, 가로바 아래 40px 줄) / ?tabPlan=3 : 2안 탭을 가로바 위로 올린 3안
+     ?menuPlan=2~5 : 좌측 메뉴 색 2~5안 --%>
+<c:set var="tabPlan" value="${param.tabPlan == '2' || param.tabPlan == '3' ? param.tabPlan : ''}"/>
+<c:set var="menuPlan" value="${fn:length(param.menuPlan) == 1 && fn:contains('2345', param.menuPlan) ? param.menuPlan : ''}"/>
+<c:if test="${not empty tabPlan || not empty menuPlan}"><script>document.documentElement.setAttribute("data-theme", "${theme}");</script></c:if>
+<c:if test="${not empty tabPlan}"><link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-tabs-plan2.css'/>">
+<script src="<c:url value='/ksis-ui/js/ksis-tabs-plan2.js'/>"></script></c:if>
+<c:if test="${tabPlan == '3'}"><link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-tabs-plan3.css'/>"></c:if>
+<c:if test="${not empty menuPlan}"><link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-menu-plans.css'/>">
+<link rel="stylesheet" href="<c:url value='/ksis-ui/css/ksis-menu-plan${menuPlan}.css'/>"></c:if>
 <link rel="stylesheet" href="<c:url value='/demo/demo-pane.css'/>">
 <script src="<c:url value='/ksis-ui/js/ksis-dialog.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-modal.js'/>"></script>

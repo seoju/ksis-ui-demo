@@ -19,7 +19,7 @@ import com.kefico.ksis.uidemo.guide.Variant;
  * 화면 주소
  *   /                      영역 목록
  *   /summary               0번 비교표 및 요구사항 요약(49행 전체)
- *   /tabs                  탭 검토 : 화면 탭 1~3안 × 좌측 메뉴 색 1~5안 × A·B 조합을 한 화면에(2안 가지 전용)
+ *   /tabs                  탭 검토 : 화면 탭 1~3안 × 좌측 메뉴 색 1~5안 × A·B 조합을 한 화면에(plan-b 가지 전용)
  *   /compare/{area}        한 영역의 4칸 비교 + 그 영역의 요구사항
  *   /view/{variant}/{area} 4칸 중 한 칸(비교 화면이 iframe 으로 부른다. 따로 열어도 된다)
  *   /fragment/{variant}/screen  ① KSIS-A 원래 틀이 탭을 열 때 $(".contens-wrap").load(url) 로 불러오는 업무 화면 조각

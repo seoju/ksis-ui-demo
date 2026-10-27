@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/common/taglibs.jspf"%>
 <%-- ③④ 요구사항 — 전체 틀 [비교표 1~18번]. KSIS-A 의 main.jsp + leftMenu.jsp 자리에 들어갈 마크업 --%>
 <!DOCTYPE html>
-<html lang="ko" data-theme="${theme}">
+<html lang="ko">
 <head>
 <%@ include file="/WEB-INF/views/req/_head.jspf"%>
 <script src="<c:url value='/ksis-ui/js/ksis-layout.js'/>"></script>
@@ -44,7 +44,7 @@
 		</nav>
 
 		<div class="k-workspace">
-			<%-- [14번] 화면 탭 줄(2안 : 가로바 아래 40px 줄, 책갈피 탭. 탭이 없으면 줄도 없음) --%>
+			<%-- [14번] 화면 탭 줄(탭이 없으면 줄도 없음) --%>
 			<div class="k-tabbar" role="tablist"></div>
 			<%-- [6번] 본문 : 흰 영역이 꽉 채움 --%>
 			<main class="k-content">

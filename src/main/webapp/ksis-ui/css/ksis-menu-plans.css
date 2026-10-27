@@ -1,0 +1,17 @@
+@charset "utf-8";
+/* =====================================================================
+   [11번] 좌측 메뉴 2~5안 공통 — 탭 검토 화면에서 ?menuPlan=2~5 일 때만 ksis-common.css 뒤, 각 안 파일(ksis-menu-plan2~5.css) 앞에 덧붙인다.
+   기본 ksis-common.css(1안 = 지금 요구사항, main 과 같음)의 메뉴 색 자리를 --k-menu-* 변수로 바꿔 둔다.
+   변수 값이 없으면 1안 색 그대로. 각 안 파일은 이 변수 값만 바꾼다(3 · 4 · 5안은 몇 줄 더).
+   ===================================================================== */
+.k-sidebar {
+	background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end, #FFFFFF) 100%);
+}
+.k-menu-group-header,
+.k-menu-item { color: var(--k-menu-text, #4C4C4C); }
+.k-menu-group-header:hover,
+.k-menu-item:hover { background: var(--k-menu-hover-bg, var(--k-primary-tint)); color: var(--k-menu-hover-text, var(--k-text-title)); }
+.k-menu-group-header.expanded,
+.k-menu-group-header.expanded:hover,
+.k-menu-item.active,
+.k-menu-item.active:hover { background: var(--k-menu-active-bg, var(--k-primary-soft)); color: var(--k-menu-active-text, var(--k-primary)); }

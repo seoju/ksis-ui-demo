@@ -1,9 +1,9 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/taglibs.jspf"%>
-<%-- 탭 검토 : 화면 탭(비교표 14번) 1~3안 × 좌측 메뉴 색(11번) 1~5안 × A·B 조합을 한 화면에서(2안 가지 전용).
+<%-- 탭 검토 : 화면 탭(비교표 14번) 1~3안 × 좌측 메뉴 색(11번) 1~5안 × A·B 조합을 한 화면에서(plan-b 가지 전용).
      칸마다 실제 메인 틀을 iframe 으로 실제 크기(기본 1600×900 화면)로 열어 위쪽만 보이게 하고,
      첫 대메뉴를 펼친 뒤 소메뉴를 눌러 탭을 몇 개 띄워 둔다(보는 탭은 두 번째).
-     요구사항 칸 주소 : /view/req-{a|b}/layout?tabPlan=1|3&menuPlan=2~5 (탭 2안 · 메뉴 1안은 값 없음) --%>
+     요구사항 칸 주소 : /view/req-{a|b}/layout?tabPlan=2|3&menuPlan=2~5 (탭 1안 · 메뉴 1안은 값 없음 = main 과 같은 기본 화면) --%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -84,7 +84,7 @@
 	var BASE = "${pageContext.request.contextPath}";
 	// 화면 탭 안(비교표 14번)
 	var TABS = [
-		{ no: 1, name: "탭 1안", desc: "1차 검토본(main) : 가로바에 걸친 B 서류철 탭, 높이 20px" },
+		{ no: 1, name: "탭 1안", desc: "1차 검토본(main, 지금 기본) : 가로바에 걸친 B 서류철 탭, 높이 20px" },
 		{ no: 2, name: "탭 2안", desc: "참고 시스템 책갈피 탭(그림 · CSS 에서 따 옴), 가로바 아래 40px 탭 줄" },
 		{ no: 3, name: "탭 3안", desc: "2안 탭을 진한 가로바 위로 겹쳐 올림, 아래 흰 띠만 남음(1920×1080 에서 8px)" }
 	];
@@ -114,7 +114,7 @@
 
 	function reqUrl(theme, tab, menu) {
 		var q = [];
-		if (tab !== 2) q.push("tabPlan=" + tab);
+		if (tab !== 1) q.push("tabPlan=" + tab);
 		if (menu !== 1) q.push("menuPlan=" + menu);
 		return BASE + "/view/req-" + theme + "/layout" + (q.length ? "?" + q.join("&") : "");
 	}

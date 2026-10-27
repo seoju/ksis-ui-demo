@@ -24,13 +24,10 @@
 	/* 좌측 메뉴 바탕 그라데이션 시작색 — 11번 */
 	--k-menu-grad-start: #F5F9FE;
 
-	/* 화면 탭 — 14번(2안 : 가로바 아래 따로 선 탭 줄, 책갈피 탭) */
-	--k-tabbar-bg: #C3D1E5;        /* 탭 줄 바탕 */
-	--k-tab-bg: #E5EAF1;           /* 안 보는 탭 */
-	--k-tab-hover-bg: #E6EFFF;     /* 마우스 올림 */
-	--k-tab-active-bg: #FFFFFF;      /* 보는 탭 = 본문과 같은 흰 바탕 */
-	--k-tab-text: #9F9F9F;           /* 안 보는 탭 글자 */
-	--k-tab-active-text: #323232;    /* 보는 탭 글자 */
+	/* 화면 탭 — 14번 (가로바 위에 시작색을 78% 덮은 불투명 색) */
+	--k-tab-bg: #C1CBE0;
+	--k-tab-hover-bg: #F5F9FE;
+	--k-tab-active-bg: #EDF4FF;
 
 	/* 수정 버튼(테두리 버튼) — 21·24·25번 */
 	--k-edit-border: #B2D0FC;

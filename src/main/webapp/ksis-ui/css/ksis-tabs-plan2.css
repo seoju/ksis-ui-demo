@@ -1,0 +1,81 @@
+@charset "utf-8";
+/* =====================================================================
+   [14번] 화면 탭 2안 — 사내 다른 시스템의 책갈피 탭을 그대로 옮김(그 시스템의 탭 그림 · 화면 캡처를 픽셀로 재서 맞춤).
+   기본(ksis-common.css)은 1안(1차 검토본, main 과 같음). 탭 검토 화면에서 ?tabPlan=2 · ?tabPlan=3 일 때만
+   ksis-common.css 뒤에 이 파일과 ksis-tabs-plan2.js(곡선 · 겹침 순서)를 덧붙인다. 3안은 이 위에 ksis-tabs-plan3.css 를 더 얹는다.
+   - 탭 줄 : 가로바 아래 따로 선 40px 줄, 탭은 아래에 붙음. 탭이 없으면 줄 자체가 없다(1안과 같음)
+   - 탭 한 개 = 세 부분
+       ① 왼쪽(.k-tab-l, 곡선 폭 16px) : 아래 발끝에서 S 곡선으로 올라가 위 왼쪽이 둥근 작은 영역
+       ② 가운데(.k-tab 자체) : 글자 · ✕ 가 있는 직사각형. 높이 32px, 글자 12px 굵게, 폭은 글자만큼(최대 200px)
+       ③ 오른쪽(.k-tab-r, 곡선 폭 23px) : 위 왼쪽에서 오른쪽 아래로 자연스럽게 내려가는 곡선 + 바깥쪽 옅은 그림자
+       ①③ 곡선은 참고 시스템의 탭 그림(tab_sprite.png)에서 픽셀로 따 온 좌표(ksis-tabs-plan2.js TAB_EDGES)
+   - ①③ 은 가운데보다 1px 짧다 → 양쪽 발끝 아래로 탭 줄 바탕색(연한 남색) 선이 1px 보인다(가운데는 본문까지 닿음)
+   - 탭 사이 : 가운데끼리 25px(왼쪽 10 + 오른쪽 15). 왼쪽 탭의 ③ 이 오른쪽 탭의 ① 위에 겹친다(앞 탭이 위, 보는 탭은 맨 위)
+   - 보는 탭은 흰 바탕(아래 본문과 이어짐) + 진한 글자, 안 보는 탭은 연한 바탕 + 회색 글자
+   어느 안으로 정하든 KSIS 에는 ksis-common.css 하나에 합쳐 넣는다.
+   ===================================================================== */
+:root {
+	--k-tabbar-h: 40px;
+	--k-tab-h: 32px;
+	--k-tab-active-bg: #FFFFFF;    /* 보는 탭 = 본문과 같은 흰 바탕 */
+	--k-tab-text: #9F9F9F;         /* 안 보는 탭 글자 */
+	--k-tab-active-text: #323232;  /* 보는 탭 글자 */
+}
+:root[data-theme="a"] {
+	--k-tabbar-bg: #C3D1E5;        /* 탭 줄 바탕 */
+	--k-tab-bg: #E5EAF1;           /* 안 보는 탭 */
+	--k-tab-hover-bg: #E6EFFF;     /* 마우스 올림 */
+}
+:root[data-theme="b"] {
+	--k-tabbar-bg: #C4DFCF;
+	--k-tab-bg: #E4F1E9;
+	--k-tab-hover-bg: #E3F7EA;
+}
+.k-tabbar {
+	margin: 0;
+	padding: 0 0 0 calc(var(--k-content-start-x) + 3.5px); /* ① 발끝 = 내용 왼쪽 시작선 */
+	background: var(--k-tabbar-bg);
+	pointer-events: auto;
+}
+.k-tab {
+	--k-tab-fill: var(--k-tab-bg);
+	flex: 0 1 auto;
+	gap: 6px;
+	min-width: 40px;
+	max-width: 200px;
+	height: var(--k-tab-h);
+	margin: 0 15px 0 10px;
+	padding: 0 2px 0 4px;
+	background: var(--k-tab-fill);
+	font-size: 12px;
+	font-weight: 700;
+	color: var(--k-tab-text);
+}
+.k-tab::before { content: none; } /* 1안 서류철 모양 끄기 */
+.k-tab-l,
+.k-tab-r {
+	position: absolute;
+	top: -4px;                 /* 그림 위쪽 그림자 자리 4px */
+	height: 35px;              /* 곡선 31px(탭보다 1px 짧음 → 발끝 아래 바탕색 선) + 위 4px */
+	overflow: visible;
+	pointer-events: none;
+}
+.k-tab-l { left: -19px; width: 20px; }  /* 곡선 폭 16px(가운데와 1px 겹침) + 왼쪽 그림자 자리 4px */
+.k-tab-r { right: -34px; width: 35px; filter: drop-shadow(2.5px -1px 1px rgba(0, 0, 0, .09)); } /* 가운데와 1px 겹침, 곡선 + 그림자 */
+.k-tab-l path,
+.k-tab-r path { fill: var(--k-tab-fill); }
+.k-tab:hover { --k-tab-fill: var(--k-tab-hover-bg); color: var(--k-text-title); }
+.k-tab.active { --k-tab-fill: var(--k-tab-active-bg); z-index: 99 !important; color: var(--k-tab-active-text); }
+/* 보는 탭 · 마우스 올린 탭은 왼쪽 곡선에도 그림자(원본 그림과 같음) */
+.k-tab:hover .k-tab-l,
+.k-tab.active .k-tab-l { filter: drop-shadow(-3px -.5px 1px rgba(0, 0, 0, .09)); }
+/* [18번] 탭 닫기 ✕ */
+.k-tab-close {
+	flex: 0 0 12px;
+	width: 12px;
+	height: 16px;
+	color: inherit;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 16px;
+}
