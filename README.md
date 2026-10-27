@@ -51,7 +51,7 @@ war 로 만들려면 `./mvnw package` → `target/ksis-ui-demo.war`.
 | `ksis-ui/css/ksis-theme-a.css` | 색 전부 | **색만** 있는 파일. A 는 이 파일, B 는 `ksis-theme-b.css` |
 | `ksis-ui/css/ksis-common.css` | 1~49 | 공통 규칙(크기·간격·모양). 테마 파일 **다음에** 넣습니다 |
 | `ksis-ui/js/ksis-layout.js` | 1~18 | 상단 가로바 · 좌측 메뉴 · 화면 탭. `ksis.layout.init({ open(path, title, viewEl) })` |
-| `ksis-ui/img/ksis-a-logo.png` | 2 | 가로바 왼쪽 KSIS-A 심볼(흰 바탕을 따낸 투명 PNG). 'A' 아래에 영문 줄(Kefico Sales Information System Advanced)을 넣어 옆으로 긴 그림. 진한 가로바용으로 남색 글자는 흰색, 'Advanced' 는 밝은 파랑. 원래 색 · 원래 배치(영문 줄이 심볼 아래)인 누끼 원본은 `ksis-a-symbol.png` |
+| `ksis-ui/img/ksis-a-logo.png` | 2 | 가로바 왼쪽 KSIS-A 심볼(흰 바탕을 따낸 투명 PNG). 'A' 아래에 영문 줄(Kefico Sales Information System - Advanced)을 넣어 옆으로 긴 그림. 진한 가로바용으로 남색 글자는 흰색, '- Advanced' 는 밝은 파랑. 원래 색 · 원래 배치(영문 줄이 심볼 아래)인 누끼 원본은 `ksis-a-symbol.png` |
 | `ksis-ui/js/ksis-dialog.js` | 44 · 27 | `ksis.showAlert` / `ksis.showConfirm` — **`biz.showAlert` / `biz.showConfirm` 과 인자가 같습니다**(바꿔 끼우기) |
 | `ksis-ui/js/ksis-modal.js` | 43 · 27 | `ksis.modal.open(id)` / `close(id)`. 머리줄 끌기, ✕ · Esc, 열면 주 버튼에 포커스 |
 | `ksis-ui/js/ksis-select.js` | 40 · 42 | `select.k-select` → 둥근 펼침 목록. 모드 버튼 `.k-seg` |
@@ -94,7 +94,7 @@ Tabulator 는 `<div>` 로 그리기 때문에 이 기능이 붙지 않습니다.
 2. **27번 Enter 키** : 팝업이 열릴 때 포커스만 넣었습니다(10/21 미팅 내용 정정). 작성창(43번)은 첫 번째 작성 항목, 알림 · 확인 창(44번)은 주 버튼(파랑 · 초록). KSIS-A 결재 화면은 결재자(중간 · 최종)가 열 때 확인창처럼 [승인]에 포커스 — `ksis.modal.open(id, { focus: "button" })`(KSIS-B 해당 없음). KSIS-B 의 `enterKey.js`(검색칸에서 Enter = [검색])는 넣지 않았습니다.
 3. **17·18번 탭** : 최대 10개, 넘으면 가장 오래 안 본 탭을 안내 없이 닫음. 보던 탭을 닫으면 오른쪽 이웃(없으면 왼쪽), 하나도 없으면 메인. 우클릭 메뉴 · [전체닫기] · 가운데 버튼 닫기는 없습니다.
 4. **9번 메뉴** : 대분류는 각자 따로 펼치고, 펼친 상태를 이 PC 에 기억합니다(`localStorage` 의 `ksis.menu.open`). 좌측 메뉴 접힘(4번)은 기억하지 않습니다.
-5. **1·2번 가로바** : 오른쪽 위 문구·아이콘은 뺐습니다. 시스템 이름 글자 대신 KSIS-A 심볼 그림을 넣었습니다(가로바 안 위 여백 2.5px, 심볼 본체 높이 40px, 폭 약 270px). 영문 줄은 'Kefico Sales Information System Advanced'('-' 와 띄어쓰기를 뺌)로, 심볼 아래가 아니라 'A' 아래 빈 곳에 네모 쪽으로 조금 붙여 넣었고, 'A' 와 너무 붙지 않게 영문 줄만 2px 내렸습니다(그림 높이 42px, 가로바 아래끝까지 0.5px). ≡ 버튼은 화면 왼쪽 끝과 심볼 네모 왼쪽 끝의 가운데에 둡니다(왼쪽 여백 15px = ≡ 와 심볼 사이 15px). 진한 남색 가로바에서는 남색 글자가 안 보여 흰색으로, 작은 'Advanced' 는 밝은 파랑으로 바꿨습니다. KSIS-B 심볼은 아직 없어 같은 자리만 비워 두었습니다(누르면 메인으로 가는 동작은 그대로). 브라우저 창 제목은 "KSIS-A 영업정보시스템"으로 고정(7번).
+5. **1·2번 가로바** : 오른쪽 위 문구·아이콘은 뺐습니다. 시스템 이름 글자 대신 KSIS-A 심볼 그림을 넣었습니다(가로바 안 위 여백 2.5px, 심볼 본체 높이 40px, 폭 약 275px). 영문 줄은 원래 그림처럼 'Kefico Sales Information System - Advanced' 로, 심볼 아래가 아니라 'A' 아래 빈 곳에 네모 쪽으로 조금 붙여 넣었고, 'A' 와 너무 붙지 않게 영문 줄만 2px 내렸습니다(그림 높이 42px, 가로바 아래끝까지 0.5px). ≡ 버튼은 화면 왼쪽 끝과 심볼 네모 왼쪽 끝의 가운데에 둡니다(왼쪽 여백 15px = ≡ 와 심볼 사이 15px). 진한 남색 가로바에서는 남색 글자가 안 보여 흰색으로, 작은 '- Advanced' 는 밝은 파랑으로 바꿨습니다. KSIS-B 심볼은 아직 없어 같은 자리만 비워 두었습니다(누르면 메인으로 가는 동작은 그대로). 브라우저 창 제목은 "KSIS-A 영업정보시스템"으로 고정(7번).
 6. **41번 날짜** : `yyyyMMdd` · `yyyy-MM-dd` · `yyyy.MM.dd` · `yyyy/MM/dd` 를 모두 받아 칸을 떠나면 `yyyy-MM-dd` 로 보이고, 서버 값은 `yyyyMMdd`(`input.dataset.value`). 달력 버튼은 `tabindex="-1"` 이라 Tab 이 다음 날짜칸으로 갑니다. 맨 앞 날짜처럼 달력이 화면 왼쪽 밖으로 나가면 왼쪽 맞춤으로 엽니다.
 7. **33번 KSIS-B 메모(데이터형 32px 유지)** : `table.k-grid.k-grid-dense` 로 두 테마 모두에 넣었습니다(쓸지 말지는 화면에서 고름).
 8. **37번 편집 칸** : 테두리 색은 주색(A 파랑 / B 초록), 바탕 연노랑, 틀리면 빨강.
