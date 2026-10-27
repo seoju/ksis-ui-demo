@@ -110,7 +110,8 @@ button, input, select, textarea { font-family: inherit; }
 	background: var(--k-surface);
 }
 
-/* [1번] 전체 폭 상단 가로바. 높이 45px × 세로 배율. 오른쪽 안내 문구 · 아이콘 없음. ≡ 버튼은 왼쪽 끝에서 12px(심볼 자리를 넓히려고 붙임).
+/* [1번] 전체 폭 상단 가로바. 높이 45px × 세로 배율. 오른쪽 안내 문구 · 아이콘 없음.
+   ≡ 버튼은 화면 왼쪽 끝과 시스템 심볼(네모) 왼쪽 끝의 가운데 : 왼쪽 여백 15px = ≡ 와 심볼 사이 15px.
    아래로 그림자를 드리워 좌측 메뉴 · 업무 영역보다 떠 보이게 한다.
    쌓는 순서(아래 → 위) : 업무 영역 → 좌측 메뉴(z 5) → 가로바(z 10) → 탭 줄(z 20, 가로바 위로 겹쳐 올라온 책갈피) */
 .k-header {
@@ -120,7 +121,7 @@ button, input, select, textarea { font-family: inherit; }
 	display: flex;
 	align-items: center;
 	height: calc(45 * var(--k-ui-y));
-	padding: 0 calc(24 * var(--k-ui-y)) 0 calc(12 * var(--k-ui-y));
+	padding: 0 calc(24 * var(--k-ui-y)) 0 calc(15 * var(--k-ui-y));
 	background: var(--k-topbar);
 	color: #FFFFFF;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
@@ -128,7 +129,7 @@ button, input, select, textarea { font-family: inherit; }
 .k-header-left {
 	display: flex;
 	align-items: center;
-	gap: calc(18 * var(--k-ui-y));
+	gap: calc(15 * var(--k-ui-y));
 }
 
 /* [4번] 가로줄 세 개 ≡ 메뉴 접기 버튼(가로바 왼쪽, 같은 버튼으로 접기 · 펴기) */
@@ -155,13 +156,15 @@ button, input, select, textarea { font-family: inherit; }
 
 /* [2번] 시스템 심볼(그림, 흰 바탕을 따낸 투명 PNG). 누르면 탭을 모두 닫고 메인 화면으로.
    심볼 본체 오른쪽 'A' 아래 빈 곳에 영문 줄(Kefico Sales Information System Advanced)을 넣어 그림이 오른쪽으로 길다.
-   가로바(45px) 안 위아래 여백 2.5px 씩 → 높이 40px × 세로 배율, 폭은 그림 비율대로(약 270px).
+   심볼 본체는 가로바(45px) 안 위 여백 2.5px · 높이 40px × 세로 배율. 영문 줄만 'A' 와 띄우려고 2px 더 내려 그림 높이 42px
+   (가로바 아래끝까지 0.5px), 폭은 그림 비율대로(약 270px).
    KSIS-B 는 그림이 없어도 같은 자리를 비워 둔다 */
 .k-logo {
 	display: flex;
 	align-items: center;
-	height: calc(40 * var(--k-ui-y));
+	height: calc(42 * var(--k-ui-y));
 	min-width: calc(270 * var(--k-ui-y));
+	margin-top: calc(2 * var(--k-ui-y));    /* 가운데 맞춤에서 1px 아래로 → 위 여백 2.5px 그대로, 늘어난 2px 는 아래로 */
 	cursor: pointer;
 	user-select: none;
 }
