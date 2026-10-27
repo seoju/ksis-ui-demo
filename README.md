@@ -116,7 +116,7 @@ src/main/java/com/kefico/ksis/uidemo/
   guide/DemoArea.java            영역 7개(비교표 행 범위)
   guide/Variant.java             칸 4개
   guide/RequirementCatalog.java  비교표 49행(resources/requirements.json)
-  guide/SampleData.java          시연용 표 · 메뉴 데이터
+  guide/SampleData.java          시연용 표 · 메뉴 데이터(탭을 10개 넘게 열어 보도록 더미 소메뉴를 넣어 모두 33개, 화면 내용은 같은 예시)
 src/main/resources/requirements.json   비교표 내용(A 원래 · B 원래 · 요구사항 · B 메모)
 src/main/webapp/
   ksis-ui/                       ★ KSIS-A 에 옮길 CSS · JS
