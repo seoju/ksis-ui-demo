@@ -110,7 +110,7 @@ button, input, select, textarea { font-family: inherit; }
 	background: var(--k-surface);
 }
 
-/* [1번] 전체 폭 상단 가로바. 높이 45px × 세로 배율. 오른쪽 안내 문구 · 아이콘 없음.
+/* [1번] 전체 폭 상단 가로바. 높이 45px × 세로 배율. 오른쪽 안내 문구 · 아이콘 없음. ≡ 버튼은 왼쪽 끝에서 12px(심볼 자리를 넓히려고 붙임).
    아래로 그림자를 드리워 좌측 메뉴 · 업무 영역보다 떠 보이게 한다.
    쌓는 순서(아래 → 위) : 업무 영역 → 좌측 메뉴(z 5) → 가로바(z 10) → 탭 줄(z 20, 가로바 위로 겹쳐 올라온 책갈피) */
 .k-header {
@@ -120,7 +120,7 @@ button, input, select, textarea { font-family: inherit; }
 	display: flex;
 	align-items: center;
 	height: calc(45 * var(--k-ui-y));
-	padding: 0 calc(24 * var(--k-ui-y));
+	padding: 0 calc(24 * var(--k-ui-y)) 0 calc(12 * var(--k-ui-y));
 	background: var(--k-topbar);
 	color: #FFFFFF;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
@@ -154,14 +154,14 @@ button, input, select, textarea { font-family: inherit; }
 .k-hamburger:hover span { background: var(--k-topbar-hamburger-hover); }
 
 /* [2번] 시스템 심볼(그림, 흰 바탕을 따낸 투명 PNG). 누르면 탭을 모두 닫고 메인 화면으로.
-   심볼 본체 오른쪽 'A' 한 글자만 영문 줄 소문자(e · o) 높이만큼 올리고, 그 아래 빈 곳에 영문 줄(Kefico Sales Information System - Advanced)을
-   넣어 그림이 오른쪽으로 길다. 가로바(45px) 안 위아래 여백 2.5px 씩 → 높이 40px × 세로 배율, 폭은 그림 비율대로(약 328px).
+   심볼 본체 오른쪽 'A' 아래 빈 곳에 영문 줄(Kefico Sales Information System - Advanced)을 작게 넣어 그림이 오른쪽으로 길다.
+   가로바(45px) 안 위아래 여백 2.5px 씩 → 높이 40px × 세로 배율, 폭은 그림 비율대로(약 231px).
    KSIS-B 는 그림이 없어도 같은 자리를 비워 둔다 */
 .k-logo {
 	display: flex;
 	align-items: center;
 	height: calc(40 * var(--k-ui-y));
-	min-width: calc(328 * var(--k-ui-y));
+	min-width: calc(231 * var(--k-ui-y));
 	cursor: pointer;
 	user-select: none;
 }
@@ -297,7 +297,7 @@ button, input, select, textarea { font-family: inherit; }
              탭 위끝은 가로바 가운데 사번 문구 바로 아래(1px 띄움)까지. 1920×1080 이면 탭 32px 중 24px 가 가로바 안, 흰 띠 8px.
              탭이 없으면 줄 자체가 없다(JS 가 .k-tabbar 를 비운다 → :empty 로 숨김)
    - 첫 탭 자리는 화면 기준으로 고정(--k-tab-x) : 좌측 메뉴를 접든 펴든 탭은 움직이지 않는다.
-     업무 영역 왼쪽 끝과 시스템 심볼 오른쪽 + 24px 중 더 오른쪽(1920×1080 이면 심볼이 길어 심볼 쪽, 화면 왼쪽에서 416px)
+     업무 영역 왼쪽 끝과 시스템 심볼 오른쪽 + 24px 중 더 오른쪽(1920×1080 이면 심볼이 길어 심볼 쪽, 화면 왼쪽에서 307px)
    - 탭 한 개 = 세 부분
        ① 왼쪽(.k-tab-l, 곡선 폭 16px) : 아래 발끝에서 S 곡선으로 올라가 위 왼쪽이 둥근 작은 영역
        ② 가운데(.k-tab 자체) : 글자 · ✕ 가 있는 직사각형. 높이 32px, 글자 12px 굵게, 폭은 글자만큼(최대 200px)
