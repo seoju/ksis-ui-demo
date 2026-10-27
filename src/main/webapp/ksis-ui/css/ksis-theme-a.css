@@ -12,8 +12,7 @@
 	--k-primary-press: #0065DA;        /* 누르는 동안 */
 	--k-primary-shadow: rgba(52, 136, 255, .25);
 	--k-primary-shadow-hover: rgba(52, 136, 255, .35);
-	--k-primary-soft: #EDF4FF;         /* 선택 메뉴 · 펼친 대메뉴 · 입력칸 포커스 빛 */
-	--k-primary-tint: rgba(52, 136, 255, .10); /* 메뉴 마우스 올림(주 색 10%) */
+	--k-primary-soft: #EDF4FF;         /* 연한 주 색 바탕(달력 · 페이지 번호 올림, 입력칸 포커스 빛 등) */
 	--k-primary-tint-strong: rgba(52, 136, 255, .15);
 	--k-primary-deep: #1A56B8;         /* 달력 머리글 글자 */
 
@@ -21,13 +20,18 @@
 	--k-topbar: #082878;
 	--k-topbar-hamburger-hover: #D6E4FF;
 
-	/* 좌측 메뉴 바탕 그라데이션 시작색 — 11번 */
-	--k-menu-grad-start: #F5F9FE;
+	/* 좌측 메뉴 — 11번(진한 메뉴 : 가로바 색의 진하기 80%, 오른쪽 아래로 조금 더 연하게) */
+	--k-menu-grad-start: #2B50A3;
+	--k-menu-grad-end: #3359AC;
+	--k-menu-text: #E4EAF7;          /* 메뉴 글자(흰색에 가까운 파랑) */
+	--k-menu-hover-bg: rgba(255, 255, 255, .12); /* 마우스 올림 = 흰 12% 겹침 */
 
-	/* 화면 탭 — 14번 (가로바 위에 시작색을 78% 덮은 불투명 색) */
-	--k-tab-bg: #C1CBE0;
-	--k-tab-hover-bg: #F5F9FE;
-	--k-tab-active-bg: #EDF4FF;
+	/* 화면 탭 — 14번(책갈피 탭을 가로바 위로 겹쳐 올림. 탭 줄 바탕은 흰색) */
+	--k-tab-bg: #E5EAF1;           /* 안 보는 탭 */
+	--k-tab-hover-bg: #E6EFFF;     /* 마우스 올림 */
+	--k-tab-active-bg: #FFFFFF;      /* 보는 탭 = 본문과 같은 흰 바탕 */
+	--k-tab-text: #9F9F9F;           /* 안 보는 탭 글자 */
+	--k-tab-active-text: #323232;    /* 보는 탭 글자 */
 
 	/* 수정 버튼(테두리 버튼) — 21·24·25번 */
 	--k-edit-border: #B2D0FC;

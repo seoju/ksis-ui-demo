@@ -11,14 +11,14 @@
 <%@ include file="/WEB-INF/views/req/_icons.jspf"%>
 <div class="k-shell">
 
-	<%-- [1번] 전체 폭 상단 가로바 : ≡ · 시스템명 | 가운데 사번 + 문구 | 오른쪽 없음
+	<%-- [1번] 전체 폭 상단 가로바 : ≡ · 시스템 심볼 | 가운데 사번 + 문구 | 오른쪽 없음
 	     A : 사번 · 접속권한 · 직급(문구 2개). B : 조직도 정보 없이 사번으로 권한만 정하므로 직급을 몰라 문구 1개 --%>
 	<header class="k-header">
 		<div class="k-header-left">
 			<button type="button" class="k-hamburger" title="메뉴 열기/닫기"><span></span><span></span><span></span></button>
+			<%-- [2번] 시스템 심볼(글자 대신 그림). 누르면 탭을 모두 닫고 첫 화면으로. KSIS-B 심볼은 아직 없어 자리만 비워 둠 --%>
 			<div class="k-logo" title="처음 화면으로 이동">
-				<span class="k-logo-name">${sysName}</span>
-				<span class="k-logo-full">${sysFull}</span>
+				<c:if test="${theme != 'b'}"><img class="k-logo-img" src="<c:url value='/ksis-ui/img/ksis-a-logo.png'/>" alt="${sysCode}"></c:if>
 			</div>
 		</div>
 		<div class="k-user-badge">K123456 ${theme == 'b' ? '일반 담당자' : '영업인원 - WG장'}</div>
@@ -35,7 +35,7 @@
 						</button>
 						<div class="k-submenu">
 							<c:forEach var="m" items="${g.items()}">
-								<a class="k-menu-item" data-path="${m.path()}" data-title="${m.title()}">${m.title()}</a>
+								<a class="k-menu-item" data-path="${m.path()}" data-title="${m.title()}" title="${m.title()}">${m.title()}</a>
 							</c:forEach>
 						</div>
 					</div>

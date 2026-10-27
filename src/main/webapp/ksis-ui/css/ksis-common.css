@@ -71,10 +71,14 @@
 	--k-sb-pad: clamp(0.5px, calc(100vw / 1920), 1px);
 	--k-sb-font: clamp(0.8px, calc(100vw / 1344), 1px);
 
-	/* [14번] 화면 탭 줄 */
-	--k-tabbar-h: 20px;
-	--k-tabbar-drop: 2px;
-	--k-content-start-x: 8px; /* [6번] 내용 왼쪽 시작선 = 첫 탭 왼쪽 끝 */
+	/* [14번] 화면 탭 : 책갈피 탭(높이 32px)을 진한 가로바 위로 겹쳐 올린다.
+	   올리는 높이 = 가로바 높이 - 가로바 가운데 사번 문구 아래끝 - 1px(문구 아래끝은 ksis-layout.js 가 재서 --k-badge-bottom 으로 줌) */
+	--k-tab-h: 32px;
+	--k-tab-rise: calc(45 * var(--k-ui-y) - var(--k-badge-bottom, calc(21 * var(--k-ui-y))) - 1px);
+	--k-content-start-x: 8px; /* [14번] 첫 탭 왼쪽 발끝 위치(업무 영역 왼쪽 끝에서) */
+	/* [6번] 업무 화면 좌우 여백(같은 값 → 표 · 검색 영역이 업무 영역 가운데). [47번] 제목은 검색 영역 안쪽 여백만큼 더 들어가 검색 영역 첫 글자와 맞춤 */
+	--k-card-pad-x: 24px;
+	--k-search-pad-x: 16px;
 }
 
 /* ---------------------------------------------------------------------
@@ -141,26 +145,21 @@ button, input, select, textarea { font-family: inherit; }
 }
 .k-hamburger:hover span { background: var(--k-topbar-hamburger-hover); }
 
-/* [2번] 시스템명(글자). 누르면 탭을 모두 닫고 메인 화면으로 */
+/* [2번] 시스템 심볼(그림, 흰 바탕을 따낸 투명 PNG). 누르면 탭을 모두 닫고 메인 화면으로.
+   가로바(45px) 안에 높이 34px × 세로 배율, 폭은 그림 비율대로(약 90px). KSIS-B 는 그림이 없어도 같은 자리를 비워 둔다 */
 .k-logo {
 	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	line-height: 1.1;
+	align-items: center;
+	height: calc(34 * var(--k-ui-y));
+	min-width: calc(90 * var(--k-ui-y));
 	cursor: pointer;
 	user-select: none;
 }
-.k-logo-name {
-	font-size: calc(19 * var(--k-ui-y));
-	font-weight: 800;
-	letter-spacing: .3px;
-	color: #FFFFFF;
-}
-.k-logo-full {
-	margin-top: 1px;
-	font-size: calc(10.5 * var(--k-ui-y));
-	font-weight: 500;
-	color: rgba(255, 255, 255, .85);
+.k-logo-img {
+	display: block;
+	height: 100%;
+	width: auto;
+	-webkit-user-drag: none;
 }
 
 /* [1번] 가운데 사번 · 접속권한 + 직급 */
@@ -183,15 +182,15 @@ button, input, select, textarea { font-family: inherit; }
 	min-height: 0;
 }
 
-/* [3번] 좌측 메뉴 폭 : 340px × 가로 배율, 가장 긴 소메뉴보다 좁아지지 않음
-   [11번] 바탕 : 왼쪽 위 연한 주색 → 오른쪽 아래 흰색 대각선 그라데이션, 내용과의 경계선 없음 */
+/* [3번] 좌측 메뉴 폭 : 240px 고정(기존 KSIS-A 와 같은 방식 · 같은 폭, 화면 크기와 상관없음). 긴 소메뉴는 끝을 … 로 줄임
+   [11번] 바탕 : 진한 메뉴. 가로바 색 계열이지만 가로바보다 한 단계 연하게(진하기 80%) 해 가로바와 구분,
+          왼쪽 위 → 오른쪽 아래로 조금 더 연해지는 대각선 그라데이션(색은 테마 파일 --k-menu-*) */
 .k-sidebar {
 	position: relative;
 	flex: 0 0 auto;
-	width: calc(340 * var(--k-ui-x));
-	min-width: fit-content;
+	width: 240px;
 	overflow: hidden;
-	background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, #FFFFFF 100%);
+	background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%);
 	transition: width .15s ease;
 }
 /* [4번] 접으면 폭 0(완전히 숨김, 0.15초). 접은 상태는 저장하지 않는다 */
@@ -219,20 +218,16 @@ button, input, select, textarea { font-family: inherit; }
 	font-size: calc(13.5 * var(--k-sb-font));
 	font-weight: 500;
 	line-height: 1.4;
-	color: #4C4C4C;
+	color: var(--k-menu-text);
 	text-align: left;
 	white-space: nowrap;
 	cursor: pointer;
 	transition: background-color .12s ease, color .12s ease;
 }
-.k-menu-group-header:hover { background: var(--k-primary-tint); color: var(--k-text-title); }
-/* [11번] 펼친 대메뉴 = 선택한 소메뉴와 같은 연한 바탕 + 주색 굵은 글자 */
-.k-menu-group-header.expanded,
-.k-menu-group-header.expanded:hover {
-	background: var(--k-primary-soft);
-	color: var(--k-primary);
-	font-weight: 700;
-}
+/* [11번] 마우스 올림 = 흰색 12% 겹침 + 흰 글자 */
+.k-menu-group-header:hover { background: var(--k-menu-hover-bg); color: #FFFFFF; }
+/* [11번] 펼친 대메뉴 = 바탕 없이 흰 굵은 글자 */
+.k-menu-group-header.expanded { color: #FFFFFF; font-weight: 700; }
 .k-menu-toggle {
 	display: inline-flex;
 	align-items: center;
@@ -257,18 +252,21 @@ button, input, select, textarea { font-family: inherit; }
 	font-size: calc(13.5 * var(--k-sb-font));
 	font-weight: 500;
 	line-height: 1.4;
-	color: #4C4C4C;
+	color: var(--k-menu-text);
 	text-decoration: none;
 	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 	cursor: pointer;
 	transition: background-color .12s ease, color .12s ease;
 }
 .k-menu-item::before { content: "ㄴ "; }
-.k-menu-item:hover { background: var(--k-primary-tint); color: var(--k-text-title); }
+.k-menu-item:hover { background: var(--k-menu-hover-bg); color: #FFFFFF; }
+/* [11번] 선택한 소메뉴 = 주 색 채움 + 흰 굵은 글자 */
 .k-menu-item.active,
 .k-menu-item.active:hover {
-	background: var(--k-primary-soft);
-	color: var(--k-primary);
+	background: var(--k-primary);
+	color: #FFFFFF;
 	font-weight: 700;
 }
 
@@ -280,57 +278,76 @@ button, input, select, textarea { font-family: inherit; }
 	min-height: 0;
 }
 
-/* [14번] 화면 탭 : 가로바 아랫부분에 걸쳐 앉은 서류철 모양. 높이 20px, 폭 최대 130px, 글자 11px.
-   탭이 없으면 줄 자체가 없다(JS 가 .k-tabbar 를 비운다 → :empty 로 숨김) */
+/* [14번] 화면 탭 : 사내 다른 시스템의 책갈피 탭을 그대로 옮기고(그 시스템의 탭 그림 · 화면 캡처를 픽셀로 재서 맞춤),
+   탭 줄을 진한 가로바 위로 겹쳐 올려 업무 영역을 넓힌다.
+   - 탭 줄 : 따로 칠하지 않는다(투명). 가로바를 가리는 것은 탭(책갈피)뿐이고, 가로바 아래로 내려온 부분은 뒤의 흰 바탕이 보여 흰 띠가 된다.
+             탭 위끝은 가로바 가운데 사번 문구 바로 아래(1px 띄움)까지. 1920×1080 이면 탭 32px 중 24px 가 가로바 안, 흰 띠 8px.
+             탭이 없으면 줄 자체가 없다(JS 가 .k-tabbar 를 비운다 → :empty 로 숨김)
+   - 좌측 메뉴를 접으면 탭 줄이 시스템 심볼 아래까지 오므로, 심볼을 피해 그 오른쪽부터 탭을 놓는다(ksis-layout.js 가 폭을 잼)
+   - 탭 한 개 = 세 부분
+       ① 왼쪽(.k-tab-l, 곡선 폭 16px) : 아래 발끝에서 S 곡선으로 올라가 위 왼쪽이 둥근 작은 영역
+       ② 가운데(.k-tab 자체) : 글자 · ✕ 가 있는 직사각형. 높이 32px, 글자 12px 굵게, 폭은 글자만큼(최대 200px)
+       ③ 오른쪽(.k-tab-r, 곡선 폭 23px) : 위 왼쪽에서 오른쪽 아래로 자연스럽게 내려가는 곡선 + 바깥쪽 옅은 그림자
+       ①③ 곡선은 참고 시스템의 탭 그림(tab_sprite.png)에서 픽셀로 따 온 좌표(ksis-layout.js TAB_EDGES)
+   - ①③ 은 가운데보다 1px 짧다 → 양쪽 발끝 아래로 뒤 바탕색 선이 1px 보인다(가운데는 본문까지 닿음)
+   - 탭 사이 : 가운데끼리 25px(왼쪽 10 + 오른쪽 15). 왼쪽 탭의 ③ 이 오른쪽 탭의 ① 위에 겹친다(앞 탭이 위, 보는 탭은 맨 위)
+   - 보는 탭은 흰 바탕(아래 본문과 이어짐) + 진한 글자, 안 보는 탭은 연한 바탕 + 회색 글자 */
 .k-tabbar {
 	position: relative;
 	z-index: 20;
 	flex: 0 0 auto;
 	display: flex;
 	align-items: flex-end;
-	height: var(--k-tabbar-h);
-	margin-top: calc(var(--k-tabbar-drop) - var(--k-tabbar-h));
-	margin-bottom: calc(-1 * var(--k-tabbar-drop));
-	padding: 0 calc(440 * var(--k-ui-y)) 0 var(--k-content-start-x);
+	height: calc(var(--k-tab-h) + 4px);                 /* 탭 + 위 그림자 자리 4px */
+	margin-top: calc(-1 * (var(--k-tab-rise) + 4px));   /* 가로바 안으로 올림 */
+	padding: 0 0 0 calc(var(--k-content-start-x) + 3.5px);
 	overflow: hidden;
 	background: transparent;
-	pointer-events: none;
+	pointer-events: none;                               /* 탭 사이 빈 곳은 아래 가로바 클릭을 막지 않음 */
+}
+/* 좌측 메뉴를 접었을 때 : 시스템 심볼(≡ 포함) 오른쪽부터 */
+.k-sidebar.collapsed + .k-workspace .k-tabbar {
+	padding-left: calc(var(--k-header-left-w, 300px) + 24px);
 }
 .k-tabbar:empty { display: none; }
 .k-tab {
+	--k-tab-fill: var(--k-tab-bg);
 	position: relative;
-	z-index: 1;
-	flex: 0 1 130px;
+	flex: 0 1 auto;
 	display: flex;
 	align-items: center;
-	gap: 2px;
-	min-width: 50px;
-	max-width: 130px;
-	height: calc(var(--k-tabbar-h) - 3px);
-	margin-right: -5px;
-	padding: 0 10px 0 9px;
-	font-size: 11px;
+	gap: 6px;
+	min-width: 40px;
+	max-width: 200px;
+	height: var(--k-tab-h);
+	margin: 0 15px 0 10px;
+	padding: 0 2px 0 4px;
+	background: var(--k-tab-fill);
+	font-size: 12px;
+	font-weight: 700;
 	line-height: 1;
-	color: #4C4C4C;
+	color: var(--k-tab-text);
 	cursor: pointer;
 	user-select: none;
 	pointer-events: auto;
 }
-.k-tab::before {
-	content: "";
+.k-tab-l,
+.k-tab-r {
 	position: absolute;
-	inset: 0;
-	z-index: -1;
-	background: var(--k-tab-bg);
-	border-radius: 3px 6px 0 0;
-	box-shadow: -1px 0 3px rgba(0, 0, 0, .28);
-	transform: scaleY(1.1) perspective(8px) rotateX(2.5deg);
-	transform-origin: 30% 100%;
+	top: -4px;                 /* 그림 위쪽 그림자 자리 4px */
+	height: 35px;              /* 곡선 31px(탭보다 1px 짧음 → 발끝 아래 바탕색 선) + 위 4px */
+	overflow: visible;
+	pointer-events: none;
 }
-.k-tab:hover { z-index: 2; color: var(--k-text-title); }
-.k-tab:hover::before { background: var(--k-tab-hover-bg); }
-.k-tab.active { z-index: 3; color: var(--k-primary); font-weight: 700; }
-.k-tab.active::before { background: var(--k-tab-active-bg); }
+.k-tab-l { left: -19px; width: 20px; }  /* 곡선 폭 16px(가운데와 1px 겹침) + 왼쪽 그림자 자리 4px */
+.k-tab-r { right: -34px; width: 35px; filter: drop-shadow(2.5px -1px 1px rgba(0, 0, 0, .09)); } /* 가운데와 1px 겹침, 곡선 + 그림자 */
+.k-tab-l path,
+.k-tab-r path { fill: var(--k-tab-fill); }
+.k-tab:hover { --k-tab-fill: var(--k-tab-hover-bg); color: var(--k-text-title); }
+.k-tab.active { --k-tab-fill: var(--k-tab-active-bg); z-index: 99 !important; color: var(--k-tab-active-text); }
+/* 보는 탭 · 마우스 올린 탭은 왼쪽 곡선에도 그림자(원본 그림과 같음) */
+.k-tab:hover .k-tab-l,
+.k-tab.active .k-tab-l { filter: drop-shadow(-3px -.5px 1px rgba(0, 0, 0, .09)); }
 .k-tab-title {
 	flex: 1 1 auto;
 	min-width: 0;
@@ -340,16 +357,17 @@ button, input, select, textarea { font-family: inherit; }
 }
 /* [18번] 탭 닫기 ✕ */
 .k-tab-close {
-	flex: 0 0 14px;
-	width: 14px;
-	height: 14px;
+	flex: 0 0 12px;
+	width: 12px;
+	height: 16px;
 	padding: 0;
 	border: none;
 	border-radius: 3px;
 	background: transparent;
-	color: #8A949E;
-	font-size: 9px;
-	line-height: 14px;
+	color: inherit;
+	font-size: 12px;
+	font-weight: 400;
+	line-height: 16px;
 	cursor: pointer;
 }
 .k-tab-close:hover { background: #D93025; color: #FFFFFF; }
@@ -360,7 +378,7 @@ button, input, select, textarea { font-family: inherit; }
 	min-width: 0;
 	min-height: 0;
 	overflow: auto;
-	scrollbar-gutter: stable;
+	scrollbar-gutter: stable both-edges; /* 스크롤바 자리를 양쪽에 똑같이 비워, 스크롤이 없어도 있어도 내용이 업무 영역 가운데 */
 	background: var(--k-surface);
 }
 /* 탭 화면 보관 : 숨은 탭은 그려 둔 그대로 두고 보이지만 않게(상태 유지) */
@@ -370,11 +388,11 @@ button, input, select, textarea { font-family: inherit; }
 	visibility: hidden;
 	pointer-events: none;
 }
-/* [6번] 업무 화면 한 장(테두리 · 모서리 · 그림자 없음). 왼쪽은 탭 줄과 같은 시작선 */
+/* [6번] 업무 화면 한 장(테두리 · 모서리 · 그림자 없음). 좌우 여백을 같게 해 표 · 검색 영역이 업무 영역 가운데에 온다 */
 .k-card {
 	position: relative;
 	min-height: 100%;
-	padding: 18px 24px 16px var(--k-content-start-x);
+	padding: 18px var(--k-card-pad-x) 16px;
 	background: var(--k-surface);
 }
 .k-main-home {
@@ -390,7 +408,7 @@ button, input, select, textarea { font-family: inherit; }
 /* =====================================================================
    2. 화면 제목 줄 [47번] · 간격 [48번]
    ===================================================================== */
-/* 높이 35px 고정. 제목은 왼쪽 끝, 나머지(건수 → 화면별 버튼 → [엑셀 다운])는 오른쪽 끝 */
+/* 높이 35px 고정. 제목은 왼쪽(검색 영역 첫 글자와 같은 세로줄), 나머지(건수 → 화면별 버튼 → [엑셀 다운])는 오른쪽 끝 */
 .k-toolbar {
 	display: flex;
 	align-items: center;
@@ -398,9 +416,11 @@ button, input, select, textarea { font-family: inherit; }
 	height: 35px;
 	margin-bottom: var(--k-gap-v);
 }
+/* [47번] 제목 첫 글자 = 검색 영역 첫 글자(예: '고객사')와 같은 세로줄 → 검색 영역 안쪽 여백만큼 들여 씀 */
 .k-page-title {
 	flex: 0 0 auto;
 	margin: 0 auto 0 0;
+	padding-left: var(--k-search-pad-x);
 	font-size: 19px;
 	font-weight: 800;
 	line-height: 1.2;
@@ -547,7 +567,7 @@ table.k-grid td.k-empty { padding: 40px 0; height: auto; }
 	gap: var(--k-gap-h);
 	height: 46px;
 	margin-bottom: var(--k-gap-v);
-	padding: 0 16px;
+	padding: 0 var(--k-search-pad-x);
 	border-radius: 10px;
 	background: var(--k-search-bg);
 }

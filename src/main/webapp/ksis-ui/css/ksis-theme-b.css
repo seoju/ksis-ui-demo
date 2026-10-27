@@ -12,18 +12,22 @@
 	--k-primary-shadow: rgba(3, 199, 90, .25);
 	--k-primary-shadow-hover: rgba(3, 199, 90, .35);
 	--k-primary-soft: #E7F9EE;
-	--k-primary-tint: rgba(3, 199, 90, .10);
 	--k-primary-tint-strong: rgba(3, 199, 90, .15);
 	--k-primary-deep: #1F7A44;
 
 	--k-topbar: #006B35;
 	--k-topbar-hamburger-hover: #D6F5E3;
 
-	--k-menu-grad-start: #F0FCF5;
+	--k-menu-grad-start: #338B53;
+	--k-menu-grad-end: #3A9259;
+	--k-menu-text: #E6F4EB;
+	--k-menu-hover-bg: rgba(255, 255, 255, .12);
 
-	--k-tab-bg: #BCDDCB;
-	--k-tab-hover-bg: #F0FCF5;
-	--k-tab-active-bg: #E7F9EE;
+	--k-tab-bg: #E4F1E9;
+	--k-tab-hover-bg: #E3F7EA;
+	--k-tab-active-bg: #FFFFFF;
+	--k-tab-text: #9F9F9F;
+	--k-tab-active-text: #323232;
 
 	--k-edit-border: #9FEAC0;
 	--k-edit-press: #D2F5E2;
