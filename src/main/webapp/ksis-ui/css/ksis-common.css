@@ -112,7 +112,9 @@ button, input, select, textarea { font-family: inherit; }
 
 /* [1번] 전체 폭 상단 가로바. 높이 45px × 세로 배율. 오른쪽 안내 문구 · 아이콘 없음.
    ≡ 버튼은 화면 왼쪽 끝과 시스템 심볼(네모) 왼쪽 끝의 가운데 : 왼쪽 여백 15px = ≡ 와 심볼 사이 15px.
-   아래로 그림자를 드리워 좌측 메뉴 · 업무 영역보다 떠 보이게 한다.
+   아래로 그림자(경계에 붙는 짧은 그림자 + 조금 번지는 그림자)를 드리워 좌측 메뉴 · 업무 영역보다 떠 보이게 한다.
+   단 책갈피 탭은 아래 업무 영역과 그대로 이어져야 하므로 탭 아래로는 그림자가 비치면 안 된다
+   → 가로바 아래끝 ~ 업무 영역 위끝 사이(탭 높이 − 가로바 안으로 올라온 만큼, 1920×1080 에서 8px)까지만 보이게 clip-path 로 자른다.
    쌓는 순서(아래 → 위) : 업무 영역 → 좌측 메뉴(z 5) → 가로바(z 10) → 탭 줄(z 20, 가로바 위로 겹쳐 올라온 책갈피) */
 .k-header {
 	position: relative;
@@ -124,7 +126,8 @@ button, input, select, textarea { font-family: inherit; }
 	padding: 0 calc(24 * var(--k-ui-y)) 0 calc(15 * var(--k-ui-y));
 	background: var(--k-topbar);
 	color: #FFFFFF;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, .25);
+	box-shadow: 0 1px 2px rgba(0, 0, 0, .25), 0 2px 6px rgba(0, 0, 0, .38);
+	clip-path: inset(0 0 calc(-1 * (var(--k-tab-h) - var(--k-tab-rise))) 0);
 }
 .k-header-left {
 	display: flex;
@@ -198,7 +201,8 @@ button, input, select, textarea { font-family: inherit; }
 /* [3번] 좌측 메뉴 폭 : 240px 고정(기존 KSIS-A 와 같은 방식 · 같은 폭, 화면 크기와 상관없음). 긴 소메뉴는 끝을 … 로 줄임
    [11번] 바탕 : 진한 메뉴. 가로바 색 계열이지만 가로바보다 한 단계 연하게(진하기 80%) 해 가로바와 구분,
           왼쪽 위 → 오른쪽 아래로 조금 더 연해지는 대각선 그라데이션(색은 테마 파일 --k-menu-*)
-          오른쪽으로 그림자를 드리워(업무 영역 왼쪽 끝에만 보임) 업무 영역보다 위에 있는 것처럼. 경계선은 없음(기존 KSIS-A 처럼) */
+          오른쪽으로 그림자(경계에 붙는 짧은 그림자 + 넓게 번지는 그림자)를 드리워(업무 영역 왼쪽 끝에만 보임)
+          업무 영역보다 위에 있는 것처럼. 경계선은 없음(기존 KSIS-A 처럼) */
 .k-sidebar {
 	position: relative;
 	z-index: 5;
@@ -206,7 +210,7 @@ button, input, select, textarea { font-family: inherit; }
 	width: var(--k-sidebar-w);
 	overflow: hidden;
 	background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%);
-	box-shadow: 2px 0 10px rgba(0, 0, 0, .18);
+	box-shadow: 1px 0 3px rgba(0, 0, 0, .18), 4px 0 16px rgba(0, 0, 0, .30);
 	transition: width .15s ease, box-shadow .15s ease;
 }
 /* [4번] 접으면 폭 0(완전히 숨김, 0.15초) · 그림자도 없앰. 접은 상태는 저장하지 않는다 */
