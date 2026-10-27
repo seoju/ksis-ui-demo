@@ -1,18 +1,26 @@
 @charset "utf-8";
 /* =====================================================================
-   [11번] 좌측 메뉴 2안 — 진한 메뉴(가로바 색을 그대로 이어서). 가로바와 좌측 메뉴가 ㄱ자로 이어진 진한 틀이 된다.
-   탭 검토 화면에서 ?menuPlan=2 일 때만 ksis-menu-plans.css(공통) 뒤에 덧붙인다(1안 = 지금 요구사항, 이 파일 없음).
-   색만 바꾼다(ksis-menu-plans.css 의 --k-menu-* 변수).
+   [11번] 좌측 메뉴 2안 — 진한 메뉴. 가로바 색 계열이지만 가로바보다 한 단계 연하게(진하기 80%) 해서 둘이 구분된다.
+   디자인 검토 화면에서 ?menuPlan=2 일 때만 ksis-menu-plans.css(공통) 뒤에 덧붙인다(1안 = 지금 요구사항, 이 파일 없음).
+   - 바탕 : 가로바 색의 진하기 80%(OKLCH 밝기로 계산, 색감은 그대로) → 오른쪽 아래로 조금 더 연하게(76%)
+            A 가로바 #082878 → #2B50A3 ~ #3359AC / B 가로바 #006B35 → #338B53 ~ #3A9259
+   - 글자 : 흰색에 가까운 바탕 계열 색. 마우스 올림 = 흰 12% 겹침 + 흰 글자
+   - 펼친 대메뉴 : 흰 굵은 글자(바탕 없음). 선택한 소메뉴 : 주 색 채움 + 흰 굵은 글자
    ===================================================================== */
 :root[data-theme="a"] {
-	--k-menu-grad-start: #082878; --k-menu-grad-end: #0E3A9E;
-	--k-menu-text: #DCE5F7;
-	--k-menu-hover-bg: #1C47A8; --k-menu-hover-text: #FFFFFF;
-	--k-menu-active-bg: #3488FF; --k-menu-active-text: #FFFFFF;
+	--k-menu-grad-start: #2B50A3; --k-menu-grad-end: #3359AC;
+	--k-menu-text: #E4EAF7;
+	--k-menu-active-bg: #3488FF;
 }
 :root[data-theme="b"] {
-	--k-menu-grad-start: #006B35; --k-menu-grad-end: #008A45;
-	--k-menu-text: #DDF2E5;
-	--k-menu-hover-bg: #0B8547; --k-menu-hover-text: #FFFFFF;
-	--k-menu-active-bg: #03C75A; --k-menu-active-text: #FFFFFF;
+	--k-menu-grad-start: #338B53; --k-menu-grad-end: #3A9259;
+	--k-menu-text: #E6F4EB;
+	--k-menu-active-bg: #03C75A;
 }
+:root {
+	--k-menu-hover-bg: rgba(255, 255, 255, .12); --k-menu-hover-text: #FFFFFF;
+	--k-menu-active-text: #FFFFFF;
+}
+.k-menu-group-header.expanded,
+.k-menu-group-header.expanded:hover { background: transparent; color: #FFFFFF; }
+.k-menu-group-header.expanded:hover { background: var(--k-menu-hover-bg); }

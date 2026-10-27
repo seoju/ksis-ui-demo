@@ -1,0 +1,106 @@
+@charset "utf-8";
+/* =====================================================================
+   [11번] 좌측 메뉴 '기존' — 지금 KSIS-A · KSIS-B 코드의 좌측 메뉴 모양을 요구사항 화면 틀 위에 입혀 본다.
+   디자인 검토 화면에서 ?menuPlan=0 일 때만 ksis-common.css 뒤에 덧붙인다(검토용, KSIS 에는 넣지 않음).
+   메뉴 폭 · 여는 방식(요구사항 3 · 8 · 9번)은 그대로 두고 색 · 모양만 바꾼다.
+   - KSIS-A : KSIS_A css/menu.css 값 그대로. 흰 바탕 + 오른쪽 선, 대메뉴 앞 아이콘 상자(Font Awesome) · 오른쪽 꺾쇠,
+              소메뉴 앞 점, 선택은 연한 파랑 바탕 + #0082C7 + 왼쪽 짧은 막대. 메뉴 검색 · 즐겨찾기 줄은 없음(12 · 13번)
+   - KSIS-B : 1안이 KSIS_B app.css 를 따른 것이라 거의 같고, 마우스 올림 색만 원래 값(초록 10%)으로 바꾼다.
+   ===================================================================== */
+
+/* ---- KSIS-A ---- */
+:root[data-theme="a"] .k-sidebar {
+	background: #FFFFFF;
+	box-shadow: inset -1px 0 0 #E4E4E7, 2px 0 12px rgba(0, 0, 0, .04);
+}
+:root[data-theme="a"] .k-menu { padding: 8px 10px 16px; gap: 0; }
+:root[data-theme="a"] .k-menu-group-header {
+	gap: 9px;
+	margin-bottom: 1px;
+	padding: 8px 10px;
+	border-radius: 8px;
+	font-size: 13px;
+	font-weight: 400;
+	color: #71717A;
+	transition: all .15s;
+}
+:root[data-theme="a"] .k-menu-group-header:hover { background: #F4F4F5; color: #18181B; }
+:root[data-theme="a"] .k-menu-group-header.expanded,
+:root[data-theme="a"] .k-menu-group-header.expanded:hover { background: #E5F6FB; color: #0082C7; font-weight: 600; }
+/* ＋/－ 자리를 아이콘 상자로 */
+:root[data-theme="a"] .k-menu-toggle {
+	width: 28px;
+	height: 28px;
+	border-radius: 7px;
+	background: #F4F4F5;
+	color: #71717A;
+	font-size: 0;
+	transition: all .15s;
+}
+:root[data-theme="a"] .k-menu-toggle::before {
+	font-family: "Font Awesome 6 Free";
+	font-weight: 900;
+	font-size: 13px;
+	content: "\f0b1";
+}
+:root[data-theme="a"] .k-menu-group:nth-child(2) .k-menu-toggle::before { content: "\f159"; }
+:root[data-theme="a"] .k-menu-group:nth-child(3) .k-menu-toggle::before { content: "\f1c0"; }
+:root[data-theme="a"] .k-menu-group:nth-child(4) .k-menu-toggle::before { content: "\e0e3"; }
+:root[data-theme="a"] .k-menu-group:nth-child(5) .k-menu-toggle::before { content: "\f013"; }
+:root[data-theme="a"] .k-menu-group-header:hover .k-menu-toggle { background: #E4E4E7; color: #3F3F46; }
+:root[data-theme="a"] .k-menu-group-header.expanded .k-menu-toggle { background: #CFE4F2; color: #0082C7; }
+/* 오른쪽 꺾쇠 */
+:root[data-theme="a"] .k-menu-group-header::after {
+	margin-left: auto;
+	font-family: "Font Awesome 6 Free";
+	font-weight: 900;
+	font-size: 11px;
+	content: "\f107";
+	color: #A1A1AA;
+	transition: transform .2s;
+}
+:root[data-theme="a"] .k-menu-group-header.expanded::after { transform: rotate(180deg); color: #0082C7; }
+:root[data-theme="a"] .k-submenu { gap: 0; margin: 2px 0 4px; }
+:root[data-theme="a"] .k-menu-item {
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 7px 10px 7px 14px;
+	border-radius: 8px;
+	font-size: 12.5px;
+	font-weight: 400;
+	color: #71717A;
+	transition: all .15s;
+}
+/* "ㄴ" 대신 작은 점 */
+:root[data-theme="a"] .k-menu-item::before {
+	content: "";
+	flex-shrink: 0;
+	width: 5px;
+	height: 5px;
+	margin-left: 14px;
+	border-radius: 50%;
+	background: #D4D4D8;
+	transition: background .15s;
+}
+:root[data-theme="a"] .k-menu-item:hover { background: #F4F4F5; color: #18181B; }
+:root[data-theme="a"] .k-menu-item:hover::before { background: #71717A; }
+:root[data-theme="a"] .k-menu-item.active,
+:root[data-theme="a"] .k-menu-item.active:hover { background: #E5F6FB; color: #0082C7; font-weight: 600; }
+:root[data-theme="a"] .k-menu-item.active::before { width: 6px; height: 6px; background: #0082C7; }
+:root[data-theme="a"] .k-menu-item.active::after {
+	content: "";
+	position: absolute;
+	left: 6px;
+	top: 50%;
+	width: 3px;
+	height: 16px;
+	border-radius: 4px;
+	background: #0082C7;
+	transform: translateY(-50%);
+}
+
+/* ---- KSIS-B ---- */
+:root[data-theme="b"] .k-menu-group-header:not(.expanded):hover,
+:root[data-theme="b"] .k-menu-item:not(.active):hover { background: rgba(3, 199, 90, .10); color: #1B1D1F; }

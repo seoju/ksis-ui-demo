@@ -1,0 +1,60 @@
+@charset "utf-8";
+/* =====================================================================
+   [14번] 화면 탭 '기존' — 지금 KSIS-A · KSIS-B 코드의 탭 모양을 요구사항 화면 틀 위에 입혀 본다.
+   디자인 검토 화면에서 ?tabPlan=0 일 때만 ksis-common.css 뒤에 덧붙인다(검토용, KSIS 에는 넣지 않음).
+   - KSIS-A : KSIS_A css/layout.css 의 .tab-nav · .tab-item-nav 값 그대로(흰 줄, 회색 사각 탭, 보는 탭은 흰 바탕 + 위쪽 3px 파랑 줄, 색도 원래 #0082C7).
+              원래는 가로바 없이 오른쪽 흰 머리줄(56px)에 탭이 있으므로, 여기서는 가로바 아래 흰 줄로 놓았다.
+   - KSIS-B : 1안(ksis-common.css)이 KSIS_B app.css 의 .tab-bar 를 그대로 따른 것이라 덧붙일 것이 없다(1안과 같음).
+   ===================================================================== */
+:root[data-theme="a"] .k-tabbar {
+	height: 44px;
+	margin: 0;
+	padding: 0 0 0 calc(var(--k-content-start-x) + 6px);
+	gap: 3px;
+	background: #FFFFFF;
+	box-shadow: inset 0 -1px 0 #E5E5E5;
+	pointer-events: auto;
+}
+:root[data-theme="a"] .k-tab {
+	flex: 0 0 auto;
+	gap: 8px;
+	min-width: 0;
+	max-width: 180px;
+	height: 34px;
+	margin: 0;
+	padding: 0 13px;
+	border: 1px solid #DDDDDD;
+	border-bottom: none;
+	border-radius: 6px 6px 0 0;
+	background: #E8E8EA;
+	font-size: 13px;
+	font-weight: 400;
+	color: #999999;
+	transition: all .15s;
+}
+:root[data-theme="a"] .k-tab::before { content: none; }
+:root[data-theme="a"] .k-tab:hover { background: #DCDCE0; color: #444444; }
+:root[data-theme="a"] .k-tab.active { background: #FFFFFF; color: #0082C7; font-weight: 600; }
+:root[data-theme="a"] .k-tab.active::after {
+	content: "";
+	position: absolute;
+	top: -1px;
+	left: -1px;
+	right: -1px;
+	height: 3px;
+	border-radius: 6px 6px 0 0;
+	background: #0082C7;
+}
+:root[data-theme="a"] .k-tab-title { max-width: 130px; }
+:root[data-theme="a"] .k-tab-close {
+	flex: 0 0 16px;
+	width: 16px;
+	height: 16px;
+	border-radius: 4px;
+	color: #A1A1AA;
+	font-size: 10px;
+	line-height: 16px;
+}
+:root[data-theme="a"] .k-tab:hover .k-tab-close { color: #555555; background: rgba(0, 0, 0, .08); }
+:root[data-theme="a"] .k-tab.active .k-tab-close { color: #CCCCCC; background: transparent; }
+:root[data-theme="a"] .k-tab.active .k-tab-close:hover { color: #0082C7; background: rgba(0, 130, 199, .1); }

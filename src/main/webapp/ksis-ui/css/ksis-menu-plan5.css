@@ -1,25 +1,47 @@
 @charset "utf-8";
 /* =====================================================================
-   [11번] 좌측 메뉴 5안 — 가로바 색을 옅게 깔고, 선택은 가로바 색으로 채움.
-   - 바탕 : 가로바 색이 아주 옅게 섞인 색(위 → 아래로 조금 더 밝게). 가로바와 같은 색 계열이라 틀이 하나로 보인다.
-   - 선택한 소메뉴 : 가로바 색(A 진한 남색 / B 진한 초록) 채움 + 흰 굵은 글자 — 지금 어디 있는지 가장 또렷하다.
-   - 펼친 대메뉴 : 바탕 없이 가로바 색 굵은 글자.
-   탭 검토 화면에서 ?menuPlan=5 일 때만 덧붙인다.
+   [11번] 좌측 메뉴 5안 — 이어진 책갈피. 선택한 소메뉴가 오른쪽 업무 화면(흰색)과 한 덩어리로 이어진다.
+   "이 메뉴의 화면이 지금 오른쪽에 열려 있다"가 모양으로 보이고, 2안 탭(책갈피)과도 결이 맞는다.
+   디자인 검토 화면에서 ?menuPlan=5 일 때만 ksis-menu-plans.css(공통) 뒤에 덧붙인다.
+   - 바탕 : 가로바 색을 옅게 섞은 색, 위(가로바 쪽)가 조금 더 짙고 아래로 갈수록 옅어지는 세로 그라데이션
+   - 선택한 소메뉴 : 업무 화면과 같은 흰 바탕, 오른쪽 끝까지 닿고 위 · 아래 모서리가 안으로 휘어 화면과 이어짐 + 가로바 색 굵은 글자
+   - 펼친 대메뉴 : 바탕 없이 가로바 색 굵은 글자. 마우스 올림 = 흰 반투명
+   - 그림자 · 테두리 없음(바탕 색 차이만으로 나눔)
    ===================================================================== */
-:root { --k-menu-text: #3B4352; --k-menu-active-text: #FFFFFF; }
 :root[data-theme="a"] {
-	--k-menu-grad-start: #E6ECF7; --k-menu-grad-end: #F6F8FC;
-	--k-menu-hover-bg: #D9E2F3; --k-menu-hover-text: #082878;
-	--k-menu-active-bg: #082878;
-	--k-menu-group-open: #082878;
+	--k-menu-top: #D9E3F5; --k-menu-mid: #E6ECF8; --k-menu-bottom: #EFF3FA;
+	--k-menu-text: #3E4A61;
+	--k-menu-head: #082878;
 }
 :root[data-theme="b"] {
-	--k-menu-grad-start: #E4F1E9; --k-menu-grad-end: #F5FAF7;
-	--k-menu-hover-bg: #D5EADD; --k-menu-hover-text: #006B35;
-	--k-menu-active-bg: #006B35;
-	--k-menu-group-open: #006B35;
+	--k-menu-top: #D5E9DC; --k-menu-mid: #E3F1E7; --k-menu-bottom: #EDF6F0;
+	--k-menu-text: #3D5244;
+	--k-menu-head: #006B35;
 }
-.k-sidebar { background: linear-gradient(to bottom, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%); }
+:root {
+	--k-menu-hover-bg: rgba(255, 255, 255, .45); --k-menu-hover-text: var(--k-menu-head);
+	--k-menu-active-bg: var(--k-surface); --k-menu-active-text: var(--k-menu-head);
+	--k-menu-r: calc(10 * var(--k-sb-pad));
+}
+.k-sidebar { background: linear-gradient(to bottom, var(--k-menu-top) 0%, var(--k-menu-mid) 45%, var(--k-menu-bottom) 100%); }
+/* 소메뉴 · 대메뉴 줄이 오른쪽 끝(업무 화면 경계)까지 닿게 */
+.k-menu { padding-right: 0; }
+.k-menu-group-header,
+.k-menu-item { border-radius: var(--k-menu-r) 0 0 var(--k-menu-r); }
 .k-menu-group-header.expanded,
-.k-menu-group-header.expanded:hover { background: transparent; color: var(--k-menu-group-open); }
+.k-menu-group-header.expanded:hover { background: transparent; color: var(--k-menu-head); }
 .k-menu-group-header.expanded:hover { background: var(--k-menu-hover-bg); }
+.k-menu-item { position: relative; }
+/* 선택한 소메뉴 위 · 아래의 안으로 휜 모서리(흰 바탕이 업무 화면으로 이어지는 곳) */
+.k-menu-item.active::after {
+	content: "";
+	position: absolute;
+	right: 0;
+	top: calc(-1 * var(--k-menu-r));
+	bottom: calc(-1 * var(--k-menu-r));
+	width: var(--k-menu-r);
+	pointer-events: none;
+	background:
+		radial-gradient(circle at 0 0, transparent calc(var(--k-menu-r) - .5px), var(--k-menu-active-bg) var(--k-menu-r)) top / var(--k-menu-r) var(--k-menu-r) no-repeat,
+		radial-gradient(circle at 0 100%, transparent calc(var(--k-menu-r) - .5px), var(--k-menu-active-bg) var(--k-menu-r)) bottom / var(--k-menu-r) var(--k-menu-r) no-repeat;
+}

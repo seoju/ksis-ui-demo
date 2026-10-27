@@ -1,18 +1,77 @@
 @charset "utf-8";
 /* =====================================================================
-   [11번] 좌측 메뉴 4안 — 연회색 바탕 + 선택은 흰 카드.
-   - 바탕은 연회색 한 색. 선택한 소메뉴만 흰 바탕 + 옅은 그림자로 떠 보이고 글자는 주색 굵게.
-   - 펼친 대메뉴 : 바탕 없이 진한 굵은 글자.
-   - 본문(흰색)과 메뉴(회색)가 바탕색으로 나뉘어 경계선이 필요 없다.
-   탭 검토 화면에서 ?menuPlan=4 일 때만 덧붙인다.
+   [11번] 좌측 메뉴 4안 — 'ㄴ' 이어 그리기(나무 줄).
+   소메뉴 앞 'ㄴ' 글자(8번)를 한 줄로 이어 그려, 대메뉴에서 소메뉴로 가지가 뻗은 모양을 만든다.
+   선택한 소메뉴까지 가는 줄은 주 색으로 칠해져 "어느 대메뉴의 몇 번째인지"가 줄만 봐도 보인다.
+   디자인 검토 화면에서 ?menuPlan=4 일 때만 ksis-menu-plans.css(공통) 뒤에 덧붙인다.
+   - 바탕 : 기존 B 처럼 왼쪽 위 → 오른쪽 아래 대각선 그라데이션. 가로바 색을 아주 옅게 섞은 색 → 거의 흰색
+   - 대메뉴 : 바탕 없이 글자로만 구분(펼치면 가로바 색 굵은 글자, ＋/－ 는 주 색)
+   - 소메뉴 : 'ㄴ' 대신 줄. 선택은 옅은 주 색 바탕 + 진한 주 색 굵은 글자 + 줄 끝 점
+   - 색은 모두 바탕 계열로 물들인 색(순수 회색 · 순수 검정 없음), 그림자 없음
    ===================================================================== */
-:root {
-	--k-menu-grad-start: #F2F4F7; --k-menu-grad-end: #F2F4F7;
-	--k-menu-text: #4C4C4C;
-	--k-menu-hover-bg: #E7EAEF; --k-menu-hover-text: #1B1D1F;
-	--k-menu-active-bg: #FFFFFF; --k-menu-active-text: var(--k-primary);
+:root[data-theme="a"] {
+	--k-menu-grad-start: #E2EAF9; --k-menu-grad-end: #FBFCFE;
+	--k-menu-text: #465269;
+	--k-menu-line: #BFCBE2;
+	--k-menu-head: #082878;
 }
+:root[data-theme="b"] {
+	--k-menu-grad-start: #DFEEE3; --k-menu-grad-end: #FBFDFB;
+	--k-menu-text: #455A4C;
+	--k-menu-line: #B8D3C1;
+	--k-menu-head: #006B35;
+}
+:root {
+	--k-menu-hover-bg: rgba(8, 40, 120, .035); --k-menu-hover-text: #182132;
+	--k-menu-active-bg: var(--k-primary-tint-strong); --k-menu-active-text: var(--k-primary-deep);
+	--k-menu-x: calc(21 * var(--k-sb-pad));   /* 줄 위치 = 대메뉴 ＋/－ 가운데 */
+}
+:root[data-theme="b"] { --k-menu-hover-bg: rgba(0, 107, 53, .04); --k-menu-hover-text: #15241A; }
+
+.k-menu-group-header { font-weight: 600; }
 .k-menu-group-header.expanded,
-.k-menu-group-header.expanded:hover { background: transparent; color: #1B1D1F; }
+.k-menu-group-header.expanded:hover { background: transparent; color: var(--k-menu-head); }
 .k-menu-group-header.expanded:hover { background: var(--k-menu-hover-bg); }
-.k-menu-item.active { box-shadow: 0 1px 3px rgba(16, 24, 40, .10), 0 0 0 1px rgba(16, 24, 40, .04); }
+.k-menu-group-header.expanded .k-menu-toggle { color: var(--k-primary); }
+
+.k-submenu { gap: 0; padding-bottom: calc(4 * var(--k-sb-pad)); }
+.k-menu-item {
+	position: relative;
+	margin-left: calc(var(--k-menu-x) + 12px);
+	padding-left: calc(10 * var(--k-sb-pad));
+	border-radius: 6px;
+}
+/* 세로 줄(소메뉴마다 한 토막, 이어지면 한 줄) */
+.k-menu-item::before {
+	content: "";
+	position: absolute;
+	left: -12px;
+	top: 0;
+	bottom: 0;
+	width: 1.5px;
+	background: var(--k-menu-line);
+}
+.k-menu-item:last-child::before { bottom: 50%; }
+/* 가로 토막(ㄴ 의 가로획) */
+.k-menu-item::after {
+	content: "";
+	position: absolute;
+	left: -12px;
+	top: calc(50% - .75px);
+	width: 10px;
+	height: 1.5px;
+	background: var(--k-menu-line);
+}
+/* 선택한 소메뉴까지 가는 줄 = 주 색 */
+.k-submenu:has(.k-menu-item.active) .k-menu-item:has(~ .k-menu-item.active)::before { background: var(--k-primary); }
+.k-menu-item.active::before { background: linear-gradient(var(--k-primary) 50%, var(--k-menu-line) 50%); }
+.k-menu-item.active:last-child::before { background: var(--k-primary); }
+/* 선택한 소메뉴 : 가로획을 주 색으로 길게 + 끝에 점 */
+.k-menu-item.active::after {
+	top: calc(50% - 3px);
+	width: 15px;
+	height: 6px;
+	background:
+		radial-gradient(circle at calc(100% - 3px) 50%, var(--k-primary) 2.6px, transparent 3.1px),
+		linear-gradient(var(--k-primary), var(--k-primary)) 0 50% / 11px 1.5px no-repeat;
+}

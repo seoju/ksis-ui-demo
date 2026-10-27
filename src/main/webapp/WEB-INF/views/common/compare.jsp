@@ -17,7 +17,7 @@
 		<c:forEach var="a" items="${areas}">
 			<a href="<c:url value='/compare/${a.key}'/>" class="${a == area ? 'on' : ''}">${a.title}<small>${a.range}</small></a>
 		</c:forEach>
-		<a href="<c:url value='/tabs'/>">탭 검토<small>14 · 11번</small></a>
+		<a href="<c:url value='/design'/>">디자인 검토</a>
 	</nav>
 	<div class="ds-ctrl">
 		<label>보기

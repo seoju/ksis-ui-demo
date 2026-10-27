@@ -33,10 +33,8 @@
 				<span>${a.summary}</span>
 			</a>
 		</c:forEach>
-		<a class="ds-card is-tabs" href="<c:url value='/tabs'/>">
-			<span class="range">14 · 11번 · plan-b 가지</span>
-			<b>탭 검토</b>
-			<span>화면 탭 1~3안 × 좌측 메뉴 색 1~5안 × A·B 조합(30가지)을 골라 한 화면에 나란히</span>
+		<a class="ds-card is-design" href="<c:url value='/design'/>">
+			<b>디자인 검토</b>
 		</a>
 
 	</div>
