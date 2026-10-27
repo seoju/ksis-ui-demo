@@ -1,25 +1,25 @@
 @charset "utf-8";
 /* =====================================================================
-   [11번] 좌측 메뉴 5안 — 2안(진한 메뉴)과 같은 모양, 색만 아주 눈에 띄는 선명한 색.
+   [11번] 좌측 메뉴 5안 — 2안(진한 메뉴)과 같은 모양, 색은 가로바의 보색으로 화려하게.
+   A 남색 가로바 → 노랑 메뉴, B 초록 가로바 → 빨강 메뉴.
    디자인 검토 화면에서 ?menuPlan=5 일 때만 ksis-menu-plans.css(공통) 뒤에 덧붙인다.
-   - 바탕 : 선명한 색 대각선 그라데이션(가로바보다 훨씬 밝고 채도가 높아 가로바와 확실히 구분)
-   - 글자 : 흰색. 마우스 올림 = 흰 15% 겹침
-   - 펼친 대메뉴 : 흰 굵은 글자(바탕 없음)
-   - 선택한 소메뉴 : 바탕이 이미 선명해서 주 색 채움은 묻히므로 흰 바탕 + 가로바 색 굵은 글자
+   - A : 바탕 선명한 노랑(#FFC21A → #FFD54F), 글자 · 펼친 대메뉴 = 가로바 남색, 선택 소메뉴 = 남색 채움 + 흰 글자
+   - B : 바탕 선명한 빨강(#D9252F → #E53A41), 글자 · 펼친 대메뉴 = 흰색, 선택 소메뉴 = 흰 바탕 + 진한 빨강 글자
    ===================================================================== */
 :root[data-theme="a"] {
-	--k-menu-grad-start: #2258E5; --k-menu-grad-end: #3266E4;   /* 선명한 코발트 파랑 */
-	--k-menu-active-text: #082878;
+	--k-menu-grad-start: #FFC21A; --k-menu-grad-end: #FFD54F;
+	--k-menu-text: #1C2A55;
+	--k-menu-hover-bg: rgba(8, 40, 120, .10); --k-menu-hover-text: #082878;
+	--k-menu-active-bg: #082878; --k-menu-active-text: #FFFFFF;
+	--k-menu-open-text: #082878;
 }
 :root[data-theme="b"] {
-	--k-menu-grad-start: #00869A; --k-menu-grad-end: #00919F;   /* 선명한 청록 */
-	--k-menu-active-text: #005A5E;
-}
-:root {
+	--k-menu-grad-start: #D9252F; --k-menu-grad-end: #E53A41;
 	--k-menu-text: #FFFFFF;
-	--k-menu-hover-bg: rgba(255, 255, 255, .15); --k-menu-hover-text: #FFFFFF;
-	--k-menu-active-bg: #FFFFFF;
+	--k-menu-hover-bg: rgba(255, 255, 255, .16); --k-menu-hover-text: #FFFFFF;
+	--k-menu-active-bg: #FFFFFF; --k-menu-active-text: #B3141C;
+	--k-menu-open-text: #FFFFFF;
 }
 .k-menu-group-header.expanded,
-.k-menu-group-header.expanded:hover { background: transparent; color: #FFFFFF; }
+.k-menu-group-header.expanded:hover { background: transparent; color: var(--k-menu-open-text); }
 .k-menu-group-header.expanded:hover { background: var(--k-menu-hover-bg); }
