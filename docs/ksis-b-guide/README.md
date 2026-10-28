@@ -15,6 +15,7 @@ KSIS-B(C# Blazor) 화면을 시연 프로그램(이 저장소 main)의 **④ B �
 | [03-controls.md](03-controls.md) | 3단계 : 버튼 · 표(그리드) · 검색 영역 · 입력칸 · 드롭다운 · 날짜 · 모드 버튼 | |
 | [04-popup-etc.md](04-popup-etc.md) | 4단계 : 업무 팝업 · 파일 업로드 · 알림/확인 창 · 포커스 · 글자 · 제목 · 간격 | |
 | `img/` | 단계별 완성 모습(시연 프로그램 ④ B 요구사항, 1920×1080 캡처) | |
+| [changes.md](changes.md) | 지시서를 쓴 뒤 시연 프로그램이 바뀐 기록(항목 C-001 …) — KSIS-B 에 따라 반영할 것 | `pull` 할 때마다 |
 
 ## 진행 방법
 
@@ -25,6 +26,7 @@ KSIS-B(C# Blazor) 화면을 시연 프로그램(이 저장소 main)의 **④ B �
    `D:\ksis-ui-demo\docs\ksis-b-guide\01-variables.md 대로 1단계 진행해 줘`
 3. 단계마다 끝에 **"여기서 멈추고 확인받기"** 가 있습니다. Claude Code 가 바꾼 내용과 확인할 화면을 알려 주면, 직접 화면을 보고 괜찮으면 다음 단계로 넘어갑니다.
 4. 시연 프로그램을 같이 띄워 두고 비교하면 편합니다(`D:\ksis-ui-demo\run\run.bat` → 브라우저 `http://localhost:8090` → ④ B 요구사항).
+5. 시연 프로그램이 바뀌면 `git -C D:\ksis-ui-demo pull` 뒤 `changes.md 의 새 항목 반영해 줘` 로 따라갑니다. 진행 중인 단계를 멈출 필요는 없습니다. 단계 지시서 본문도 같이 고쳐 두므로, 아직 안 한 단계는 그대로 진행하면 됩니다.
 
 ## 기준
 
@@ -32,5 +34,5 @@ KSIS-B(C# Blazor) 화면을 시연 프로그램(이 저장소 main)의 **④ B �
   - `src/main/webapp/ksis-ui/css/ksis-theme-b.css` : B 색(초록 계열)
   - `src/main/webapp/ksis-ui/css/ksis-common.css` : A·B 공통 모양(크기 · 모서리 · 간격 · 동작에 딸린 CSS)
   - `src/main/resources/requirements.json` : 비교표 49행의 요구사항 글(`aRequirement` = 공통 요구, `bNote` = KSIS-B 메모)
-- 지시서의 값과 위 파일이 다르면 **위 파일이 맞습니다**(지시서는 2026-10-28 main `398cfd5` 기준으로 썼습니다).
+- 지시서의 값과 위 파일이 다르면 **위 파일이 맞습니다**(지시서는 2026-10-28 main `398cfd5` 기준으로 썼고, 그 뒤 바뀐 것은 [changes.md](changes.md) 에 적고 본문도 고칩니다).
 - 글꼴은 아직 정하지 않았습니다. KSIS-B 의 지금 글꼴(Pretendard)을 그대로 둡니다.
