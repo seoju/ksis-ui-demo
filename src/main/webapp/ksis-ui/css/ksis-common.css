@@ -249,6 +249,13 @@ button, input, select, textarea { font-family: inherit; }
 .k-menu-group-header:hover { background: var(--k-menu-hover-bg); color: #FFFFFF; }
 /* [11번] 펼친 대메뉴 = 바탕 없이 흰 굵은 글자 */
 .k-menu-group-header.expanded { color: #FFFFFF; font-weight: 700; }
+/* [11번] 선택한 소메뉴가 든 대분류 = 흔적 바탕(색은 테마 파일 --k-menu-parent-bg) + 흰 굵은 글자. 대분류를 접어도 남는다 */
+.k-menu-group-header.has-active,
+.k-menu-group-header.has-active:hover {
+	background: var(--k-menu-parent-bg);
+	color: #FFFFFF;
+	font-weight: 700;
+}
 .k-menu-toggle {
 	display: inline-flex;
 	align-items: center;

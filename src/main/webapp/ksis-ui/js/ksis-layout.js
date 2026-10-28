@@ -148,6 +148,10 @@
 				Array.prototype.forEach.call(sidebar.querySelectorAll(".k-menu-item"), function (a) {
 					a.classList.toggle("active", !!tab && a.dataset.path === tab.path);
 				});
+				// [11번] 선택한 소메뉴가 든 대분류에도 흔적(접어 둬도 남음)
+				Array.prototype.forEach.call(sidebar.querySelectorAll(".k-menu-group"), function (g) {
+					g.querySelector(".k-menu-group-header").classList.toggle("has-active", !!g.querySelector(".k-menu-item.active"));
+				});
 				renderTabs();
 			}
 
