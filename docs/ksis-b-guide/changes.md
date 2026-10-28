@@ -28,4 +28,15 @@
 
 ## 항목
 
-아직 없습니다. (`398cfd5` 뒤의 `ca65ac8` 은 시연 프로그램 첫 화면의 빌드 시각 · `run.bat` 만 바꿔 KSIS-B 화면과 상관없습니다.)
+(`398cfd5` 뒤의 `ca65ac8` 은 시연 프로그램 첫 화면의 빌드 시각 · `run.bat` 만 바꿔 KSIS-B 화면과 상관없습니다.)
+
+### C-001 · 2026-10-28 · 커밋 메시지가 `C-001` 로 시작하는 커밋 · 대분류를 접으면 흔적 없앰
+- 요구사항 : 비교표 11번(선택·마우스 올림 색) — 대분류 흔적 2안 보완
+- 단계 : 02-layout.md 의 2-3 (본문 · 확인 표 · 완성 그림 고쳐 둠)
+- KSIS-B 에 적용할 것 :
+  - 보는 화면이 든 대분류의 흔적(`.has-active`, #03C75A 50% 바탕 + 흰 굵은 글자)은 **그 대분류를 펼쳐 둔 동안만** 보입니다.
+  - 대분류를 접으면 흔적이 없어져 다른 접힌 대분류와 똑같이 보입니다(바탕 없음, 굵기 500, 올리면 보통 올림 색 흰색 12%). 다시 펼치면 흔적이 다시 보입니다.
+  - 고칠 곳은 CSS 한 군데 : `.sidebar-group-header.has-active` 와 `:hover` 규칙의 선택자를 `.sidebar-group-header.expanded.has-active` · `.sidebar-group-header.expanded.has-active:hover` 로 바꿉니다. `has-active` 클래스를 붙이는 코드는 그대로 둡니다(접어도 붙어 있음).
+  - 확인 : 소메뉴 하나를 열고 → 그 대분류에 흔적 보임 → 그 대분류를 접음 → 흔적 없음 → 다시 펼침 → 흔적 보임.
+- 참고 파일 : `ksis-common.css` 의 `.k-menu-group-header.expanded.has-active` 규칙, `img/step2-menu-parent-mark.png` · `img/step2-menu-parent-folded.png`
+- 해당 : A·B 모두
