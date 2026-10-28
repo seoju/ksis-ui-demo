@@ -10,10 +10,12 @@ KSIS-B 폴더(`D:\test`) **바깥**에 시연 프로그램을 참고용으로 �
    ```
    - git 이 없으면 https://github.com/seoju/ksis-ui-demo 에서 [Code] → [Download ZIP] 을 받아 `D:\ksis-ui-demo` 에 풉니다(안에 바로 `src`, `docs`, `run` 폴더가 보이게).
    - 나중에 시연 프로그램이 바뀌면 `git -C D:\ksis-ui-demo pull` 로 새로 받습니다.
-2. Claude Code 입력창에 아래를 쳐서 그 폴더도 읽을 수 있게 합니다.
-   ```
-   /add-dir D:\ksis-ui-demo
-   ```
+2. 따로 할 일은 없습니다. Claude Code 가 D:\ksis-ui-demo 를 처음 읽을 때 허락을 물으면 허락(가능하면 "이번 세션 동안 허락")을 고릅니다.
+   - 매번 묻는 게 번거로우면 `D:\test\.claude\settings.local.json` 에 아래를 넣어 두면 됩니다(이 파일이 이미 있으면 `permissions` 안에 `additionalDirectories` 줄만 더함).
+     ```json
+     { "permissions": { "additionalDirectories": ["D:\\ksis-ui-demo"] } }
+     ```
+   - 터미널판 Claude Code 에서는 `/add-dir D:\ksis-ui-demo` 로도 됩니다(VS Code 확장에서는 이 명령이 없음).
 3. (권장) 시작 전에 KSIS-B 의 지금 상태를 git 에 커밋해 두면, 단계마다 잘못돼도 쉽게 되돌릴 수 있습니다. 첫 지시문이 이것도 확인합니다.
 
 ## 첫 지시문 (Claude Code 에 그대로 붙여 넣기)
