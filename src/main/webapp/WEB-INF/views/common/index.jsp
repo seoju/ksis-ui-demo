@@ -11,14 +11,15 @@
 <body class="ds-index">
 <div class="ds-index-wrap">
 	<h1>KSIS UI 통일 시연</h1>
-	<p class="lead">KSIS A·B 비교표(49행)의 결론을 화면 영역별로 보여 준다. 영역마다 4칸을 나란히 놓는다.</p>
+	<p class="lead">KSIS A·B 비교표(49행)의 결론을 화면 영역별로 보여 준다. 영역마다 4칸을 나란히 놓는다.
+		<c:if test="${not empty buildTime}"><span class="build">빌드 ${buildTime} (한국 시간)</span></c:if></p>
 	<ol class="ds-variants">
 		<c:forEach var="v" items="${variants}">
 			<li class="${v.theme == null ? 'is-orig' : 'is-req'}"><b>${v.label}</b><span>${v.source}</span></li>
 		</c:forEach>
 	</ol>
 	<p class="note">③과 ④는 같은 JSP · 같은 <code>ksis-common.css</code> · 같은 JS 를 쓰고, 색 테마 파일(<code>ksis-theme-a.css</code> / <code>ksis-theme-b.css</code>) 한 줄만 다르다.
-		색 말고 다른 것은 시스템 이름 글자(KSIS-A · Advanced / KSIS-B · Bridge + 빌드버전), 가로바 사번 옆 문구(A 2개 / B 1개), 업무 팝업의 전체 화면 버튼(B만)뿐이다.</p>
+		색 말고 다른 것은 시스템 심볼 그림(KSIS-A · Advanced / KSIS-B · Bridge), 가로바 사번 옆 문구(A 2개 / B 1개), 업무 팝업의 전체 화면 버튼(B만)뿐이다.</p>
 
 	<div class="ds-cards">
 		<a class="ds-card is-summary" href="<c:url value='/summary'/>">

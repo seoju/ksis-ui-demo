@@ -51,6 +51,12 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<executions>
+					<!-- 빌드 시각을 META-INF/build-info.properties 에 남김 → 첫 화면에 표시(받은 war 가 최신인지 확인용) -->
+					<execution>
+						<goals><goal>build-info</goal></goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

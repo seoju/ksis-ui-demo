@@ -1,5 +1,10 @@
 package com.kefico.ksis.uidemo.web;
 
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.info.BuildProperties;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,16 +33,21 @@ public class DemoController {
 
 	private final RequirementCatalog catalog;
 	private final ObjectMapper mapper;
+	private final String buildTime;   // 첫 화면에 보이는 빌드 시각(한국 시간). IDE 에서 바로 띄우면 build-info 가 없어 빈 값
 
-	public DemoController(RequirementCatalog catalog, ObjectMapper mapper) {
+	public DemoController(RequirementCatalog catalog, ObjectMapper mapper, ObjectProvider<BuildProperties> build) {
 		this.catalog = catalog;
 		this.mapper = mapper;
+		BuildProperties b = build.getIfAvailable();
+		this.buildTime = b == null || b.getTime() == null ? ""
+				: DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm").withZone(ZoneId.of("Asia/Seoul")).format(b.getTime());
 	}
 
 	@GetMapping("/")
 	public String index(Model model) {
 		model.addAttribute("areas", DemoArea.values());
 		model.addAttribute("variants", Variant.values());
+		model.addAttribute("buildTime", buildTime);
 		return "common/index";
 	}
 

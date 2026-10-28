@@ -21,6 +21,8 @@ KSIS A·B 비교표(49행)의 결론을 **코드로 전달**하기 위한 작은
    없으면 https://adoptium.net/temurin/releases/?version=17&os=windows 에서 JDK .msi 를 받아 설치합니다(설치 중 "Add to PATH" · "Set JAVA_HOME" 켜기).
 2. `run` 폴더의 `run.bat` 을 두 번 누릅니다. 약 15초 뒤 브라우저가 http://localhost:8090 으로 열립니다. 까만 창을 닫으면 꺼집니다.
    (`run/ksis-ui-demo.war` 는 이 코드를 미리 빌드해 둔 것입니다. 코드를 고치면 `./mvnw package` 로 다시 만든 `target/ksis-ui-demo.war` 를 복사합니다.)
+3. 새로 받은 war 를 띄웠는지는 첫 화면 제목 아래 **빌드 시각(한국 시간)** 으로 확인합니다. 이전 데모 창이 아직 열려 있으면 8090 포트가 막혀 새 war 가 뜨지 못하고 브라우저에는 옛 화면이 보입니다. 이때 `run.bat` 이 `[!] Port 8090 is already in use` 를 띄우니 이전 까만 창을 닫거나(안 보이면 작업 관리자에서 Java 끝내기) 다시 실행합니다.
+   CSS · JS · 그림은 브라우저가 매번 바뀌었는지 묻게 해 두어(`Cache-Control: no-cache`) 새 war 를 띄우면 새로고침만으로 바뀐 모습이 보입니다.
 
 ### 코드에서 바로 실행
 

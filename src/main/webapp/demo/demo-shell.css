@@ -86,6 +86,7 @@ table.ds-req { width: 100%; min-width: 1100px; border-collapse: collapse; table-
 .ds-index h1 { font-size: 26px; margin: 0 0 6px; }
 .ds-index h2 { font-size: 16px; margin: 30px 0 10px; }
 .ds-index .lead { color: var(--ds-ink-2); margin: 0 0 14px; }
+.ds-index .lead .build { margin-left: 8px; padding: 2px 8px; border-radius: 6px; background: #FFFFFF; border: 1px solid var(--ds-line); font-size: 13px; white-space: nowrap; }
 .ds-index .note { color: var(--ds-ink-2); background: #FFFFFF; border: 1px solid var(--ds-line); border-radius: 10px; padding: 10px 14px; }
 .ds-variants { list-style: none; padding: 0; margin: 0 0 12px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; }
 .ds-variants li { background: #FFFFFF; border: 1px solid var(--ds-line); border-radius: 10px; padding: 10px 12px; }
