@@ -237,7 +237,7 @@ button, input, select, textarea { font-family: inherit; }
 	--k-menu-row-h: calc(.7 * (20 * var(--k-sb-pad) + 18.9 * var(--k-sb-font)));
 	display: flex;
 	flex-direction: column;
-	padding: calc(16 * var(--k-sb-pad)) calc(12 * var(--k-sb-pad));
+	padding: calc(16 * var(--k-sb-pad)) calc(8 * var(--k-sb-pad));   /* 좌우 12 → 8 : 긴 소메뉴 이름 자리 확보(1안, 2026-10-28) */
 	gap: calc(4 * var(--k-sb-pad));
 }
 .k-menu-group { display: flex; flex-direction: column; }
@@ -304,7 +304,7 @@ button, input, select, textarea { font-family: inherit; }
 .k-menu-item {
 	display: block;
 	height: var(--k-menu-row-h);
-	padding: 0 calc(14 * var(--k-sb-pad)) 0 calc(48 * var(--k-sb-pad));
+	padding: 0 calc(6 * var(--k-sb-pad)) 0 calc(34 * var(--k-sb-pad));   /* 오른쪽 14 → 6, 들여쓰기 48 → 34 : "ㄴ" 가 대분류 이름 시작선(x 42)에 맞음(1안) */
 	border-radius: calc(10 * var(--k-sb-pad));
 	font-size: calc(13.5 * var(--k-sb-font));
 	font-weight: 500;

@@ -119,7 +119,8 @@ KSIS-B 의 클래스 이름은 **그대로 두고**, 그 규칙의 내용만 시
 
 **폭 [3번]** : 240px 고정(화면 크기와 상관없음).
 - `.app-sidebar { width: calc(340 * var(--ui-x)); min-width: fit-content; }` (화면 배율 부분) 를 `width: var(--k-sidebar-w)` 로 바꾸고 `min-width: fit-content` 를 없앱니다.
-- 긴 소메뉴는 끝을 `…` 로 줄이고(`overflow: hidden; text-overflow: ellipsis; white-space: nowrap`), 소메뉴 `<a>` 에 `title="전체 이름"` 을 넣어 마우스를 올리면 전체 이름이 보이게 합니다.
+- 안쪽 여백 · 들여쓰기 **(C-010)** : `.sidebar-menu` 의 `padding: calc(16 * var(--sb-pad)) calc(12 * var(--sb-pad))` 를 `padding: calc(16 * var(--sb-pad)) calc(8 * var(--sb-pad))` 로(좌우 12 → 8), 소메뉴 `.sidebar-subitem` 의 `padding-left: calc(48 * var(--sb-pad)) !important` 를 `padding-left: calc(34 * var(--sb-pad)) !important` 로 줄이고 `padding-right: calc(6 * var(--sb-pad)) !important` 를 더합니다(오른쪽 14 → 6). 대분류 줄(`.sidebar-group-header` 의 14 / 12)은 그대로입니다. 그러면 "ㄴ + 이름" 자리가 154 → 184px 가 되어 "청구문서별 매출 실적 조회"(160px) 같은 한글 12자 이름까지 한 줄에 들어가고, "ㄴ" 가 대분류 이름 시작선(메뉴 왼쪽 끝에서 42px)에 맞습니다.
+- 그래도 넘치는 긴 소메뉴는 끝을 `…` 로 줄이고(`overflow: hidden; text-overflow: ellipsis; white-space: nowrap`), 소메뉴 `<a>` 에 `title="전체 이름"` 을 넣어 마우스를 올리면 전체 이름이 보이게 합니다.
 - 글자 · 여백은 **고정 (C-009)** : `app.css` 화면 배율 부분 `:root` 의 `--sb-pad: clamp(0.5px, calc(100vw / 1920), 1px);` 를 `--sb-pad: 1px;` 로, `--sb-font: clamp(0.8px, calc(100vw / 1344), 1px);` 를 `--sb-font: 1px;` 로 바꿉니다. 폭이 240px 고정이 된 뒤에도 이 두 배율 때문에 창 폭 1920px 아래에서 여백 · 줄 높이가, 1344px 아래에서 글자(최소 10.8px)가 줄고 있었습니다. 두 변수는 좌측 메뉴 규칙(아래 여백 · 글자 · 줄 높이)에서만 쓰므로 다른 화면에는 영향이 없습니다. 아래 CSS 의 `calc(N * var(--sb-pad))` 는 그대로 두면 Npx 가 됩니다.
 
 **바탕 · 그림자 [11번]**
@@ -152,7 +153,7 @@ KSIS-B 의 클래스 이름은 **그대로 두고**, 그 규칙의 내용만 시
 .app-sidebar .sidebar-item, .app-sidebar a.sidebar-item:link, .app-sidebar a.sidebar-item:visited {
     height: var(--k-menu-row-h);
     padding-top: 0;
-    padding-bottom: 0;                       /* 좌우(14 / 소메뉴 왼쪽 48)는 그대로 */
+    padding-bottom: 0;                       /* 좌우 : 대분류 14, 소메뉴 왼쪽 34 · 오른쪽 6 (C-010) */
     line-height: var(--k-menu-row-h);        /* 글자를 줄 가운데에(블록 요소라 line-height 로) */
     overflow: hidden;
     text-overflow: ellipsis;
@@ -386,9 +387,10 @@ SVG 좌표는 참고 시스템의 탭 그림에서 픽셀로 따 온 값이라 *
 | 탭 사이 | 직사각형끼리 25px, 왼쪽 탭의 오른쪽 곡선이 오른쪽 탭 위에 겹침, 보는 탭이 맨 위 |
 | 보는 탭 | 흰 바탕, 글자 #323232, 아래 업무 영역과 선 없이 이어짐(그림자도 안 비침) |
 | 안 보는 탭 | #E4F1E9, 글자 #9F9F9F, 바닥이 곡선 발끝과 한 줄(가운데만 튀어나오지 않음), 올리면 #E3F7EA |
-| 좌측 메뉴 | 폭 240, 왼쪽 위 #275235 → 오른쪽 아래 #153921 (135°), 오른쪽으로 그림자, 경계선 없음 |
+| 좌측 메뉴 | 폭 240, 안쪽 여백 위아래 16 · 좌우 8, 왼쪽 위 #275235 → 오른쪽 아래 #153921 (135°), 오른쪽으로 그림자, 경계선 없음 |
 | 메뉴 줄 | 대분류 · 소메뉴 한 줄 높이 27.2px(처음 38.9px 의 70%), 대분류 이름 오른쪽 가는 선(이름 끝 +10px ~ 줄 끝 −12px) |
-| 메뉴 글자 · 여백 | 창 폭을 1000px 까지 좁혀도 소메뉴 글자 13.5px · 줄 27.2px · 안쪽 여백 16/12px 그대로(C-009, 창 너비를 따라 줄지 않음) |
+| 메뉴 글자 · 여백 | 창 폭을 1000px 까지 좁혀도 소메뉴 글자 13.5px · 줄 27.2px · 안쪽 여백 16/8px 그대로(C-009, 창 너비를 따라 줄지 않음) |
+| 소메뉴 들여쓰기 | "ㄴ" 가 대분류 이름 시작선(메뉴 왼쪽 끝에서 42px)에 맞음. "청구문서별 매출 실적 조회" · "K품번 기준 고객품번 조회" 를 비롯한 소메뉴 33개 모두 … 없이 한 줄(C-010) |
 | 메뉴 넘침 | 대분류를 모두 펼친 뒤 메뉴 위에서 휠 → 메뉴만 굴러가 마지막 소메뉴까지 보임, 스크롤바 안 보임 |
 | 메뉴 상태 | 펼친 대분류 = 흰 굵은 글자(바탕 없음), 보는 소메뉴 = #03C75A 채움, 그 대분류 = 반투명 초록(펼쳐 둔 동안만, 접으면 없음) |
 | ≡ 로 접기 | 0.15초에 폭 0, 탭은 **제자리**(x 362 그대로) |

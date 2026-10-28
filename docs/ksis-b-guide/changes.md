@@ -123,3 +123,15 @@
   - 확인 : 창 폭을 1000px 까지 좁혀도 소메뉴 글자 13.5px · 줄 높이 27.2px · 메뉴 안쪽 여백 16px/12px · 소메뉴 들여쓰기 48px 그대로. 가로바 · 탭(`--ui-y` 배율)은 이번 항목과 무관.
 - 참고 파일 : `ksis-common.css` 의 `--k-sb-pad` · `--k-sb-font` (1px 고정, 예전 값은 주석에 남김)
 - 해당 : A·B 모두
+
+### C-010 · 2026-10-28 · 커밋 메시지가 `C-010` 로 시작하는 커밋 · 긴 소메뉴 이름이 잘리지 않게 안쪽 여백 · 들여쓰기 줄임
+- 요구사항 : 비교표 3번(좌측 메뉴 폭)
+- 단계 : 02-layout.md 2-3 "폭 [3번]" · 줄 높이 CSS 주석 · 2-6 확인 표 (본문 · 완성 그림 고쳐 둠)
+- KSIS-B 에 적용할 것 :
+  - 왜 : 폭 240px 에서 메뉴 안쪽 여백 12×2 · 소메뉴 들여쓰기 48 · 오른쪽 여백 14 를 빼면 "ㄴ + 이름" 자리가 154px 뿐이라 "K품번 기준 고객품번 조회"(155px) · "청구문서별 매출 실적 조회"(160px) 가 … 로 잘렸습니다(ㄴ 17px 별도). 사용자가 검토 1~3안 중 **1안(여백 · 들여쓰기 줄임, 폭 240 유지)** 을 골랐습니다.
+  - `.sidebar-menu { padding: calc(16 * var(--sb-pad)) calc(8 * var(--sb-pad)); }` (좌우 12 → 8)
+  - 소메뉴 `.sidebar-subitem { padding-left: calc(34 * var(--sb-pad)) !important; padding-right: calc(6 * var(--sb-pad)) !important; }` (왼쪽 48 → 34, 오른쪽 14 → 6)
+  - 대분류 줄 `.sidebar-group-header` 의 좌우(14 / 12) · 글자 13.5px · 줄 높이 27.2px · 폭 240px 은 그대로. `…` 규칙(`overflow: hidden; text-overflow: ellipsis; white-space: nowrap`)과 `title` 툴팁은 더 긴 이름을 위해 남겨 둡니다.
+  - 확인 : 1920×1080 에서 "ㄴ" 의 왼쪽이 대분류 이름 시작선(메뉴 왼쪽 끝에서 42px)과 같은 x 에 있고, 소메뉴 줄 폭 224px · "ㄴ + 이름" 자리 184px, 소메뉴 33개 모두 … 없이 한 줄.
+- 참고 파일 : `ksis-common.css` 의 `.k-menu padding` · `.k-menu-item padding`
+- 해당 : A·B 모두
