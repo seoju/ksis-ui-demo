@@ -16,9 +16,10 @@
 	<header class="k-header">
 		<div class="k-header-left">
 			<button type="button" class="k-hamburger" title="메뉴 열기/닫기"><span></span><span></span><span></span></button>
-			<%-- [2번] 시스템 심볼(글자 대신 그림). 누르면 탭을 모두 닫고 첫 화면으로. KSIS-B 심볼은 아직 없어 자리만 비워 둠 --%>
+			<%-- [2번] 시스템 심볼(글자 대신 그림). 누르면 탭을 모두 닫고 첫 화면으로. A : KSIS-A · Advanced / B : KSIS-B · Bridge --%>
 			<div class="k-logo" title="처음 화면으로 이동">
-				<c:if test="${theme != 'b'}"><img class="k-logo-img" src="<c:url value='/ksis-ui/img/ksis-a-logo.png'/>" alt="${sysCode}"></c:if>
+				<c:set var="logoImg" value="${theme == 'b' ? 'ksis-b-logo.png' : 'ksis-a-logo.png'}"/>
+				<img class="k-logo-img" src="<c:url value='/ksis-ui/img/${logoImg}'/>" alt="${sysCode}">
 			</div>
 		</div>
 		<div class="k-user-badge">K123456 ${theme == 'b' ? '일반 담당자' : '영업인원 - WG장'}</div>

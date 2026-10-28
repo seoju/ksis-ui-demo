@@ -161,7 +161,8 @@ button, input, select, textarea { font-family: inherit; }
    심볼 본체 오른쪽 'A' 아래 빈 곳에 영문 줄(Kefico Sales Information System - Advanced)을 넣어 그림이 오른쪽으로 길다.
    심볼 본체는 가로바(45px) 안 위 여백 2.5px · 높이 40px × 세로 배율. 영문 줄만 'A' 와 띄우려고 2px 더 내려 그림 높이 42px
    (가로바 아래끝까지 0.5px), 폭은 그림 비율대로(약 275px).
-   KSIS-B 는 그림이 없어도 같은 자리를 비워 둔다 */
+   KSIS-B 심볼(KSIS-B · Bridge)은 같은 틀 · 같은 크기, 'Bridge' 가 짧아 폭 약 261px.
+   자리 폭은 A 그림 폭으로 두어(min-width) 두 시스템의 탭 위치를 같게 한다 */
 .k-logo {
 	display: flex;
 	align-items: center;
