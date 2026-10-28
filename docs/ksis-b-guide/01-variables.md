@@ -59,9 +59,9 @@
     --k-topbar: #006B35;
     --k-topbar-hamburger-hover: #D6F5E3;
 
-    /* 좌측 메뉴 (2안 : 가로바 진하기 80%) */
-    --k-menu-grad-start: #338B53;
-    --k-menu-grad-end: #3A9259;
+    /* 좌측 메뉴 (2안 진한 메뉴 + 그라데이션 3안 Trello 다크 보드식, C-008) */
+    --k-menu-grad-start: #275235;
+    --k-menu-grad-end: #153921;
     --k-menu-text: #E6F4EB;
     --k-menu-hover-bg: rgba(255, 255, 255, .12);
     --k-menu-line: rgba(255, 255, 255, .35);      /* [8번] 대분류 이름 오른쪽 가로선 (C-005) */

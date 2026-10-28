@@ -100,3 +100,15 @@
   - `.search-area .data-options-left > label:not(:first-child), .search-area .data-options-left > :not(.btn) + .btn { margin-left: 6px; }` (기본 gap 6px + 6px). 라벨에 직접 쓴 `margin-left:10px` 는 지움.
 - 참고 파일 : `ksis-common.css` 의 `.k-search > label:not(:first-child)` 규칙
 - 해당 : A·B 모두
+
+### C-008 · 2026-10-28 · 커밋 메시지가 `C-008` 로 시작하는 커밋 · 좌측 메뉴 바탕 그라데이션을 Trello 다크 보드식으로
+- 요구사항 : 비교표 11번(선택 · 마우스 올림 색) — 메뉴 바탕
+- 단계 : 01-variables.md(`--k-menu-grad-start/end`) · 02-layout.md 의 2-3 "바탕 · 그림자" CSS · 2-6 확인 표 (본문 · 완성 그림 고쳐 둠)
+- KSIS-B 에 적용할 것 :
+  - 사용자가 대기업 화면 3곳(SAP Fiori · Spotify · Trello)의 그라데이션 시안 중 **3안 Trello(Atlassian) 다크 보드식**을 골랐습니다 : 같은 색 두 단계를 135° 대각선으로, 왼쪽 위가 조금 밝고 오른쪽 아래가 어둡게.
+  - 테마 변수 : `--k-menu-grad-start: #275235; --k-menu-grad-end: #153921;` (지금 #338B53 / #3A9259 를 바꿈. 가로바 #006B35 보다 채도를 낮춘 짙은 초록)
+  - `.app-sidebar` 의 `background: linear-gradient(to bottom right, …)` → `linear-gradient(135deg, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%)` (방향도 `135deg` 로)
+  - 글자 #E6F4EB · 올림 흰 12% · 선택 #03C75A 채움 · 대분류 흔적 50% · 가로선 흰 35% 는 그대로. 메뉴 그림자도 그대로.
+  - 확인 : 1920×1080 에서 메뉴 왼쪽 위가 #275235, 오른쪽 아래가 #153921 에 가깝고, 흰 글자 · 초록 선택 줄이 또렷한지.
+- 참고 파일 : `ksis-theme-b.css` 의 `--k-menu-grad-start/end`, `ksis-common.css` 의 `.k-sidebar background`
+- 해당 : A·B 모두 (A 는 #223661 → #152341)

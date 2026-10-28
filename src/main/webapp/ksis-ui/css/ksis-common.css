@@ -206,8 +206,8 @@ button, input, select, textarea { font-family: inherit; }
 }
 
 /* [3번] 좌측 메뉴 폭 : 240px 고정(기존 KSIS-A 와 같은 방식 · 같은 폭, 화면 크기와 상관없음). 긴 소메뉴는 끝을 … 로 줄임
-   [11번] 바탕 : 진한 메뉴. 가로바 색 계열이지만 가로바보다 한 단계 연하게(진하기 80%) 해 가로바와 구분,
-          왼쪽 위 → 오른쪽 아래로 조금 더 연해지는 대각선 그라데이션(색은 테마 파일 --k-menu-*)
+   [11번] 바탕 : 진한 메뉴. 가로바 색 계열이지만 채도를 낮춘 짙은 색 두 단계를 135° 대각선으로 이어
+          왼쪽 위가 조금 밝고 오른쪽 아래가 어둡다(2026-10-28 그라데이션 검토 3안 = Trello 다크 보드식, 색은 테마 파일 --k-menu-*)
           오른쪽으로 그림자(경계에 붙는 짧은 그림자 + 넓게 번지는 그림자)를 드리워(업무 영역 왼쪽 끝에만 보임)
           업무 영역보다 위에 있는 것처럼. 경계선은 없음(기존 KSIS-A 처럼) */
 .k-sidebar {
@@ -220,7 +220,7 @@ button, input, select, textarea { font-family: inherit; }
 	overflow-y: auto;
 	overscroll-behavior: contain;  /* 메뉴 끝에 닿아도 업무 화면까지 같이 굴러가지 않게 */
 	scrollbar-width: none;
-	background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%);
+	background: linear-gradient(135deg, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%);
 	box-shadow: 1px 0 3px rgba(0, 0, 0, .18), 4px 0 16px rgba(0, 0, 0, .30);
 	transition: width .15s ease, box-shadow .15s ease;
 }
