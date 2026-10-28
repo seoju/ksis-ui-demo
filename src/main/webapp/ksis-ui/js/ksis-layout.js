@@ -49,12 +49,35 @@
 			var badge = document.querySelector(".k-user-badge");
 			function measureHead() {
 				var root = document.documentElement.style;
+				// 화면 픽셀 1개 크기(브라우저 확대 125% 면 0.8px). 대분류 가로선처럼 가는 선을 늘 같은 두께로 그릴 때 쓴다
+				root.setProperty("--k-px", 1 / (window.devicePixelRatio || 1) + "px");
+				snapHamburger();
 				if (headLeft) root.setProperty("--k-header-left-w", Math.ceil(headLeft.getBoundingClientRect().right) + "px");
 				if (badge) root.setProperty("--k-badge-bottom", Math.ceil(badge.getBoundingClientRect().bottom) + "px");
 			}
+			// [4번] ≡ 세 줄을 실제 화면 픽셀에 맞춤 : 줄 두께 · 간격 · 폭을 화면 픽셀 정수 개로 반올림해 준다.
+			//        브라우저는 상자를 화면 픽셀 경계에 붙여 그리므로, 두께 · 간격이 정수 픽셀이면 세 줄이 늘 같은 두께 · 같은 간격
+			function snapHamburger() {
+				if (!ham) return;
+				var st = ham.style, dpr = window.devicePixelRatio || 1;
+				["--k-ham-line", "--k-ham-gap", "--k-ham-w"].forEach(function (k) { st.removeProperty(k); });
+				var box = ham.getBoundingClientRect();                        // 22 × 16 (× 세로 배율)
+				var line = Math.max(1, Math.round(box.height / 8 * dpr));     // 줄 두께 = 높이의 1/8(16 중 2)
+				var gap = Math.max(1, Math.round((box.height * dpr - 3 * line) / 2));
+				st.setProperty("--k-ham-line", line / dpr + "px");
+				st.setProperty("--k-ham-gap", gap / dpr + "px");
+				st.setProperty("--k-ham-w", Math.round(box.width * dpr) / dpr + "px");
+			}
 			measureHead();
-			window.addEventListener("resize", measureHead);
+			window.addEventListener("resize", measureHead);                // 창 크기 · 브라우저 확대(Ctrl + 휠)를 바꿀 때
 			window.addEventListener("load", measureHead); // 글꼴이 늦게 들어와 글자 크기가 바뀌는 경우
+			// 창을 배율이 다른 모니터로 옮기면 resize 없이 화면 픽셀 크기만 바뀔 수 있어 따로 지켜봄
+			(function watchDpr() {
+				if (!window.matchMedia) return;
+				var mq = window.matchMedia("(resolution: " + (window.devicePixelRatio || 1) + "dppx)");
+				if (!mq.addEventListener) return;
+				mq.addEventListener("change", function () { measureHead(); watchDpr(); }, { once: true });
+			})();
 
 			// ---- [9번] 대분류 펼침(각자 따로, 기억) ----
 			function loadOpen() { try { return JSON.parse(localStorage.getItem(OPEN_KEY) || "[]"); } catch (e) { return []; } }

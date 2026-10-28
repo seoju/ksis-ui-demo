@@ -11,7 +11,7 @@
 <div class="demo-page">
 
 	<div class="demo-sec">
-		<p class="demo-h"><b>38 · 42번</b> 검색 영역 : 회색 상자 46px 한 줄 · [모드 버튼] · 조건 · [검색] [해제] · 항목 사이 6px</p>
+		<p class="demo-h"><b>38 · 42번</b> 검색 영역 : 회색 상자 46px 한 줄 · [모드 버튼] · 조건 · [검색] [해제] · 같은 것끼리 6px(라벨 ↔ 입력칸, 날짜 ~ 날짜, [검색] ↔ [해제]) · 다른 것끼리 12px(입력칸 → 다음 라벨, 마지막 입력칸 → [검색])</p>
 		<div class="k-search">
 			<div class="k-seg" data-name="region">
 				<button type="button" class="k-seg-btn selected" data-value="KR">국내</button>
@@ -72,7 +72,7 @@
 	</div>
 
 	<div class="demo-sec">
-		<p class="demo-h"><b>41번</b> 날짜 : 20261026 · 2026-10-26 · 2026.10.26 · 2026/10/26 모두 같은 날 → 칸을 떠나면 2026-10-26, 서버 값 20261026 · 그 달에 없는 일은 마지막 날로(2025-02-30 → 02-28, 2024-02-30 → 02-29, 2026-04-31 → 04-30) · Tab 은 달력 버튼에 멈추지 않음</p>
+		<p class="demo-h"><b>41번</b> 날짜 : 20261026 · 2026-10-26 · 2026.10.26 · 2026/10/26 모두 같은 날 → 칸을 떠나면 2026-10-26, 서버 값 20261026 · 그 달에 없는 일은 마지막 날로(2025-02-30 → 02-28, 2024-02-30 → 02-29, 2026-04-31 → 04-30) · Tab 은 달력 버튼에 멈추지 않음 · 달력 버튼은 입력칸 안 오른쪽 끝(20px)</p>
 		<div class="demo-line" style="align-items:flex-start;min-height:300px">
 			<span class="k-date" id="demoDateOpen"><input type="text" class="k-input" value="2026/10/26"><button type="button" class="k-date-btn" tabindex="-1" title="달력"><svg class="k-ico"><use href="#i-cal"/></svg></button></span>
 			<span class="k-tilde" style="line-height:30px">~</span>

@@ -14,6 +14,7 @@
 | `img/step2-menu-parent-mark.png` | 보는 화면(수주 관리)이 든 대분류를 펼쳐 둔 동안 대분류에 흔적이 보임 |
 | `img/step2-menu-parent-folded.png` | 그 대분류를 접으면 흔적이 없어져 다른 접힌 대분류와 똑같이 보임 |
 | `img/step2-menu-collapsed.png` | ≡ 로 메뉴를 접은 모습(탭은 제자리) |
+| `img/step2-menu-scroll.png` | 대분류를 모두 펼쳐 넘친 메뉴를 마우스 휠로 맨 아래까지 내린 모습(스크롤바 없음) |
 
 시연 프로그램에서 직접 보기: `http://localhost:8090/view/req-b/layout`
 
@@ -51,7 +52,23 @@ KSIS-B 의 클래스 이름은 **그대로 두고**, 그 규칙의 내용만 시
 - 높이 `calc(45 * var(--ui-y))` (지금과 같음). 바탕 `var(--k-topbar)` = #006B35 (지금과 같음).
 - 안쪽 여백 `0 calc(24 * var(--ui-y)) 0 calc(15 * var(--ui-y))` → ≡ 버튼이 화면 왼쪽 끝과 심볼 네모 왼쪽 끝의 **가운데**(왼쪽 15px = ≡ 와 심볼 사이 15px).
 - `.header-left` 간격 `calc(15 * var(--ui-y))` (지금 18).
-- ≡ 버튼: 22×16 · 줄 두께 2 (× 세로 배율), 흰색, 올리면 `var(--k-topbar-hamburger-hover)` — 지금과 같음.
+- ≡ 버튼: 22×16 · 줄 두께 2 · 간격 5 (× 세로 배율), 흰색, 올리면 `var(--k-topbar-hamburger-hover)` — 크기 · 색은 지금과 같음.
+  - **세 줄을 화면 픽셀에 맞춰 그립니다(C-002).** 지금처럼 줄 두께가 `calc(2 * var(--ui-y))` 이면 창 크기 · Edge 확대 비율에 따라 1.75px 같은 소수점이 되어, 세 줄이 화면 픽셀에 서로 다르게 걸려 한 줄만 굵거나 흐려 보입니다. 그래서 줄 두께 · 간격 · 폭을 JS 가 화면 픽셀 정수 개로 반올림해 CSS 변수로 주고(아래 2-4 의 (2) `snapHamburger`), CSS 는 그 변수를 씁니다. 화면 배율 블록의 `.hamburger-btn` 규칙을 아래로 바꿉니다(`space-between` → 가운데 + gap):
+    ```css
+    .hamburger-btn {
+        width: calc(22 * var(--ui-y));
+        height: calc(16 * var(--ui-y));
+        justify-content: center;
+        align-items: flex-start;
+        gap: var(--k-ham-gap, calc(5 * var(--ui-y)));
+    }
+        .hamburger-btn span {
+            flex: 0 0 auto;
+            width: var(--k-ham-w, 100%);
+            height: var(--k-ham-line, calc(2 * var(--ui-y)));
+        }
+    ```
+    JS 값이 없을 때(처음 그릴 때)는 기본값(지금과 같은 크기)으로 보입니다.
 - 가운데 사번 문구: 지금 B 그대로(`K123456 일반 담당자` 처럼 사번 + 문구 1개, 10.7px × 세로 배율, 굵기 600, 위 6px × 세로 배율).
 - **오른쪽 안내 문구 · 아이콘(.header-right, .header-tagline) 을 마크업과 CSS 에서 모두 없앱니다.** `@media (max-width: 860px)` 의 숨김 규칙도 없앱니다.
   - [10번] 대분류를 누르면 이 문구가 바뀌던 코드도 같이 없앱니다(대분류는 펼치기 · 접기만).
@@ -111,14 +128,49 @@ KSIS-B 의 클래스 이름은 **그대로 두고**, 그 규칙의 내용만 시
     position: relative;
     z-index: 5;
     width: var(--k-sidebar-w);
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;                  /* [9번] 넘치면 마우스 휠로 위아래 (C-004) */
+    overscroll-behavior: contain;      /* 메뉴 끝에 닿아도 업무 화면은 같이 안 굴러감 */
+    scrollbar-width: none;             /* 세로 스크롤바는 그리지 않음 */
     border-right: none;
     background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%);  /* #338B53 → #3A9259 */
     box-shadow: 1px 0 3px rgba(0, 0, 0, .18), 4px 0 16px rgba(0, 0, 0, .30);
     transition: width .15s ease, box-shadow .15s ease;
 }
+.app-sidebar::-webkit-scrollbar { display: none; }                    /* 스크롤바 숨김(Edge · Chrome) */
 .app-sidebar.collapsed { width: 0; min-width: 0; box-shadow: none; }   /* [4번] 접기 : 폭 0, 그림자도 없앰 */
 ```
+- **[9번] 휠 스크롤(C-004)** : 대분류를 여러 개 펼쳐 메뉴가 화면 아래로 넘치면 메뉴 위에서 마우스 휠로 위아래로 굴립니다. 세로 스크롤바는 화면에 그리지 않습니다(휠 · 터치패드로만). 메뉴 아래 여백(16px)까지 내려가 마지막 소메뉴가 다 보여야 합니다. `.app-sidebar` 가 화면 높이 안에 갇혀 있어야 굴러가므로(`.app-body` 가 `min-height: 0` 인 flex), 굴러가지 않으면 그 부모 높이부터 확인합니다.
+
+**줄 높이 [11번] (C-003)** : 대분류 · 소메뉴 한 줄(선택 · 올림 때 칠해지는 상자) 높이 = 처음(위아래 10px + 13.5px × 줄 간격 1.4 = 38.9px)의 **70% = 27.2px**. 글자 크기 · 좌우 여백 · 줄 사이 간격(대분류 사이 4px, 소메뉴 사이 2px)은 그대로, 위아래 여백만 없애고 높이를 정합니다. 화면 배율 블록에서:
+```css
+.sidebar-menu { --k-menu-row-h: calc(.7 * (20 * var(--sb-pad) + 18.9 * var(--sb-font))); }   /* 1920 폭에서 27.2px */
+.sidebar-group-header {
+    height: var(--k-menu-row-h);
+    padding: 0 calc(12 * var(--sb-pad)) 0 calc(14 * var(--sb-pad));   /* 오른쪽 12 = 아래 가로선 끝 여백 */
+}
+.app-sidebar .sidebar-item, .app-sidebar a.sidebar-item:link, .app-sidebar a.sidebar-item:visited {
+    height: var(--k-menu-row-h);
+    padding-top: 0;
+    padding-bottom: 0;                       /* 좌우(14 / 소메뉴 왼쪽 48)는 그대로 */
+    line-height: var(--k-menu-row-h);        /* 글자를 줄 가운데에(블록 요소라 line-height 로) */
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+```
+
+**대분류 가로선 [8번] (C-005)** : 대분류 이름 오른쪽에 가는 가로선을 긋습니다. 이름 끝에서 10px 띄워 시작해 대분류 줄 오른쪽 끝 12px 앞까지(이름이 길면 선이 짧고, 짧으면 길게). 색 `var(--k-menu-line)` = 흰색 35%, 두께는 화면 픽셀 1개(`--k-px`, 아래 2-4 (2) JS 가 줌 — Edge 확대 비율에 따라 줄마다 굵기가 달라 보이지 않게).
+```css
+.sidebar-group-header::after {
+    content: "";
+    flex: 1 1 auto;
+    min-width: calc(8 * var(--sb-pad));
+    height: var(--k-px, 1px);
+    margin-left: calc(4 * var(--sb-pad));   /* 이름과 간격 6px(gap) + 4px = 10px */
+    background: var(--k-menu-line);
+}
+```
+- 펼친 대분류 · 흔적 · 마우스 올림 상태에서도 선은 그대로 보입니다. `.sidebar-group-title` 이 `white-space: nowrap` 이라 이름은 줄바꿈되지 않습니다.
 
 **글자 · 상태 색 [11번]** — 지금의 `color: #4C4C4C !important`, `rgba(3,199,90,.10)`, `#E7F9EE` 들을 아래로 바꿉니다.
 
@@ -164,17 +216,42 @@ KSIS-B 의 클래스 이름은 **그대로 두고**, 그 규칙의 내용만 시
 
 ```js
 // [14번] 탭 위치 계산용 : 가로바 왼쪽 덩어리(≡ + 심볼) 오른쪽 끝, 가운데 사번 문구 아래끝을 재서 CSS 변수로 넣는다
+// [4번] ≡ 세 줄 · [8번] 대분류 가로선을 화면 픽셀에 맞춤 (C-002 · C-005)
 window.ksisLayout = {
     measureHead: function () {
         var root = document.documentElement.style;
+        // 화면 픽셀 1개 크기(브라우저 확대 125% 면 0.8px). 대분류 가로선 두께
+        root.setProperty("--k-px", 1 / (window.devicePixelRatio || 1) + "px");
+        window.ksisLayout.snapHamburger();
         var left = document.querySelector(".header-left");
         var badge = document.querySelector(".header-user-badge");
         if (left) root.setProperty("--k-header-left-w", Math.ceil(left.getBoundingClientRect().right) + "px");
         if (badge) root.setProperty("--k-badge-bottom", Math.ceil(badge.getBoundingClientRect().bottom) + "px");
+    },
+    // ≡ 줄 두께 · 간격 · 폭을 화면 픽셀 정수 개로 반올림해 준다.
+    // 브라우저는 상자를 화면 픽셀 경계에 붙여 그리므로, 두께 · 간격이 정수 픽셀이면 세 줄이 늘 같은 두께 · 같은 간격
+    snapHamburger: function () {
+        var ham = document.querySelector(".hamburger-btn");
+        if (!ham) return;
+        var st = ham.style, dpr = window.devicePixelRatio || 1;
+        ["--k-ham-line", "--k-ham-gap", "--k-ham-w"].forEach(function (k) { st.removeProperty(k); });
+        var box = ham.getBoundingClientRect();                        // 22 × 16 (× 세로 배율)
+        var line = Math.max(1, Math.round(box.height / 8 * dpr));     // 줄 두께 = 높이의 1/8(16 중 2)
+        var gap = Math.max(1, Math.round((box.height * dpr - 3 * line) / 2));
+        st.setProperty("--k-ham-line", line / dpr + "px");
+        st.setProperty("--k-ham-gap", gap / dpr + "px");
+        st.setProperty("--k-ham-w", Math.round(box.width * dpr) / dpr + "px");
     }
 };
-window.addEventListener("resize", function () { window.ksisLayout.measureHead(); });
+window.addEventListener("resize", function () { window.ksisLayout.measureHead(); });   // 창 크기 · 브라우저 확대(Ctrl + 휠)
 window.addEventListener("load", function () { window.ksisLayout.measureHead(); });
+// 창을 배율이 다른 모니터로 옮기면 resize 없이 화면 픽셀 크기만 바뀔 수 있어 따로 지켜봄
+(function watchDpr() {
+    if (!window.matchMedia) return;
+    var mq = window.matchMedia("(resolution: " + (window.devicePixelRatio || 1) + "dppx)");
+    if (!mq.addEventListener) return;
+    mq.addEventListener("change", function () { window.ksisLayout.measureHead(); watchDpr(); }, { once: true });
+})();
 ```
 - Blazor 는 화면을 나중에 그리므로, 가로바가 있는 레이아웃(MainLayout 등)의 `OnAfterRenderAsync(firstRender)` 에서 `ksisLayout.measureHead` 를 한 번 부릅니다. 글꼴이 늦게 들어오는 경우를 위해 `document.fonts.ready.then(...)` 에서도 한 번 더 불러도 좋습니다.
 - 사번 문구 **글자 줄(.header-user-badge)** 만 잽니다(KDOCS 경고 등 아래 덩어리 말고).
@@ -303,13 +380,15 @@ SVG 좌표는 참고 시스템의 탭 그림에서 픽셀로 따 온 값이라 *
 | 볼 것 | 맞는 값 (1920×1080) |
 |---|---|
 | 가로바 | 높이 45, #006B35, 오른쪽 문구 · 아이콘 없음, 아래로 짧은 그림자 |
-| ≡ 버튼 | x 15, 22×16 |
+| ≡ 버튼 | x 15, 22×16, 줄 2px · 간격 5px. 창 높이를 바꾸거나 Edge 확대(Ctrl + 휠)를 바꿔도 세 줄이 같은 두께 · 같은 간격 |
 | 심볼 그림 | x 52 · y 2.5, 261×42 |
 | 첫 탭(가운데 직사각형) | x 362, y 21, 높이 32 → 탭 32px 중 24px 가 가로바 안, 아래 흰 띠 8px |
 | 탭 사이 | 직사각형끼리 25px, 왼쪽 탭의 오른쪽 곡선이 오른쪽 탭 위에 겹침, 보는 탭이 맨 위 |
 | 보는 탭 | 흰 바탕, 글자 #323232, 아래 업무 영역과 선 없이 이어짐(그림자도 안 비침) |
 | 안 보는 탭 | #E4F1E9, 글자 #9F9F9F, 바닥이 곡선 발끝과 한 줄(가운데만 튀어나오지 않음), 올리면 #E3F7EA |
 | 좌측 메뉴 | 폭 240, #338B53 → #3A9259, 오른쪽으로 그림자, 경계선 없음 |
+| 메뉴 줄 | 대분류 · 소메뉴 한 줄 높이 27.2px(처음 38.9px 의 70%), 대분류 이름 오른쪽 가는 선(이름 끝 +10px ~ 줄 끝 −12px) |
+| 메뉴 넘침 | 대분류를 모두 펼친 뒤 메뉴 위에서 휠 → 메뉴만 굴러가 마지막 소메뉴까지 보임, 스크롤바 안 보임 |
 | 메뉴 상태 | 펼친 대분류 = 흰 굵은 글자(바탕 없음), 보는 소메뉴 = #03C75A 채움, 그 대분류 = 반투명 초록(펼쳐 둔 동안만, 접으면 없음) |
 | ≡ 로 접기 | 0.15초에 폭 0, 탭은 **제자리**(x 362 그대로) |
 | 본문 | 제목 줄 · 검색 영역이 x 279 부터, 오른쪽도 39px 남김 |

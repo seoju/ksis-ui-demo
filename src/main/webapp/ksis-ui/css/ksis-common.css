@@ -135,11 +135,16 @@ button, input, select, textarea { font-family: inherit; }
 	gap: calc(15 * var(--k-ui-y));
 }
 
-/* [4번] 가로줄 세 개 ≡ 메뉴 접기 버튼(가로바 왼쪽, 같은 버튼으로 접기 · 펴기) */
+/* [4번] 가로줄 세 개 ≡ 메뉴 접기 버튼(가로바 왼쪽, 같은 버튼으로 접기 · 펴기). 그림이 아니라 코드(줄 3개)로 그린다.
+   브라우저 확대 비율 · 창 크기에 따라 줄 두께가 1.76px 처럼 소수점이 되면 줄마다 화면 픽셀에 다르게 걸려 굵기가 달라 보이므로,
+   ksis-layout.js 가 줄 두께 · 간격 · 폭을 실제 화면 픽셀(devicePixelRatio) 정수 개로 맞춰 --k-ham-* 로 준다.
+   → 어떤 확대 비율에서도 세 줄이 같은 두께 · 같은 간격. (값이 없을 때는 아래 기본값 = 22×16 안에 2px 줄 3개, 간격 5px) */
 .k-hamburger {
 	display: flex;
 	flex-direction: column;
-	justify-content: space-between;
+	justify-content: center;
+	align-items: flex-start;
+	gap: var(--k-ham-gap, calc(5 * var(--k-ui-y)));
 	width: calc(22 * var(--k-ui-y));
 	height: calc(16 * var(--k-ui-y));
 	padding: 0;
@@ -149,8 +154,9 @@ button, input, select, textarea { font-family: inherit; }
 }
 .k-hamburger span {
 	display: block;
-	width: 100%;
-	height: calc(2 * var(--k-ui-y));
+	flex: 0 0 auto;
+	width: var(--k-ham-w, 100%);
+	height: var(--k-ham-line, calc(2 * var(--k-ui-y)));
 	border-radius: 1px;
 	background: #FFFFFF;
 	transition: background-color .15s ease;
@@ -209,16 +215,24 @@ button, input, select, textarea { font-family: inherit; }
 	z-index: 5;
 	flex: 0 0 auto;
 	width: var(--k-sidebar-w);
-	overflow: hidden;
+	/* 대분류를 많이 펼쳐 아래로 넘치면 마우스 휠로 위아래 이동. 세로 스크롤바는 그리지 않는다(휠 · 터치패드로만) */
+	overflow-x: hidden;
+	overflow-y: auto;
+	overscroll-behavior: contain;  /* 메뉴 끝에 닿아도 업무 화면까지 같이 굴러가지 않게 */
+	scrollbar-width: none;
 	background: linear-gradient(to bottom right, var(--k-menu-grad-start) 0%, var(--k-menu-grad-end) 100%);
 	box-shadow: 1px 0 3px rgba(0, 0, 0, .18), 4px 0 16px rgba(0, 0, 0, .30);
 	transition: width .15s ease, box-shadow .15s ease;
 }
 /* [4번] 접으면 폭 0(완전히 숨김, 0.15초) · 그림자도 없앰. 접은 상태는 저장하지 않는다 */
+.k-sidebar::-webkit-scrollbar { display: none; }
 .k-sidebar.collapsed { width: 0; min-width: 0; box-shadow: none; }
 .k-sidebar.collapsed .k-menu { display: none; }
 
 .k-menu {
+	/* [11번] 대분류 · 소메뉴 한 줄 높이 = 처음 높이(위아래 10px + 글자 13.5px × 줄 간격 1.4 = 38.9px)의 70% → 27.2px.
+	   글자 크기 · 좌우 여백은 그대로, 위아래 여백만 줄인 것 */
+	--k-menu-row-h: calc(.7 * (20 * var(--k-sb-pad) + 18.9 * var(--k-sb-font)));
 	display: flex;
 	flex-direction: column;
 	padding: calc(16 * var(--k-sb-pad)) calc(12 * var(--k-sb-pad));
@@ -232,7 +246,8 @@ button, input, select, textarea { font-family: inherit; }
 	align-items: center;
 	gap: calc(6 * var(--k-sb-pad));
 	width: 100%;
-	padding: calc(10 * var(--k-sb-pad)) calc(14 * var(--k-sb-pad));
+	height: var(--k-menu-row-h);
+	padding: 0 calc(12 * var(--k-sb-pad)) 0 calc(14 * var(--k-sb-pad));
 	border: none;
 	border-radius: calc(10 * var(--k-sb-pad));
 	background: transparent;
@@ -247,6 +262,16 @@ button, input, select, textarea { font-family: inherit; }
 }
 /* [11번] 마우스 올림 = 흰색 12% 겹침 + 흰 글자 */
 .k-menu-group-header:hover { background: var(--k-menu-hover-bg); color: #FFFFFF; }
+/* [8번] 대분류 이름 오른쪽 가로선 : 이름 끝에서 10px 띄워 시작해 줄 오른쪽 끝 12px 앞까지.
+   이름이 길면 선이 짧고 짧으면 길다. 두께는 화면 픽셀 1개(--k-px, ksis-layout.js 가 줌 — 확대 비율에 따라 줄마다 굵기가 달라지지 않게) */
+.k-menu-group-header::after {
+	content: "";
+	flex: 1 1 auto;
+	min-width: calc(8 * var(--k-sb-pad));
+	height: var(--k-px, 1px);
+	margin-left: calc(4 * var(--k-sb-pad));  /* 이름과의 간격 6px(gap) + 4px = 10px */
+	background: var(--k-menu-line);
+}
 /* [11번] 펼친 대메뉴 = 바탕 없이 흰 굵은 글자 */
 .k-menu-group-header.expanded { color: #FFFFFF; font-weight: 700; }
 /* [11번] 선택한 소메뉴가 든 대분류 = 흔적 바탕(색은 테마 파일 --k-menu-parent-bg) + 흰 굵은 글자.
@@ -276,11 +301,12 @@ button, input, select, textarea { font-family: inherit; }
 /* [8번] 소메뉴 앞 "ㄴ" 글자 */
 .k-menu-item {
 	display: block;
-	padding: calc(10 * var(--k-sb-pad)) calc(14 * var(--k-sb-pad)) calc(10 * var(--k-sb-pad)) calc(48 * var(--k-sb-pad));
+	height: var(--k-menu-row-h);
+	padding: 0 calc(14 * var(--k-sb-pad)) 0 calc(48 * var(--k-sb-pad));
 	border-radius: calc(10 * var(--k-sb-pad));
 	font-size: calc(13.5 * var(--k-sb-font));
 	font-weight: 500;
-	line-height: 1.4;
+	line-height: var(--k-menu-row-h);  /* 글자를 줄 가운데에 */
 	color: var(--k-menu-text);
 	text-decoration: none;
 	white-space: nowrap;
@@ -617,10 +643,15 @@ table.k-grid td.k-empty { padding: 40px 0; height: auto; }
 .k-search .k-seg,
 .k-search .k-btn,
 .k-search .k-tilde { flex-shrink: 0; }
+/* [38·48번] 검색 영역 간격 두 가지 : 같은 것끼리는 6px(라벨 ↔ 그 입력칸, 날짜 ~ 날짜, [검색] ↔ [해제]),
+   다른 것끼리는 두 배 12px(입력칸 → 다음 라벨, 모드 버튼 → 라벨, 마지막 입력칸 → [검색]). 기본 간격 6px 에 왼쪽 6px 를 더함 */
+.k-search > label:not(:first-child),
+.k-search > .k-search-label:not(:first-child),
+.k-search > :not(.k-btn) + .k-btn { margin-left: var(--k-gap-h); }
 .k-search .k-input,
 .k-search .k-select-wrap,
 .k-search .k-date { flex: 0 1 auto; min-width: 84px; }
-.k-search .k-date { min-width: 140px; } /* 날짜는 yyyy-mm-dd 10글자 + 달력 버튼이 보이는 데까지만 줄어듦 */
+.k-search .k-date { flex-shrink: 0; min-width: 118px; } /* 날짜는 줄이지 않음(yyyy-mm-dd 10글자 + 안쪽 달력 버튼) */
 .k-search-right { display: flex; align-items: center; gap: var(--k-gap-h); margin-left: auto; flex-shrink: 0; }
 .k-tilde { color: var(--k-text-sub); }
 
@@ -710,19 +741,24 @@ table.k-grid td.k-empty { padding: 40px 0; height: auto; }
 /* 마우스 올린 줄(키보드로 옮긴 줄도) : 확인 버튼 색 + 흰 글자 */
 .k-select-list li.hover { background: var(--k-primary); color: #FFFFFF; }
 
-/* [41번] 날짜 입력 : 글자 칸 + 달력 버튼(주색). yyyyMMdd · yyyy-MM-dd · yyyy.MM.dd · yyyy/MM/dd 모두 받음 */
-.k-date { position: relative; display: inline-flex; align-items: center; gap: 4px; }
-.k-date .k-input { width: 118px; min-width: 0; flex: 1 1 auto; }
+/* [41번] 날짜 입력 : 글자 칸 + 달력 버튼(주색). yyyyMMdd · yyyy-MM-dd · yyyy.MM.dd · yyyy/MM/dd 모두 받음.
+   달력 버튼은 입력칸 안 오른쪽 끝에 넣는다. 입력칸 크기(118×30)는 그대로, 버튼만 30 → 20px 로 줄이고
+   입력칸 오른쪽 테두리와 4px 띄움. 글자는 버튼 앞까지만(오른쪽 안쪽 여백 26px) → 2026-10-28 이 버튼에 가리지 않음 */
+.k-date { position: relative; display: inline-flex; align-items: center; }
+.k-date .k-input { width: 118px; min-width: 0; flex: 1 1 auto; padding-right: 26px; }
 .k-date-btn {
-	flex: 0 0 auto;
+	position: absolute;
+	top: 50%;
+	right: 5px;  /* 테두리 1px + 4px */
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 30px;
-	height: 30px;
+	width: 20px;
+	height: 20px;
+	margin-top: -10px;
 	padding: 0;
 	border: none;
-	border-radius: 8px;
+	border-radius: 6px;
 	background: var(--k-primary);
 	color: #FFFFFF;
 	cursor: pointer;
@@ -730,7 +766,7 @@ table.k-grid td.k-empty { padding: 40px 0; height: auto; }
 }
 .k-date-btn:hover { background: var(--k-primary-hover); }
 .k-date-btn:active { background: var(--k-primary-press); }
-.k-date-btn svg { width: 16px; height: 16px; pointer-events: none; }
+.k-date-btn svg { width: 13px; height: 13px; pointer-events: none; }
 .k-calendar {
 	position: absolute;
 	z-index: 2501;

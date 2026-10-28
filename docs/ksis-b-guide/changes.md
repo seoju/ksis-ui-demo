@@ -40,3 +40,63 @@
   - 확인 : 소메뉴 하나를 열고 → 그 대분류에 흔적 보임 → 그 대분류를 접음 → 흔적 없음 → 다시 펼침 → 흔적 보임.
 - 참고 파일 : `ksis-common.css` 의 `.k-menu-group-header.expanded.has-active` 규칙, `img/step2-menu-parent-mark.png` · `img/step2-menu-parent-folded.png`
 - 해당 : A·B 모두
+
+### C-002 · 2026-10-28 · 커밋 메시지가 `C-002~C-007` 로 시작하는 커밋 · ≡ 세 줄을 화면 픽셀에 맞춰 그림
+- 요구사항 : 비교표 4번(좌측 메뉴 접기)
+- 단계 : 02-layout.md 의 2-1(≡ 버튼 CSS) · 2-4 (2) 가로바 재기 JS(`snapHamburger`) · 2-6 확인 표 (본문 고쳐 둠)
+- KSIS-B 에 적용할 것 :
+  - 지금 ≡ 는 줄 두께 `calc(2 * var(--ui-y))` 라 창 크기 · Edge 확대 비율에 따라 1.75px 같은 소수점이 되고, 세 줄이 화면 픽셀에 다르게 걸려 한 줄만 굵거나 흐려 보입니다(깨져 보임).
+  - `.hamburger-btn` : `justify-content: center; align-items: flex-start; gap: var(--k-ham-gap, calc(5 * var(--ui-y)));`, `span` : `flex: 0 0 auto; width: var(--k-ham-w, 100%); height: var(--k-ham-line, calc(2 * var(--ui-y)));`
+  - `ksisLayout.measureHead` 에서 `snapHamburger()` 를 부르고(줄 두께 = 높이의 1/8, 두께 · 간격 · 폭을 화면 픽셀 정수 개로 반올림해 `--k-ham-line` · `--k-ham-gap` · `--k-ham-w` 로 넣음), `--k-px`(= 1 / devicePixelRatio px)도 같이 넣습니다. 창 크기 · 확대 비율 · 모니터가 바뀔 때마다 다시 잽니다. 코드는 2-4 (2) 그대로 옮기면 됩니다.
+  - 확인 : 창 높이를 여러 번 바꾸고 Ctrl + 휠로 확대 비율을 90 · 110 · 125 · 150% 로 바꿔도 세 줄이 같은 두께 · 같은 간격.
+- 참고 파일 : `ksis-common.css` 의 `.k-hamburger` 규칙, `ksis-layout.js` 의 `measureHead` · `snapHamburger` · `watchDpr`
+- 해당 : A·B 모두
+
+### C-003 · 2026-10-28 · 같은 커밋 · 좌측 메뉴 줄 높이 70%
+- 요구사항 : 비교표 11번(선택 · 마우스 올림 색) — 줄 높이
+- 단계 : 02-layout.md 의 2-3 "줄 높이" (본문 · 완성 그림 고쳐 둠)
+- KSIS-B 에 적용할 것 :
+  - 대분류 · 소메뉴 한 줄 높이 = 38.9px 의 70% = **27.2px**(1920 폭 기준, `--sb-pad` · `--sb-font` 배율 그대로). 글자 크기 · 좌우 여백 · 줄 사이 간격은 그대로.
+  - `.sidebar-menu { --k-menu-row-h: calc(.7 * (20 * var(--sb-pad) + 18.9 * var(--sb-font))); }`
+  - `.sidebar-group-header` : `height: var(--k-menu-row-h); padding: 0 calc(12 * var(--sb-pad)) 0 calc(14 * var(--sb-pad));`
+  - `.app-sidebar .sidebar-item`(세 선택자 모두) : `height: var(--k-menu-row-h); padding-top: 0; padding-bottom: 0; line-height: var(--k-menu-row-h);`
+- 참고 파일 : `ksis-common.css` 의 `.k-menu`(`--k-menu-row-h`) · `.k-menu-group-header` · `.k-menu-item`
+- 해당 : A·B 모두
+
+### C-004 · 2026-10-28 · 같은 커밋 · 좌측 메뉴 마우스 휠 스크롤(스크롤바 없음)
+- 요구사항 : 비교표 9번(대분류를 열 때 다른 대분류)
+- 단계 : 02-layout.md 의 2-3 "바탕 · 그림자" CSS · "[9번] 휠 스크롤" (본문 · 그림 `img/step2-menu-scroll.png` 추가)
+- KSIS-B 에 적용할 것 :
+  - 대분류를 많이 펼쳐 메뉴가 화면 아래로 넘치면 메뉴 위에서 마우스 휠로 위아래로 굴러가게. 세로 스크롤바는 그리지 않음.
+  - `.app-sidebar` : `overflow: hidden` → `overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: none;` + `.app-sidebar::-webkit-scrollbar { display: none; }`
+  - 확인 : 대분류를 모두 펼치고 메뉴 위에서 휠 → 메뉴만 굴러가 마지막 소메뉴 아래 여백까지 보임, 업무 화면은 안 움직임, 스크롤바 안 보임.
+- 참고 파일 : `ksis-common.css` 의 `.k-sidebar` · `.k-sidebar::-webkit-scrollbar`
+- 해당 : A·B 모두
+
+### C-005 · 2026-10-28 · 같은 커밋 · 대분류 이름 오른쪽 가로선
+- 요구사항 : 비교표 8번(단계와 표시)
+- 단계 : 01-variables.md(`--k-menu-line` 추가) · 02-layout.md 의 2-3 "대분류 가로선" (본문 · 그림 고쳐 둠)
+- KSIS-B 에 적용할 것 :
+  - 테마 변수 `--k-menu-line: rgba(255, 255, 255, .35);`
+  - `.sidebar-group-header::after { content: ""; flex: 1 1 auto; min-width: calc(8 * var(--sb-pad)); height: var(--k-px, 1px); margin-left: calc(4 * var(--sb-pad)); background: var(--k-menu-line); }` → 이름 끝 10px 뒤부터 줄 오른쪽 끝 12px 앞까지(오른쪽 여백 12px 는 C-003 의 padding). 이름이 길면 선이 짧아짐.
+  - 두께 `--k-px` 는 C-002 의 JS 가 줍니다(화면 픽셀 1개).
+- 참고 파일 : `ksis-common.css` 의 `.k-menu-group-header::after`, `ksis-theme-b.css` 의 `--k-menu-line`
+- 해당 : A·B 모두
+
+### C-006 · 2026-10-28 · 같은 커밋 · 날짜 달력 버튼을 입력칸 안으로
+- 요구사항 : 비교표 41번(날짜 입력)
+- 단계 : 03-controls.md 의 3-6 (본문 · `img/step3-search.png` 고쳐 둠)
+- KSIS-B 에 적용할 것 :
+  - 입력칸 폭 · 높이는 그대로, 달력 버튼만 32 → 20px(모서리 6, 아이콘 13px)로 줄여 입력칸 안 오른쪽 끝(테두리와 4px)에 넣음. 글자는 버튼 앞까지(오른쪽 안쪽 여백 26px).
+  - `.date-input-wrap { position: relative; }`, `.date-input-wrap .text-input { padding-right: 26px; }`, `.date-picker-btn { position: absolute; top: 50%; right: 5px; width: 20px; height: 20px; margin-top: -10px; border-radius: 6px; }`, `.date-picker-btn svg { width: 13px; height: 13px; }`
+- 참고 파일 : `ksis-common.css` 의 `.k-date` · `.k-date .k-input` · `.k-date-btn`
+- 해당 : A·B 모두
+
+### C-007 · 2026-10-28 · 같은 커밋 · 검색 영역 간격 두 가지(6px / 12px)
+- 요구사항 : 비교표 38번(검색 영역) · 48번(간격)
+- 단계 : 03-controls.md 의 3-2 (본문 고쳐 둠)
+- KSIS-B 에 적용할 것 :
+  - 같은 것끼리 6px(라벨 ↔ 그 입력칸, 날짜 ~ 날짜, [검색] ↔ [해제]), 다른 것끼리 12px(입력칸 → 다음 라벨, 모드 버튼 → 라벨, 마지막 입력칸 → [검색]).
+  - `.search-area .data-options-left > label:not(:first-child), .search-area .data-options-left > :not(.btn) + .btn { margin-left: 6px; }` (기본 gap 6px + 6px). 라벨에 직접 쓴 `margin-left:10px` 는 지움.
+- 참고 파일 : `ksis-common.css` 의 `.k-search > label:not(:first-child)` 규칙
+- 해당 : A·B 모두

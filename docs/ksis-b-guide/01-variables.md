@@ -64,6 +64,7 @@
     --k-menu-grad-end: #3A9259;
     --k-menu-text: #E6F4EB;
     --k-menu-hover-bg: rgba(255, 255, 255, .12);
+    --k-menu-line: rgba(255, 255, 255, .35);      /* [8번] 대분류 이름 오른쪽 가로선 (C-005) */
     --k-menu-parent-bg: rgba(3, 199, 90, .5);
 
     /* 화면 탭 (3안) */
