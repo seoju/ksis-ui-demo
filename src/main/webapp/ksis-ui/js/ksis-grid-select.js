@@ -483,8 +483,7 @@
 
         sel = { table: d.table, r0: d.r0, c0: d.c0, r1: d.r1, c1: d.c1, how: "마우스 끌기" };
         applyHighlight(sel);
-        var rows = Math.abs(d.r1 - d.r0) + 1, cols = Math.abs(d.c1 - d.c0) + 1;
-        toast(rows + "행 × " + cols + "열 선택됨 · Ctrl+C 로 복사");
+        // KSIS-UI 2026-10-29 : "N행 × N열 선택됨 · Ctrl+C 로 복사" 안내는 없앰(A·B 공통, 노란 영역만으로 충분)
     }
 
     document.addEventListener("mouseup", finishDrag);
@@ -633,14 +632,7 @@
         }
         applyHighlight(sel);
         revealCell(table, cellAt(table, nr, nc));
-
-        if (e.shiftKey) {
-            var rows = 0;
-            var rFrom = Math.min(sel.r0, sel.r1), rTo = Math.max(sel.r0, sel.r1);
-            for (var i = 0; i < rowsIdx.length; i++) if (rowsIdx[i] >= rFrom && rowsIdx[i] <= rTo) rows++;
-            var cols = Math.abs(sel.c1 - sel.c0) + 1;
-            toast(rows.toLocaleString() + "행 × " + cols + "열 선택됨 · Ctrl+C 로 복사");
-        }
+        // KSIS-UI 2026-10-29 : Shift+방향키로 넓힐 때의 "N행 × N열 선택됨" 안내도 없앰(끌기와 같음)
     });
 
     // ✅ [2026-10-10] 표 선택이 있는 채로 Ctrl+C 를 눌렀는데 copy 이벤트가 오지 않으면 사용 로그에 "실패"로 남긴다.

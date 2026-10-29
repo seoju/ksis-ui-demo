@@ -248,7 +248,7 @@ button, input, select, textarea { font-family: inherit; }
 	align-items: center;
 	gap: calc(6 * var(--k-sb-pad));
 	width: 100%;
-	height: var(--k-menu-row-h);
+	height: calc(35 * var(--k-sb-pad));   /* [8번] 대분류 줄 35px 고정(누르든 안 누르든 같음, 2026-10-29 — 나중에 아이콘 자리). 소메뉴 줄은 27.2px */
 	padding: 0 calc(12 * var(--k-sb-pad)) 0 calc(14 * var(--k-sb-pad));
 	border: none;
 	border-radius: calc(10 * var(--k-sb-pad));
@@ -905,7 +905,8 @@ table.k-grid td {
 /* [33번] KSIS-B 메모 : 데이터형 표(숫자를 많이 넣는 입력 · 비교 표)는 B 의 32px · 12px 를 유지할 때 붙인다 */
 table.k-grid.k-grid-dense th { padding: 7px 8px; font-size: 12px; }
 table.k-grid.k-grid-dense td { height: 32px; padding: 0 8px; font-size: 12px; }
-table.k-grid td.left { text-align: left; }
+/* 표 안 정렬(2026-10-29) : 모든 칸 가운데. 수량 · 금액 · 가격처럼 숫자가 분명한 칸만 .num = 오른쪽(자릿수 맞춤).
+   이름 · 품목 · 고객사처럼 글자가 긴 칸도 가운데(예전 .left 왼쪽 정렬은 없앰) */
 table.k-grid td.num { text-align: right; font-variant-numeric: tabular-nums; }
 /* [36번] 행에 올리면 연한 바탕. 손가락 커서는 눌러서 무언가 열리는 칸에만 */
 table.k-grid tbody tr { transition: background-color .1s ease; }

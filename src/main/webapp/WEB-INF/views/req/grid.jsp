@@ -41,7 +41,7 @@
 						<td>${r.no}</td>
 						<%-- [36번] 눌러서 무언가 열리는 칸에만 손가락 커서 --%>
 						<td class="k-clickable" data-open="${r.kPart}">${r.kPart}</td>
-						<td>${r.custPart}</td><td class="left">${r.customer}</td><td>${r.carType}</td><td class="left">${r.item}</td>
+						<td>${r.custPart}</td><td>${r.customer}</td><td>${r.carType}</td><td>${r.item}</td>
 						<td class="num">${r.qty}</td><td class="num">${r.amount}</td><td>${r.owner}</td><td>${r.date}</td>
 					</tr>
 				</c:forEach>
@@ -64,7 +64,7 @@
 					<tr>
 						<td>${i + 1}</td>
 						<td class="k-edit"><input class="grid-cell-input" data-row="${i}" data-col="0" value="${rows[i].kPart}"></td>
-						<td class="k-edit"><input class="grid-cell-input" data-row="${i}" data-col="1" value="${rows[i].item}" style="text-align:left"></td>
+						<td class="k-edit"><input class="grid-cell-input" data-row="${i}" data-col="1" value="${rows[i].item}"></td>
 						<c:forEach var="c" begin="2" end="4">
 							<td class="k-edit"><input class="grid-cell-input${i == 2 && c == 3 ? ' invalid' : ''}" data-row="${i}" data-col="${c}" value="${i == 2 && c == 3 ? '12,3x' : (i + 1) * 1000 + c * 10}" style="text-align:right"></td>
 						</c:forEach>

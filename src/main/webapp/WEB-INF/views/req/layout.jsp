@@ -82,7 +82,7 @@
 				<thead><tr><th>No</th><th>K품번</th><th>고객품번</th><th>고객사</th><th>차종</th><th>수량</th><th>등록일</th></tr></thead>
 				<tbody>
 				<c:forEach var="r" items="${rows}">
-					<tr><td>${r.no}</td><td>${r.kPart}</td><td>${r.custPart}</td><td class="left">${r.customer}</td><td>${r.carType}</td><td class="num">${r.qty}</td><td>${r.date}</td></tr>
+					<tr><td>${r.no}</td><td>${r.kPart}</td><td>${r.custPart}</td><td>${r.customer}</td><td>${r.carType}</td><td class="num">${r.qty}</td><td>${r.date}</td></tr>
 				</c:forEach>
 				</tbody>
 			</table>
