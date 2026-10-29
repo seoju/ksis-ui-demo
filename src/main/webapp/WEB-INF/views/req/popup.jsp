@@ -43,7 +43,7 @@
 				<table class="k-field">
 					<colgroup><col class="k-label-col"><col><col class="k-label-col"><col></colgroup>
 					<tr><th>등록일</th><td><span class="k-date"><input type="text" class="k-input" value="2026-10-26"><button type="button" class="k-date-btn" tabindex="-1" title="달력"><svg class="k-ico"><use href="#i-cal"/></svg></button></span></td>
-						<th>고객사</th><td><select class="k-select" data-placeholder="고객사 선택"><option>현대자동차</option><option>기아</option><option>현대모비스</option></select></td></tr>
+						<th>고객사</th><td><select class="k-select" data-empty><option>현대자동차</option><option>기아</option><option>현대모비스</option></select></td></tr>
 					<tr><th>품목군</th><td><input type="text" class="k-input" value="ECU" readonly></td>
 						<th>프로젝트</th><td><input type="text" class="k-input" value="NE1 HEV"></td></tr>
 				</table>
@@ -85,7 +85,7 @@
 				<tr><th>상신자</th><td><input type="text" class="k-input" value="K123456 영업인원" readonly></td></tr>
 				<tr><th>K품번</th><td><input type="text" class="k-input" value="39100-10000" readonly></td></tr>
 				<tr><th>변경 단가</th><td><input type="text" class="k-input" value="15,000 → 14,550" readonly></td></tr>
-				<tr><th>결재 의견</th><td><textarea class="k-input" placeholder="필요할 때만 적음"></textarea></td></tr>
+				<tr><th>결재 의견</th><td><textarea class="k-input"></textarea></td></tr>
 			</table>
 		</div>
 		<div class="k-pop-footer"><button type="button" class="k-btn k-btn-ghost" data-modal-close>반려</button><button type="button" class="k-btn k-btn-primary" onclick="ksis.modal.close('popApprove'); ksis.showAlert('승인했습니다.')">승인</button></div>
@@ -99,7 +99,7 @@
 		<div class="k-pop-body">
 			<table class="k-field">
 				<colgroup><col class="k-label-col"><col></colgroup>
-				<tr><th>고객사</th><td><select class="k-select" data-placeholder="고객사 선택"><option>현대자동차</option><option>기아</option></select></td></tr>
+				<tr><th>고객사</th><td><select class="k-select" data-empty><option>현대자동차</option><option>기아</option></select></td></tr>
 				<tr><th>담당</th><td><input type="text" class="k-input"></td></tr>
 			</table>
 		</div>

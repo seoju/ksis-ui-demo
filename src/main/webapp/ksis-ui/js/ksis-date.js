@@ -2,7 +2,7 @@
 //  KSIS 공통 : 날짜 입력 + 달력   [비교표 41번]
 //
 //  <span class="k-date">
-//    <input type="text" class="k-input" name="fromDate" placeholder="yyyy-mm-dd">
+//    <input type="text" class="k-input" name="fromDate">
 //    <button type="button" class="k-date-btn" tabindex="-1" title="달력">…</button>
 //  </span>
 //  - KSIS-B 달력 방식 그대로(글자 칸 + 달력 버튼, 버튼 아래 오른쪽 맞춤 작은 달력), 색만 테마 색.

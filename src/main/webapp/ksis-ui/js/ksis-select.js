@@ -1,13 +1,14 @@
 // =====================================================================
 //  KSIS 공통 : 드롭다운(1개 고르는 상자)   [비교표 40번]
 //
-//  <select class="k-select" name="..." data-placeholder="고객사 선택" style="width:160px">
+//  <select class="k-select" name="..." data-empty style="width:160px">
 //     <option value="HMC">현대자동차</option> …
 //  </select>
 //  - 닫힌 상자는 KSIS-B 와 같은 모양, 펼친 목록은 직접 그린 부품(모서리 둥글게 · 그림자, A .custom-autocomplete 참조).
 //  - 마우스 올린 줄(방향키로 옮긴 줄) = 확인 버튼 색 + 흰 글자.
 //  - 선택지 한 줄 높이 = 닫힌 상자 높이. 목록 위아래 여백 없이 테두리에 딱 붙임.
-//  - "(…골라주세요)" 같은 더미 선택지는 두지 않는다. 안내는 data-placeholder → 닫힌 상자 안 흐린 글씨.
+//  - "(…골라주세요)" 같은 더미 선택지 · 회색 안내 글은 두지 않는다(2026-10-29 회색 안내 글 삭제).
+//    data-empty 를 붙이면 아무것도 안 고른 빈 상자로 시작한다. "전체" 처럼 뜻이 있는 값은 진짜 선택지(<option value="">전체</option>)로 둔다.
 //  - 원래 <select> 는 숨겨 둔 채 값을 그대로 가진다(폼 전송 · 기존 change 처리 그대로). 고르면 select 에 change 이벤트.
 //  - 키보드 : ↓ / Enter / Space 펼침, ↑↓ 이동, Enter 고름, Esc · Tab 닫음.
 //  ksis.select.enhance(root) — root 안의 select.k-select 를 모두 바꾼다(여러 번 불러도 됨).
@@ -56,8 +57,8 @@
 		list.hidden = true;
 		wrap.appendChild(list);
 
-		// 안내 글이 있고 미리 고른 값이 없으면 아무것도 안 고른 상태로 시작
-		if (select.dataset.placeholder && !select.querySelector("option[selected]")) select.selectedIndex = -1;
+		// data-empty 이고 미리 고른 값이 없으면 아무것도 안 고른 빈 상자로 시작(회색 안내 글은 쓰지 않음)
+		if (select.hasAttribute("data-empty") && !select.querySelector("option[selected]")) select.selectedIndex = -1;
 
 		var hoverIdx = -1;
 		function items() { return Array.prototype.slice.call(list.children); }
@@ -70,8 +71,7 @@
 		}
 		function paint() {
 			var opt = select.options[select.selectedIndex];
-			box.textContent = opt ? opt.text : (select.dataset.placeholder || "");
-			box.classList.toggle("is-placeholder", !opt);
+			box.textContent = opt ? opt.text : "";
 		}
 		function fill() {
 			list.innerHTML = "";

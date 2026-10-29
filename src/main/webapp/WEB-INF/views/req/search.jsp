@@ -18,15 +18,15 @@
 				<button type="button" class="k-seg-btn" data-value="OV">해외</button>
 			</div>
 			<label>매출 기간</label>
-			<span class="k-date"><input type="text" class="k-input" name="fromDate" value="20260901" placeholder="yyyy-mm-dd"><button type="button" class="k-date-btn" tabindex="-1" title="달력"><svg class="k-ico"><use href="#i-cal"/></svg></button></span>
+			<span class="k-date"><input type="text" class="k-input" name="fromDate" value="20260901"><button type="button" class="k-date-btn" tabindex="-1" title="달력"><svg class="k-ico"><use href="#i-cal"/></svg></button></span>
 			<span class="k-tilde">~</span>
-			<span class="k-date"><input type="text" class="k-input" name="toDate" value="2026.10.26" placeholder="yyyy-mm-dd"><button type="button" class="k-date-btn" tabindex="-1" title="달력"><svg class="k-ico"><use href="#i-cal"/></svg></button></span>
+			<span class="k-date"><input type="text" class="k-input" name="toDate" value="2026.10.26"><button type="button" class="k-date-btn" tabindex="-1" title="달력"><svg class="k-ico"><use href="#i-cal"/></svg></button></span>
 			<label>고객사</label>
-			<select class="k-select" name="customer" data-placeholder="고객사 선택" style="width:150px">
+			<select class="k-select" name="customer" data-empty>
 				<option value="HMC">현대자동차</option><option value="KIA">기아</option><option value="MOBIS">현대모비스</option><option value="HMMA">HMMA</option><option value="KAGA">KaGA</option>
 			</select>
 			<label>K품번</label>
-			<input type="text" class="k-input" name="kPart" style="width:170px">
+			<input type="text" class="k-input" name="kPart">
 			<button type="button" class="k-btn k-btn-primary">검색</button>
 			<button type="button" class="k-btn k-btn-ghost">해제</button>
 		</div>
@@ -41,11 +41,11 @@
 				<button type="button" class="k-seg-btn" data-value="U">상위포함</button>
 			</div>
 			<label>고객사</label>
-			<select class="k-select" data-placeholder="전체" style="width:150px"><option>현대자동차</option><option>기아</option></select>
+			<select class="k-select"><option value="">전체</option><option>현대자동차</option><option>기아</option></select>
 			<label>K품번</label>
-			<input type="text" class="k-input" style="width:200px">
+			<input type="text" class="k-input">
 			<label>고객품번</label>
-			<input type="text" class="k-input" style="width:200px">
+			<input type="text" class="k-input">
 			<button type="button" class="k-btn k-btn-primary">검색</button>
 			<button type="button" class="k-btn k-btn-ghost">해제</button>
 		</div>
@@ -57,14 +57,13 @@
 			<input type="text" class="k-input" value="평소" style="width:160px">
 			<input type="text" class="k-input demo-focus" value="누른 상태" style="width:160px">
 			<input type="text" class="k-input invalid" value="틀린 값" style="width:160px">
-			<input type="text" class="k-input" placeholder="안내 글(흐림)" style="width:160px">
 		</div>
 	</div>
 
 	<div class="demo-sec">
-		<p class="demo-h"><b>40번</b> 드롭다운 : 닫힌 상자는 B 모양 · 펼친 목록은 모서리 둥글게 + 그림자 · 올린 줄 = 주색 + 흰 글자 · 안내는 흐린 글씨(더미 선택지 없음)</p>
+		<p class="demo-h"><b>40번</b> 드롭다운 : 닫힌 상자는 B 모양 · 펼친 목록은 모서리 둥글게 + 그림자 · 올린 줄 = 주색 + 흰 글자 · 더미 선택지 · 회색 안내 글 없음(고르기 전엔 빈 상자, "전체"는 진짜 선택지)</p>
 		<div class="demo-line" style="align-items:flex-start;min-height:190px">
-			<select class="k-select" id="demoSelOpen" data-placeholder="중장기 매출 문서 선택" style="width:220px">
+			<select class="k-select" id="demoSelOpen" data-empty style="width:220px">
 				<option>2026 상반기 중장기 매출</option><option>2026 하반기 중장기 매출</option><option>2027 중장기 매출</option><option>2028 중장기 매출</option>
 			</select>
 			<select class="k-select" style="width:160px"><option>현대자동차</option><option selected>기아</option><option>현대모비스</option></select>
@@ -76,8 +75,8 @@
 		<div class="demo-line" style="align-items:flex-start;min-height:300px">
 			<span class="k-date" id="demoDateOpen"><input type="text" class="k-input" value="2026/10/26"><button type="button" class="k-date-btn" tabindex="-1" title="달력"><svg class="k-ico"><use href="#i-cal"/></svg></button></span>
 			<span class="k-tilde" style="line-height:30px">~</span>
-			<span class="k-date"><input type="text" class="k-input" placeholder="yyyy-mm-dd"><button type="button" class="k-date-btn" tabindex="-1" title="달력"><svg class="k-ico"><use href="#i-cal"/></svg></button></span>
-			<input type="text" class="k-input" placeholder="다음 칸" style="width:120px">
+			<span class="k-date"><input type="text" class="k-input"><button type="button" class="k-date-btn" tabindex="-1" title="달력"><svg class="k-ico"><use href="#i-cal"/></svg></button></span>
+			<input type="text" class="k-input" style="width:120px">
 			<span class="demo-tip" id="demoDateVal" style="margin:7px 0 0 8px"></span>
 		</div>
 	</div>

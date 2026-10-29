@@ -171,3 +171,40 @@
   - 확인 : 1920×1080 에서 대분류 줄 높이 35px, 소메뉴 줄 27.2px, 대분류를 누르거나 소메뉴를 열어도 대분류 높이가 바뀌지 않음.
 - 참고 파일 : `ksis-common.css` 의 `.k-menu-group-header height`
 - 해당 : A·B 모두
+
+### C-014 · 2026-10-29 · 커밋 메시지가 `C-014~C-015` 로 시작하는 커밋 · 검색 영역 칸 폭을 날짜 칸 폭 118px 로 통일
+- 요구사항 : 비교표 38번(검색 영역)
+- 단계 : 03-controls.md 3-2 "칸 폭 118px 통일" (본문 · 완성 그림 고쳐 둠)
+- KSIS-B 에 적용할 것 :
+  - 검색 영역(`.search-area`) 안의 입력칸 · 드롭다운 · 품번 여러 개 칸 · 년월 칸을 모두 **118px** 로 맞춥니다. `app.css` 에 `.search-area .text-input, .search-area select.text-input, .search-area .pn-multi-wrap { width: 118px; }` 를 넣고, 아래 개별 폭은 지우거나 118 로 바꿉니다.
+    - 중장기 매출 조회 등 문서 목록 검색줄 `DocListSearchBar.razor` : 문서 제목 260 · 작성자 140
+    - 판매처/납품처/지급처 조회 `BusinessPartnerUpdate.razor` : SAP 고객번호 160 · 고객명 240
+    - BOM 검색(사용처) `PartNumberUsageList.razor` : K품번 `Width="220"`
+    - 청구문서별 매출 실적 조회 · 매출 수량 피벗 조회 `SalesPerformanceSearchBar.razor` : 년월 104 × 2 · BOM `Width="170"` · K품번 · 고객품번 `Width="150"`
+    - K품번 기준 고객품번 조회 `PartNumberByKPartView.razor` · 고객품번 기준 K품번 조회 `PartNumberByCustomerPart.razor` : `Width="200"` × 2
+    - 사용자 관리 `UserManagementPage.razor` : 검색 180 · 권한 드롭다운(`.um-select` 자동 폭, 검색 영역 안만)
+    - 사용 로그 `UsageLogPage.razor` : 기간 `.ul-date` 104 × 2 · 사용자 96 · 종류 `.ul-select` 104 · 검색 130
+  - `PartNumberMultiInput` · `BomUsageMultiInput` 의 `Width` 값이 칸 폭을 inline 으로 넣으면 위 CSS 보다 우선하므로 `Width="118"` 로 바꿉니다.
+  - 좁은 창에서 입력칸만 84px 까지 줄어드는 규칙(`flex-shrink: 1; min-width: 84px`)은 그대로.
+  - 위 목록 밖에도 검색 영역 칸이 있으면 같이 맞추고, 고친 곳을 목록으로 보고합니다.
+  - 확인 : 1920×1080 에서 검색 영역의 모든 칸 폭이 118px, 품번 "39100-10000" 이 다 보임.
+- 참고 파일 : `ksis-common.css` 의 `.k-search .k-input, .k-search .k-select-wrap { width: 118px; }`
+- 해당 : A·B 모두
+
+### C-015 · 2026-10-29 · 커밋 메시지가 `C-014~C-015` 로 시작하는 커밋 · 입력칸 · 드롭다운 안 회색 안내 글 삭제
+- 요구사항 : 비교표 39번(입력칸) · 40번(드롭다운) · 45번(글자 색 — 흐림 #A6A6A6 은 칸 밖 글에만)
+- 단계 : 03-controls.md 3-2 입력칸 · 3-5 드롭다운 (본문 고쳐 둠)
+- KSIS-B 에 적용할 것 : 칸에 값이 없을 때 보이는 회색 글씨(`placeholder`)를 지웁니다(사용자 : 예쁘지 않다, 범위 = 도구 화면만 남김).
+  - `SalesPerformanceSearchBar.razor` : 년월 칸 `placeholder="시작 년월"` · `placeholder="종료 년월"`
+  - `BomUsageMultiInput.razor` : `[Parameter] public string Placeholder` 기본값 `"BOM 4열 붙여넣기"` → `""`
+  - `SalesPerformanceQuantityByPart.razor` : 열 거르기 창 검색칸 `placeholder="검색"`
+  - `DocumentDetail.razor` : 열별 검색칸 `placeholder="@h"`, 그리고 `app.css` 의 `.col-search-input::placeholder` · `.col-search-input:focus::placeholder` 규칙
+  - 작성 창 날짜 칸 `placeholder="예: 2025-09-30 / 20250930 / 2025.09.30"` : `DocumentWrite.razor` · `OrderBacklogWrite.razor` · `SalesPerformanceWrite.razor` · `VehicleWrite.razor`
+  - `SapAutoUploadModal.razor`(월별 매출 실적 → SAP 자동 올리기) : 년월 칸 2개 `placeholder="예: 202607 / 2026-07 / 2026.07"`
+  - `OrderBacklogDetail.razor`(수주잔고 상세) : 옮길 수량 칸 `placeholder="0"`
+  - **그대로 둠** : 도구 화면 `DispatchHelperPage.razor`(배차 도우미) · `ScreenCapturePage.razor`(화면 캡처) · `AutoClick.razor`(창 버튼 자동 클릭), 원가계산(`wwwroot/cost-calc`), 칸 밖 회색 문구(`.grid-placeholder-text` "조회 중입니다…" 등)
+  - 드롭다운 : KSIS-B `<select>` 에는 회색 안내가 없습니다("전체" · "(선택 안 함)" 은 진짜 선택지 — 그대로). 3-5 에서 공통 드롭다운을 만들 때 안내 글 기능은 넣지 않고, 고르기 전엔 빈 상자로 둡니다.
+  - 위 목록 밖에서 `placeholder` 를 찾으면(도구 화면 · 원가계산 제외) 같이 지우고 목록으로 보고합니다.
+  - 확인 : 위 화면의 빈 칸에 회색 글씨가 안 보임.
+- 참고 파일 : `ksis-select.js`(`data-empty`, 안내 글 없음), `ksis-common.css`(`::placeholder` · `.is-placeholder` 규칙 삭제)
+- 해당 : A·B 모두

@@ -68,11 +68,11 @@
 		</div>
 		<div class="k-search">
 			<label>고객사</label>
-			<select class="k-select" data-placeholder="전체" style="width:150px">
-				<option>현대자동차</option><option>기아</option><option>현대모비스</option>
+			<select class="k-select">
+				<option value="">전체</option><option>현대자동차</option><option>기아</option><option>현대모비스</option>
 			</select>
 			<label>품번</label>
-			<input type="text" class="k-input" style="width:200px">
+			<input type="text" class="k-input">
 			<button type="button" class="k-btn k-btn-primary">검색</button>
 			<button type="button" class="k-btn k-btn-ghost">해제</button>
 		</div>

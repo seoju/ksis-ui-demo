@@ -21,8 +21,8 @@
 				</div>
 			</div>
 			<div class="k-search">
-				<label>이름</label><input type="text" class="k-input" style="width:160px">
-				<label>부서</label><input type="text" class="k-input" style="width:160px">
+				<label>이름</label><input type="text" class="k-input">
+				<label>부서</label><input type="text" class="k-input">
 				<button type="button" class="k-btn k-btn-primary">검색</button>
 				<button type="button" class="k-btn k-btn-ghost">해제</button>
 			</div>
@@ -52,7 +52,7 @@
 			<span class="demo-tip" style="margin:0">제목 #1B1D1F</span><span style="color:var(--k-text-title);font-weight:700">화면 · 절 제목</span>
 			<span class="demo-tip" style="margin:0">본문 #222222</span><span>크기를 정하지 않은 글(기본 12px)</span>
 			<span class="demo-tip" style="margin:0">보조 #767676</span><span style="color:var(--k-text-sub)">설명 · 건수 둘째 줄</span>
-			<span class="demo-tip" style="margin:0">흐림 #A6A6A6</span><span style="color:var(--k-text-muted)">입력칸 안내 글</span>
+			<span class="demo-tip" style="margin:0">흐림 #A6A6A6</span><span style="color:var(--k-text-muted)">표 아래 건수 · 파일 규칙 글(입력칸 안 회색 안내 글은 쓰지 않음)</span>
 		</div>
 		<p class="demo-tip">② 입력칸 아래 ※ 안내 · ③ 안내 상자 · 안내줄은 두지 않는다(꼭 알려야 하는 문구는 44번 알림 창).</p>
 	</div>

@@ -650,6 +650,9 @@ table.k-grid td.k-empty { padding: 40px 0; height: auto; }
 .k-search > label:not(:first-child),
 .k-search > .k-search-label:not(:first-child),
 .k-search > :not(.k-btn) + .k-btn { margin-left: var(--k-gap-h); }
+/* [38번] 검색 영역 입력칸 · 드롭다운 폭 = 날짜 칸 폭 118px 로 통일(2026-10-29). 창이 좁아 한 줄에 안 들어가면 입력칸만 84px 까지 줄어듦 */
+.k-search .k-input,
+.k-search .k-select-wrap { width: 118px; }
 .k-search .k-input,
 .k-search .k-select-wrap,
 .k-search .k-date { flex: 0 1 auto; min-width: 84px; }
@@ -678,7 +681,6 @@ table.k-grid td.k-empty { padding: 40px 0; height: auto; }
 	color: var(--k-text);
 	outline: none;
 }
-.k-input::placeholder { color: var(--k-text-muted); }
 .k-input.invalid { border-color: var(--k-invalid); }
 .k-input:focus,
 .k-select-box:focus,
@@ -709,7 +711,6 @@ table.k-grid td.k-empty { padding: 40px 0; height: auto; }
 	cursor: pointer;
 	outline: none;
 }
-.k-select-box.is-placeholder { color: var(--k-text-muted); } /* 안내는 닫힌 상자 안 흐린 글씨로만(더미 선택지 없음) */
 /* 펼친 목록 : 흰 바탕, 테두리 1px #dcdee0, 모서리 둥글게, 그림자.
    [40번] 선택지 한 줄 높이 = 닫힌 상자(꺾쇠 있는 칸) 높이(ksis-select.js 가 열 때 --k-opt-h 로 넣음, 기본 30px).
    목록 위아래 여백 없음 → 첫 줄 · 마지막 줄이 테두리에 딱 붙고, 둥근 모서리에 걸린 부분은 조금 가려진다 */
