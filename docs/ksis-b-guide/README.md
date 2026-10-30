@@ -12,7 +12,7 @@ KSIS-B(C# Blazor) 화면을 시연 프로그램(이 저장소 main)의 **④ B �
 | [claude-md-new.md](claude-md-new.md) | `CLAUDE.md` 가 **없을 때** 새로 만들 파일 초안 | 첫 지시문이 알아서 씀 |
 | [01-variables.md](01-variables.md) | 1단계 : 공통 변수(`app.css` `:root`) | |
 | [02-layout.md](02-layout.md) | 2단계 : 가로바 · KSIS-B 심볼 · 화면 탭 · 좌측 메뉴 · 본문 틀 | |
-| [03-controls.md](03-controls.md) | 3단계 : 버튼 · 표(그리드) · 검색 영역 · 입력칸 · 드롭다운 · 날짜 · 모드 버튼 | |
+| [03-controls.md](03-controls.md) | 3단계 : 버튼 · 표(그리드) · 검색 영역 · 입력칸 · 드롭다운 · 날짜 · 모드 버튼 · 여러 개 고르는 드롭다운 | |
 | [04-popup-etc.md](04-popup-etc.md) | 4단계 : 업무 팝업 · 파일 업로드 · 알림/확인 창 · 포커스 · 글자 · 제목 · 간격 | |
 | `img/` | 단계별 완성 모습(시연 프로그램 ④ B 요구사항, 1920×1080 캡처) | |
 | [changes.md](changes.md) | 지시서를 쓴 뒤 시연 프로그램이 바뀐 기록(항목 C-001 …) — KSIS-B 에 따라 반영할 것 | `pull` 할 때마다 |
@@ -33,6 +33,6 @@ KSIS-B(C# Blazor) 화면을 시연 프로그램(이 저장소 main)의 **④ B �
 - 값의 기준은 시연 프로그램 main 의 세 파일입니다.
   - `src/main/webapp/ksis-ui/css/ksis-theme-b.css` : B 색(초록 계열)
   - `src/main/webapp/ksis-ui/css/ksis-common.css` : A·B 공통 모양(크기 · 모서리 · 간격 · 동작에 딸린 CSS)
-  - `src/main/resources/requirements.json` : 비교표 49행의 요구사항 글(`aRequirement` = 공통 요구, `bNote` = KSIS-B 메모)
+  - `src/main/resources/requirements.json` : 비교표 49행 + 50번의 요구사항 글(`aRequirement` = 공통 요구, `bNote` = KSIS-B 메모)
 - 지시서의 값과 위 파일이 다르면 **위 파일이 맞습니다**(지시서는 2026-10-28 main `398cfd5` 기준으로 썼고, 그 뒤 바뀐 것은 [changes.md](changes.md) 에 적고 본문도 고칩니다).
 - 글꼴은 아직 정하지 않았습니다. KSIS-B 의 지금 글꼴(Pretendard)을 그대로 둡니다.

@@ -162,6 +162,7 @@
 	/** 화면 · 팝업 안의 공통 부품을 한 번에 */
 	ksis.enhance = function (root) {
 		if (ksis.select) ksis.select.enhance(root);
+		if (ksis.multi) ksis.multi.enhance(root);
 		ksis.date.enhance(root);
 	};
 	document.addEventListener("DOMContentLoaded", function () { ksis.enhance(document); });

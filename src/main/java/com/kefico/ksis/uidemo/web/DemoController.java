@@ -23,7 +23,7 @@ import com.kefico.ksis.uidemo.guide.Variant;
 /**
  * 화면 주소
  *   /                      영역 목록
- *   /summary               0번 비교표 및 요구사항 요약(49행 전체)
+ *   /summary               0번 비교표 및 요구사항 요약(50행 전체)
  *   /compare/{area}        한 영역의 4칸 비교 + 그 영역의 요구사항
  *   /view/{variant}/{area} 4칸 중 한 칸(비교 화면이 iframe 으로 부른다. 따로 열어도 된다)
  *   /fragment/{variant}/screen  ① KSIS-A 원래 틀이 탭을 열 때 $(".contens-wrap").load(url) 로 불러오는 업무 화면 조각

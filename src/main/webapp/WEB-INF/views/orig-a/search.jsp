@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/taglibs.jspf"%>
-<%-- ① KSIS-A 원래 — 검색 영역 · 입력칸. designtemplate/filter.jsp · input.jsp 와 같은 클래스(filter-bar-v2 · filter-input-v2 · form-control · fm_radio) --%>
+<%-- ① KSIS-A 원래 — 검색 영역 · 입력칸. designtemplate/filter.jsp · input.jsp 와 같은 클래스(filter-bar-v2 · filter-input-v2 · form-control · fm_radio).
+     50번 다중 선택 드롭박스는 공통 위젯 biz.ui.multiSelect(paragon/1.0.0/biz.ui.multiselect.js 복사본) 그대로 --%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -94,6 +95,25 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="demo-sec">
+		<p class="demo-h"><b>50번</b> 다중 선택 드롭박스(biz.ui.multiSelect) : 고른 것 = 칩(줄이 넘치면 칸이 아래로 커짐) · 펼치면 찾기 칸(회색 안내 글) · 전체 선택 + N개 선택 · 체크하면 바로 반영([확인] 없음) · 출장보고 안건 품목군(업무 분류 수주 = 1개, 가격 · 개발 = 여러 개)</p>
+		<div style="min-height:400px">
+			<div class="demo-line" style="margin-bottom:8px">
+				<span style="width:80px;font-weight:600">업무 분류</span>
+				<div class="fm_radio_box" id="aBizType">
+					<label class="fm_radio">수주<input type="radio" name="aBusType" value="ORD"><span class="checkmark"></span></label>
+					<label class="fm_radio">가격<input type="radio" name="aBusType" value="PRI" checked><span class="checkmark"></span></label>
+					<label class="fm_radio">개발<input type="radio" name="aBusType" value="DEV"><span class="checkmark"></span></label>
+				</div>
+			</div>
+			<div class="demo-line" style="align-items:flex-start">
+				<span style="width:80px;font-weight:600;line-height:38px">품목군</span>
+				<div id="aGrpBox" style="width:360px"></div>
+			</div>
+		</div>
+		<p class="demo-tip">키보드 : 닫힌 상자는 Tab 으로 갈 수 없음(div). 마우스로 펼치면 커서가 찾기 칸, Tab 으로 체크 칸을 하나씩 옮겨 Space 로 체크. ↑↓ · Enter · Esc 는 동작 없음(하나만 고를 때 동그라미끼리는 ↑↓ 가 브라우저 기본으로 옮겨 고름).</p>
+	</div>
 </div>
 </div>
 <style>.filter-input-v2.demo-focus { border-color: #0082c7; background: #FFFFFF; }</style>
@@ -106,6 +126,16 @@ $(function () {
 	});
 	if (location.hash !== '#closed') $('#aAuto').autocomplete('search', '현대');
 	$('.seg_toggle').on('click', '.seg_btn', function () { $(this).addClass('on').siblings().removeClass('on'); });
+	// [50번] 출장보고 작성(bustripWrite.js initGrpWidget · applyWorkDivRule)과 같은 방법. 시연이라 서버 대신 더미 품목군을 돌려준다
+	biz.ajax = biz.ajax || {};
+	biz.ajax.request = function (o) { o.callback({ data: [{ value: 'G01', label: 'ECU(가솔린)' }, { value: 'G02', label: 'ECU(디젤)' }, { value: 'G03', label: 'TCU' }, { value: 'G04', label: 'BMS' }, { value: 'G05', label: 'OBC' }, { value: 'G06', label: 'LDC' }, { value: 'G07', label: 'VCU' }, { value: 'G08', label: '인젝터' }, { value: 'G09', label: '연료펌프 모듈' }, { value: 'G10', label: '산소센서' }, { value: 'G11', label: '압력센서' }, { value: 'G12', label: '점화코일' }, { value: 'G13', label: '스로틀바디' }, { value: 'G14', label: '전동식 워터펌프' }] }); };
+	var grpMs = biz.ui.multiSelect($('#aGrpBox'), { url: 'demo', valueField: 'value', textField: 'label', single: false, placeholder: '선택' });
+	grpMs.setValues(['G03', 'G05', 'G06', 'G07']);
+	$('#aBizType').on('change', 'input', function () { grpMs.setSingle(this.value === 'ORD'); });
+	if (location.hash !== '#closed') {
+		$('#aGrpBox .biz-ms-box').trigger('click');
+		setTimeout(function () { window.scrollTo(0, 0); }, 30); // 위젯이 찾기 칸에 커서를 넣으며 화면이 맨 아래로 굴러가므로 되돌림(시연용)
+	}
 });
 </script>
 </body>

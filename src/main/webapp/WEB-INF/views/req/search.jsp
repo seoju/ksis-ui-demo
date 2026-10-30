@@ -1,6 +1,6 @@
 <%@ page pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/views/common/taglibs.jspf"%>
-<%-- ③④ 요구사항 — 검색 영역 · 입력칸 [비교표 38~42번] --%>
+<%-- ③④ 요구사항 — 검색 영역 · 입력칸 [비교표 38~42 · 50번] --%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -88,10 +88,67 @@
 			<div class="k-seg n3"><button type="button" class="k-seg-btn" data-value="D">일</button><button type="button" class="k-seg-btn selected" data-value="M">월</button><button type="button" class="k-seg-btn" data-value="Y">년</button></div>
 		</div>
 	</div>
+
+	<div class="demo-sec">
+		<p class="demo-h"><b>50번</b> 여러 개 고르는 드롭다운 : 닫힌 상자 · 펼친 상자 모양 · 줄 높이 · 올린 줄 색은 40번과 같음 · 고른 것은 한 줄 칩(안 들어가면 +N, 마우스를 올리면 전부) · 찾기 · 전체 선택 · N개 선택 [취소] [확인] · 키보드는 엑셀 자동 필터 목록과 같게</p>
+		<div class="k-search">
+			<label>품목군</label>
+			<select class="k-multi" name="grpSearch" multiple>
+				<option value="G01" selected>ECU(가솔린)</option><option value="G02">ECU(디젤)</option><option value="G03" selected>TCU</option><option value="G04" selected>BMS</option><option value="G05">OBC</option><option value="G06">LDC</option><option value="G07">VCU</option><option value="G08">인젝터</option><option value="G09">연료펌프 모듈</option><option value="G10">산소센서</option><option value="G11">압력센서</option><option value="G12">점화코일</option><option value="G13">스로틀바디</option><option value="G14">전동식 워터펌프</option>
+			</select>
+			<label>고객사</label>
+			<select class="k-select" data-empty>
+				<option value="HMC">현대자동차</option><option value="KIA">기아</option><option value="MOBIS">현대모비스</option>
+			</select>
+			<button type="button" class="k-btn k-btn-primary">검색</button>
+			<button type="button" class="k-btn k-btn-ghost">해제</button>
+		</div>
+		<p class="demo-tip">검색줄에서는 다른 칸과 같은 118px. 첫 칩도 다 안 보이는 좁은 칸은 칩 모양을 빼고 글자 + "+N"(마우스를 올리면 고른 것 전부). 넓은 칸은 아래처럼 칩 + ×.</p>
+		<p class="demo-tip" style="margin-top:14px">아래 작성 칸은 KSIS-A 출장보고 안건과 같은 규칙 : 업무 분류가 수주면 품목군 1개만(동그라미, 고르면 바로 닫힘, 여러 개를 골라 두었으면 첫 건만 남김), 가격 · 개발이면 여러 개.</p>
+		<div style="min-height:430px;margin-top:6px">
+			<table class="k-field" style="width:520px">
+				<colgroup><col style="width:130px"><col></colgroup>
+				<tr><th>업무 분류</th><td>
+					<select class="k-select" id="demoBizType"><option value="ORD">수주</option><option value="PRI" selected>가격</option><option value="DEV">개발</option></select>
+				</td></tr>
+				<tr><th>품목군</th><td>
+					<select class="k-multi" id="demoMsForm" name="itemGrp" multiple>
+						<option value="G01">ECU(가솔린)</option><option value="G02">ECU(디젤)</option><option value="G03" selected>TCU</option><option value="G04">BMS</option><option value="G05" selected>OBC</option><option value="G06" selected>LDC</option><option value="G07" selected>VCU</option><option value="G08">인젝터</option><option value="G09">연료펌프 모듈</option><option value="G10">산소센서</option><option value="G11">압력센서</option><option value="G12">점화코일</option><option value="G13">스로틀바디</option><option value="G14">전동식 워터펌프</option>
+					</select>
+				</td></tr>
+			</table>
+		</div>
+		<table class="demo-keys">
+			<colgroup><col style="width:200px"><col><col style="width:250px"></colgroup>
+			<thead><tr><th>키</th><th>동작(A · B 공통)</th><th>엑셀 자동 필터 목록</th></tr></thead>
+			<tbody>
+				<tr><td>Alt+↓ · ↓ · Enter · Space<br><small>(닫힌 상자에서)</small></td><td>펼침. 커서는 찾기 칸</td><td>Alt+↓ 로 펼침</td></tr>
+				<tr><td>글자<br><small>(찾기 칸에서)</small></td><td>이름 일부로 목록을 좁힘(영문 대소문자 구분 없음)</td><td>찾기 칸</td></tr>
+				<tr><td>↓<br><small>(찾기 칸에서)</small></td><td>목록 첫 줄(전체 선택)로</td><td>같음</td></tr>
+				<tr><td>↑ ↓</td><td>한 줄 이동. 첫 줄에서 ↑ = 찾기 칸</td><td>같음</td></tr>
+				<tr><td>Home · End</td><td>처음 · 끝 줄</td><td>같음</td></tr>
+				<tr><td>PageUp · PageDown</td><td>한 화면씩</td><td>보이는 첫 · 끝 줄</td></tr>
+				<tr><td>Space</td><td>체크 켜기 / 끄기. 전체 선택 줄은 지금 보이는 것 모두</td><td>같음((모두 선택) 포함)</td></tr>
+				<tr><td>Enter</td><td>확인 : 반영하고 닫음</td><td>같음(필터 적용)</td></tr>
+				<tr><td>Esc</td><td>취소 : 펼치기 전으로 되돌리고 닫음</td><td>같음</td></tr>
+				<tr><td>Tab · Shift+Tab</td><td>찾기 칸 → 목록 → [취소] → [확인] 을 돎</td><td>같음</td></tr>
+				<tr><td>글자<br><small>(목록에서)</small></td><td>찾기 칸으로 가서 이어 씀</td><td>없음(KSIS-A "타이핑해서 검색" 요청)</td></tr>
+				<tr><td>바깥 누르기</td><td>확인과 같음(고른 것이 남음, KSIS-A 원래 부품과 같음)</td><td>취소</td></tr>
+				<tr><td>하나만 고를 때</td><td>↑ ↓ 이동, Space · Enter 고르고 바로 닫힘(전체 선택 · [확인] 없음)</td><td>—</td></tr>
+			</tbody>
+		</table>
+	</div>
 </div>
 <style>
 	/* 시연용 : 누른 모양을 클릭 없이 보여 줌(같은 규칙) */
 	.k-input.demo-focus { border-color: var(--k-primary); box-shadow: 0 0 0 3px var(--k-primary-soft); }
+	/* 시연용 : 50번 키보드 표(KSIS 에 옮길 대상 아님) */
+	.demo-keys { width: 100%; max-width: 860px; margin-top: 4px; border-collapse: collapse; font-size: 12.5px; color: var(--k-text); }
+	.demo-keys th, .demo-keys td { padding: 6px 10px; border: 1px solid var(--k-list-border); text-align: left; vertical-align: middle; }
+	.demo-keys th { background: #F7F8FA; font-weight: 700; }
+	.demo-keys td:first-child { font-weight: 700; white-space: nowrap; }
+	.demo-keys td:last-child { color: var(--k-text-sub); }
+	.demo-keys small { font-weight: 400; color: var(--k-text-sub); }
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
@@ -99,10 +156,14 @@ document.addEventListener('DOMContentLoaded', function () {
 	var inp = document.querySelector('#demoDateOpen input');
 	function show() { v.textContent = '서버로 보낼 값 : ' + (ksis.date.value(inp) || '(없음)'); }
 	inp.addEventListener('change', show); inp.addEventListener('blur', show); show();
+	// [50번] 업무 분류가 수주면 품목군 1개만, 가격 · 개발이면 여러 개(KSIS-A 출장보고 안건과 같은 규칙)
+	var msForm = document.getElementById('demoMsForm');
+	document.getElementById('demoBizType').addEventListener('change', function () { ksis.multi.setSingle(msForm, this.value === 'ORD'); });
 	// 처음에 펼친 모양을 보여 준다(바깥을 누르면 닫힘)
 	if (location.hash !== '#closed') {
 		document.querySelector('#demoSelOpen').parentNode.querySelector('.k-select-box').click();
 		document.querySelector('#demoDateOpen .k-date-btn').click();
+		msForm.parentNode.querySelector('.k-ms-box').click();
 	}
 });
 </script>

@@ -744,6 +744,135 @@ table.k-grid td.k-empty { padding: 40px 0; height: auto; }
 /* 마우스 올린 줄(키보드로 옮긴 줄도) : 확인 버튼 색 + 흰 글자 */
 .k-select-list li.hover { background: var(--k-primary); color: #FFFFFF; }
 
+/* [50번] 여러 개 고르는 드롭다운(ksis-multi.js) : <select class="k-multi" multiple> 을 이 모양으로 바꾼다.
+   닫힌 상자 · 펼친 상자 테두리 · 모서리 · 그림자 · 줄 높이 · 올린 줄 색은 40번과 같고, 칩 · 찾기 · 체크 · [취소] [확인] 을 더함 */
+.k-ms > select { display: none; }
+.k-ms-box { display: flex; align-items: center; gap: 4px; padding-left: 5px; }
+.k-ms.is-single .k-ms-box { display: block; padding-left: 14px; } /* 하나만 고를 때는 40번 상자와 똑같이 글자만 */
+table.k-field .k-ms .k-ms-box { padding-top: 5px; padding-bottom: 5px; padding-left: 5px; }
+table.k-field .k-ms.is-single .k-ms-box { padding-top: 6px; padding-bottom: 6px; padding-left: 12px; }
+.k-ms-chips { display: flex; flex: 1 1 auto; min-width: 0; height: 20px; gap: 4px; overflow: hidden; }
+.k-ms.is-single .k-ms-chips { display: inline; }
+/* 고른 것 = 칩 : 높이 20px · 연한 주색 바탕 · 수정 버튼 테두리색 · 진한 주색 글자 12px. 한 줄 고정(줄바꿈으로 칸이 커지지 않음) */
+.k-ms-chip {
+	display: inline-flex;
+	align-items: center;
+	flex: 0 0 auto;
+	max-width: 100%;
+	height: 20px;
+	padding: 0 2px 0 8px;
+	border: 1px solid var(--k-edit-border);
+	border-radius: 10px;
+	background: var(--k-primary-soft);
+	font-size: 12px;
+	line-height: 18px;
+	color: var(--k-primary-deep);
+}
+.k-ms-chip-text { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.k-ms-x {
+	flex: 0 0 auto;
+	width: 16px;
+	height: 16px;
+	margin-left: 2px;
+	border-radius: 50%;
+	font-size: 13px;
+	line-height: 16px;
+	text-align: center;
+	color: var(--k-text-sub);
+	cursor: pointer;
+}
+.k-ms-x:hover { background: var(--k-danger-hover-bg); color: var(--k-danger-text); }
+.k-ms-more { flex: 0 0 auto; font-size: 12px; font-weight: 700; color: var(--k-primary-deep); }
+/* 좁은 칸(첫 칩도 다 안 보임) : 칩 모양 · × 를 빼고 40번 상자처럼 글자만 + "+N" */
+.k-ms-box.is-compact .k-ms-chip { padding-left: 9px; border-color: transparent; background: transparent; font-size: 14px; color: var(--k-text); }
+.k-ms-box.is-compact .k-ms-x { display: none; }
+table.k-field .k-ms-box.is-compact .k-ms-chip { padding-left: 7px; font-size: 13px; }
+.k-ms-chip[hidden], .k-ms-more[hidden], .k-ms-panel[hidden], .k-ms-foot[hidden] { display: none; }
+/* 펼친 상자 : 40번 목록과 같은 테두리 · 모서리 · 그림자. 폭은 상자 폭(좁으면 220px) */
+.k-ms-panel {
+	position: absolute;
+	z-index: 3000;
+	top: calc(100% + 4px);
+	left: 0;
+	min-width: max(100%, 220px);
+	overflow: hidden;
+	border: 1px solid var(--k-list-border);
+	border-radius: 10px;
+	background: #FFFFFF;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, .15);
+}
+/* 찾기 칸 : 맨 위 한 줄(줄 높이와 같음). 돋보기만, 회색 안내 글 없음. 치는 동안 아래 선이 주색 */
+.k-ms-find { position: relative; display: block; border-bottom: 1px solid var(--k-list-border); }
+.k-ms-find:focus-within { border-bottom-color: var(--k-primary); }
+.k-ms-find svg { position: absolute; top: 50%; left: 12px; width: 14px; height: 14px; margin-top: -7px; color: var(--k-text-sub); pointer-events: none; }
+.k-ms-search {
+	display: block;
+	width: 100%;
+	height: var(--k-opt-h, 30px);
+	padding: 0 12px 0 32px;
+	border: 0;
+	outline: none;
+	background: transparent;
+	font-size: 13px;
+	color: var(--k-text);
+}
+.k-ms-list { max-height: calc(var(--k-opt-h, 30px) * 8); margin: 0; padding: 0; overflow-y: auto; list-style: none; outline: none; }
+.k-ms-list li {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	height: var(--k-opt-h, 30px);
+	padding: 0 12px;
+	font-size: 13px;
+	color: var(--k-text);
+	white-space: nowrap;
+	cursor: pointer;
+}
+.k-ms-list li.k-ms-all { border-bottom: 1px solid var(--k-list-border); font-weight: 700; }
+.k-ms-list li.hover { background: var(--k-primary); color: #FFFFFF; }
+.k-ms-list li.k-ms-empty { justify-content: center; color: var(--k-text-sub); cursor: default; }
+.k-ms-text { overflow: hidden; text-overflow: ellipsis; }
+/* 체크 네모 · 동그라미(하나만 고를 때) : 14px. 켜면 주색 + 흰 체크, 전체 선택이 일부만이면 주색 작은 네모(엑셀과 같음).
+   주색 줄 위에서는 흰 테두리 · 흰 바탕 + 주색 체크 */
+.k-ms-chk, .k-ms-radio {
+	position: relative;
+	flex: 0 0 auto;
+	width: 14px;
+	height: 14px;
+	border: 1px solid #A1A1AA;
+	border-radius: 3px;
+	background: #FFFFFF;
+}
+.k-ms-radio { border-radius: 50%; }
+.k-ms-list li.checked .k-ms-chk,
+.k-ms-list li.checked .k-ms-radio,
+.k-ms-list li.partial .k-ms-chk { border-color: var(--k-primary); }
+.k-ms-list li.checked .k-ms-chk,
+.k-ms-list li.checked .k-ms-radio { background: var(--k-primary); }
+.k-ms-list li.checked .k-ms-chk::after {
+	content: "";
+	position: absolute;
+	top: 1px;
+	left: 4px;
+	width: 4px;
+	height: 8px;
+	border: solid #FFFFFF;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}
+.k-ms-list li.checked .k-ms-radio::after { content: ""; position: absolute; top: 3px; left: 3px; width: 6px; height: 6px; border-radius: 50%; background: #FFFFFF; }
+.k-ms-list li.partial .k-ms-chk::after { content: ""; position: absolute; top: 2px; left: 2px; width: 8px; height: 8px; border-radius: 1px; background: var(--k-primary); }
+.k-ms-list li.hover .k-ms-chk,
+.k-ms-list li.hover .k-ms-radio { border-color: #FFFFFF; }
+.k-ms-list li.hover.checked .k-ms-chk,
+.k-ms-list li.hover.checked .k-ms-radio { background: #FFFFFF; }
+.k-ms-list li.hover.checked .k-ms-chk::after { border-color: var(--k-primary); }
+.k-ms-list li.hover.checked .k-ms-radio::after { background: var(--k-primary); }
+/* 아래 줄 : 고른 개수 · [취소] [확인](검색 영역 버튼 규격 30px) */
+.k-ms-foot { display: flex; align-items: center; gap: var(--k-gap-h, 6px); padding: 6px 8px 6px 12px; border-top: 1px solid var(--k-list-border); }
+.k-ms-cnt { margin-right: auto; font-size: 12px; color: var(--k-text-sub); white-space: nowrap; }
+.k-ms-foot .k-btn { min-width: 0; height: 30px; padding: 0 14px; font-size: 13px; font-weight: 700; }
+
 /* [41번] 날짜 입력 : 글자 칸 + 달력 버튼(주색). yyyyMMdd · yyyy-MM-dd · yyyy.MM.dd · yyyy/MM/dd 모두 받음.
    달력 버튼은 입력칸 안 오른쪽 끝에 넣는다. 입력칸 크기(118×30)는 그대로, 버튼만 30 → 20px 로 줄이고
    입력칸 오른쪽 테두리와 4px 띄움. 글자는 버튼 앞까지만(오른쪽 안쪽 여백 26px) → 2026-10-28 이 버튼에 가리지 않음 */

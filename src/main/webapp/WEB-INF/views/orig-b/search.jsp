@@ -101,6 +101,14 @@
 			</div>
 		</div>
 	</div>
+
+	<div class="demo-sec">
+		<p class="demo-h"><b>50번</b> 여러 개 고르는 드롭다운 : 없음</p>
+		<div style="padding:18px 16px;border:1px dashed #C9CED6;border-radius:8px;font-size:13px;color:#767676;max-width:520px;line-height:1.6">
+			여러 화면이 같이 쓰는 다중 선택 드롭다운 부품이 없다.<br>
+			비슷한 것은 매출 수량 피벗 조회(SalesPerformanceQuantityByPart.razor)의 필터 체크 목록뿐 : 검색 · (모두 선택) · N개 선택 · [취소] [확인]. 그 화면 안에만 있다.
+		</div>
+	</div>
 </div>
 <style>.search-area .text-input.demo-focus { border-color: var(--color-primary); box-shadow: 0 0 0 3px var(--color-primary-soft); }</style>
 <script>

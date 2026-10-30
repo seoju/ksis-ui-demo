@@ -1,6 +1,6 @@
 # KSIS UI 통일 시연 (ksis-ui-demo)
 
-KSIS A·B 비교표(49행)의 결론을 **코드로 전달**하기 위한 작은 Spring Boot + JSP 프로그램입니다.
+KSIS A·B 비교표(49행 + 시연에 먼저 넣은 50번)의 결론을 **코드로 전달**하기 위한 작은 Spring Boot + JSP 프로그램입니다.
 화면 영역마다 네 칸을 나란히 보여 줍니다.
 
 | 칸 | 내용 | 만든 방법 |
@@ -34,9 +34,9 @@ JDK 17 이 있으면 됩니다(KSIS-A 와 같은 Spring Boot 3.4 · JSP · JSTL 
 
 브라우저에서 http://localhost:8090 을 엽니다.
 
-- `/summary` : 0번 비교표 및 요구사항 요약. 49행 전체를 영역별로 묶어 요약 · A 원래 · B 원래 · 요구사항 전체를 한 표로 보여 줍니다(오른쪽 위 [요약만 보기])
+- `/summary` : 0번 비교표 및 요구사항 요약. 50행 전체를 영역별로 묶어 요약 · A 원래 · B 원래 · 요구사항 전체를 한 표로 보여 줍니다(오른쪽 위 [요약만 보기])
 - `/compare/{영역}` : 네 칸 비교 + 그 영역의 비교표 행(A 원래 · B 원래 · 요구사항 · B 메모)
-  - 영역 : `layout`(1~18번) · `buttons`(19~27) · `grid`(28~37) · `search`(38~42) · `popup`(43) · `dialog`(44) · `text`(45~49)
+  - 영역 : `layout`(1~18번) · `buttons`(19~27) · `grid`(28~37) · `search`(38~42 · 50) · `popup`(43) · `dialog`(44) · `text`(45~49)
   - 위쪽 [보기]에서 2×2 / 한 줄 / 한 칸씩, [화면 폭]에서 1920 · 1600 · 1366px 가상 화면 또는 "칸 크기 그대로"를 고릅니다.
 - `/view/{칸}/{영역}` : 한 칸만 새 창으로(칸 = `orig-a` · `orig-b` · `req-a` · `req-b`). 비교 화면 각 칸의 [새 창 ↗]과 같습니다.
 - 팝업·알림·드롭다운·달력은 처음에 펼친 모양으로 열립니다. 주소 끝에 `#closed` 를 붙이면 닫힌 채로 엽니다.
@@ -51,13 +51,14 @@ war 로 만들려면 `./mvnw package` → `target/ksis-ui-demo.war`.
 | 파일 | 비교표 | 설명 |
 |---|---|---|
 | `ksis-ui/css/ksis-theme-a.css` | 색 전부 | **색만** 있는 파일. A 는 이 파일, B 는 `ksis-theme-b.css` |
-| `ksis-ui/css/ksis-common.css` | 1~49 | 공통 규칙(크기·간격·모양). 테마 파일 **다음에** 넣습니다 |
+| `ksis-ui/css/ksis-common.css` | 1~50 | 공통 규칙(크기·간격·모양). 테마 파일 **다음에** 넣습니다 |
 | `ksis-ui/js/ksis-layout.js` | 1~18 | 상단 가로바 · 좌측 메뉴 · 화면 탭. `ksis.layout.init({ open(path, title, viewEl) })` |
 | `ksis-ui/img/ksis-a-logo.png` | 2 | 가로바 왼쪽 KSIS-A 심볼(흰 바탕을 따낸 투명 PNG). 'A' 아래에 영문 줄(Kefico Sales Information System - Advanced)을 넣어 옆으로 긴 그림. 진한 가로바용으로 남색 글자는 흰색, '- Advanced' 는 밝은 파랑. 원래 색 · 원래 배치(영문 줄이 심볼 아래)인 누끼 원본은 `ksis-a-symbol.png` |
 | `ksis-ui/img/ksis-b-logo.png` | 2 | 가로바 왼쪽 KSIS-B 심볼. A 심볼과 같은 틀 · 글꼴 · 크기로 'KSIS-B' + 'Kefico Sales Information System - Bridge'(영문 줄 글꼴 Montserrat Bold). 초록 계열 : 테두리 · '- Bridge' #A8E6BF, '-B' · 첫 막대 #03C75A |
 | `ksis-ui/js/ksis-dialog.js` | 44 · 27 | `ksis.showAlert` / `ksis.showConfirm` — **`biz.showAlert` / `biz.showConfirm` 과 인자가 같습니다**(바꿔 끼우기) |
 | `ksis-ui/js/ksis-modal.js` | 43 · 27 | `ksis.modal.open(id)` / `close(id)`. 머리줄 끌기, ✕ · Esc, 열면 주 버튼에 포커스 |
 | `ksis-ui/js/ksis-select.js` | 40 · 42 | `select.k-select` → 둥근 펼침 목록. 모드 버튼 `.k-seg` |
+| `ksis-ui/js/ksis-multi.js` | 50 | `select.k-multi[multiple]` → 여러 개 고르는 드롭다운(칩 · 찾기 · 전체 선택 · [취소] [확인], 엑셀식 키보드). `biz.ui.multiSelect` 자리. `ksis.multi.values(select)` · `setValues` · `setSingle(select, on)` |
 | `ksis-ui/js/ksis-date.js` | 41 | `.k-date` 날짜칸 + 달력. `ksis.date.value(input)` = 서버로 보낼 `yyyyMMdd` |
 | `ksis-ui/js/ksis-file.js` | 43 | `.k-file` 파일 업로드 : 끌어다 놓기 + 파일 선택, 목록(이름 · 크기 · ✕). `ksis.file.appendTo(el, formData)` 로 저장 |
 | `ksis-ui/js/ksis-grid-select.js` | 28 · 29 · 30 | **KSIS-B `partNumberTools.js` 그대로**(칸 선택 · 방향키 · Ctrl+C). B 전용 부분만 뺌 |
@@ -73,6 +74,7 @@ war 로 만들려면 `./mvnw package` → `target/ksis-ui-demo.war`.
 <script src="<c:url value='/ksis-ui/js/ksis-dialog.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-modal.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-select.js'/>"></script>
+<script src="<c:url value='/ksis-ui/js/ksis-multi.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-date.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-file.js'/>"></script>
 <%-- 그리드 화면 --%>
@@ -126,6 +128,13 @@ Tabulator 는 `<div>` 로 그리기 때문에 이 기능이 붙지 않습니다.
     - 11번 대분류 줄 높이 : 대분류 한 줄을 35px 로 고정(누르든 안 누르든 같은 높이, 나중에 아이콘 자리). 소메뉴 줄은 27.2px 그대로. 선택한 대분류만 키우는 안(1.6배)은 검토 뒤 "커졌다 작아졌다 하는 게 좋지 않다"고 해서 넣지 않았습니다.
     - 38번 검색 칸 폭 : 검색 영역의 입력칸 · 드롭다운을 모두 날짜 칸과 같은 118px 로 통일했습니다(`.k-search .k-input, .k-search .k-select-wrap { width: 118px }`, 화면마다 쓰던 150 · 160 · 170 · 200px 는 지움). 한 줄에 안 들어갈 만큼 창이 좁을 때만 84px 까지 줄어드는 규칙은 그대로.
     - 39 · 40번 회색 안내 글 삭제 : 입력칸 · 드롭다운 안 회색 안내 글(placeholder)을 쓰지 않습니다. 드롭다운은 `data-placeholder` 대신 `data-empty`(고르기 전 빈 상자), "전체"처럼 뜻이 있는 값은 진짜 선택지(`<option value="">전체</option>`, 검은 글씨). KSIS-B 는 도구 화면(배차 도우미 · 화면 캡처 · 창 버튼 자동 클릭)만 그대로 둡니다.
+14. **10/30 추가 : 50번 여러 개 고르는 드롭다운(A · B 공통, 비교표에는 아직 없는 새 행)**
+    - 기존 KSIS-A 는 공통 위젯 `biz.ui.multiSelect`(출장보고 안건 품목군 · HMC품번 · EDO · 가격 합의 · 협상 작성), 기존 KSIS-B 는 없음. 둘 다 같은 부품 `ksis-multi.js` 로 통일하고 B 는 색만 다릅니다.
+    - 모양 : 닫힌 상자 · 펼친 상자 테두리 · 모서리 · 그림자 · 줄 높이 · 올린 줄 색이 40번 드롭다운과 같습니다. 고른 것은 상자 안 한 줄 칩(× 로 하나 빼기), 안 들어가면 "+N"(마우스를 올리면 전부). 첫 칩도 다 안 보이는 좁은 칸(검색줄 118px)은 칩 모양 없이 글자 + "+N". 칩 때문에 칸 높이가 바뀌지 않습니다(A 원래는 줄이 바뀌며 커짐).
+    - 펼친 상자 : 찾기 칸(돋보기, 회색 안내 글 없음) · 전체 선택(일부만 고르면 작은 네모) · 체크 목록 · "N개 선택" [취소] [확인]. 엑셀 자동 필터 목록처럼 [확인](Enter)을 눌러야 반영되고 [취소](Esc)는 되돌립니다. 바깥을 누르면 확인과 같습니다(A 원래처럼 고른 것이 남음, 엑셀은 취소).
+    - 키보드(엑셀 자동 필터 목록 벤치마킹) : 닫힌 상자 Alt+↓ · ↓ · Enter · Space 펼침 → 커서는 찾기 칸, 글자로 좁히고 ↓ 로 목록 첫 줄(전체 선택), ↑↓ 한 줄 · Home · End · PageUp · PageDown, Space 체크, Enter 확인, Esc 취소, Tab 은 찾기 칸 → 목록 → [취소] → [확인] 을 돎. 목록에서 글자를 치면 찾기 칸으로 갑니다.
+    - 하나만 고르기 : `data-single` 또는 `ksis.multi.setSingle(select, true)`. 동그라미, 고르면 바로 닫힘, 여러 개를 골라 두었으면 첫 건만 남김. 출장보고 안건처럼 업무 분류가 수주면 품목군 1개, 가격 · 개발이면 여러 개로 바꿔 씁니다(`/view/req-a/search` 50번에서 업무 분류를 바꿔 보면 됨).
+    - KSIS-A 에 옮길 때 : `biz.ui.multiSelect(host, { url, valueField, textField, single })` 를 쓰던 자리는 서버에서 받은 목록으로 `<select class="k-multi" multiple>` 의 `<option>` 을 채운 뒤 `ksis.multi.enhance(부모)` 를 부르고, `getValues()` → `ksis.multi.values(select)`, `setValues()` → `ksis.multi.setValues(select, [값…])`, `setSingle()` → `ksis.multi.setSingle(select, on)`, `onChange` → select 의 `change` 이벤트로 바꿉니다.
 
 ## ③·④ 예외(색 말고 다른 것)
 
@@ -142,7 +151,7 @@ src/main/java/com/kefico/ksis/uidemo/
   web/DemoController.java        주소 → JSP
   guide/DemoArea.java            영역 7개(비교표 행 범위)
   guide/Variant.java             칸 4개
-  guide/RequirementCatalog.java  비교표 49행(resources/requirements.json)
+  guide/RequirementCatalog.java  비교표 49행 + 50번(resources/requirements.json)
   guide/SampleData.java          시연용 표 · 메뉴 데이터(탭을 10개 넘게 열어 보도록 더미 소메뉴를 넣어 모두 33개, 화면 내용은 같은 예시)
 src/main/resources/requirements.json   비교표 내용(A 원래 · B 원래 · 요구사항 · B 메모)
 src/main/webapp/

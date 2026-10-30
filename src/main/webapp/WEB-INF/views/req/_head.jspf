@@ -14,5 +14,6 @@
 <script src="<c:url value='/ksis-ui/js/ksis-dialog.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-modal.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-select.js'/>"></script>
+<script src="<c:url value='/ksis-ui/js/ksis-multi.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-date.js'/>"></script>
 <script src="<c:url value='/ksis-ui/js/ksis-file.js'/>"></script>
