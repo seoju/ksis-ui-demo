@@ -4,9 +4,9 @@
 //  <select class="k-multi" name="itemGrp" multiple style="width:260px">
 //     <option value="G01">ECU(가솔린)</option> …
 //  </select>
-//  - 닫힌 상자는 40번 드롭다운(ksis-select.js)과 같은 모양 · 높이. 고른 것은 상자 안 한 줄 칩(주색 연한 바탕),
-//    한 줄에 안 들어가는 만큼은 "+N" 으로 줄인다(마우스를 올리면 고른 것 전부가 보임). 칩의 × 는 그것만 뺀다.
-//    첫 칩도 다 안 보이는 좁은 칸(검색줄 118px)은 칩 모양 없이 글자 + "+N"(예 : ECU(가솔… +2).
+//  - 닫힌 상자는 40번 드롭다운(ksis-select.js)과 같은 모양 · 높이. 고른 것은 상자 안 한 줄 칩(주색 연한 바탕) + ×(그것만 뺌).
+//    칸이 모자라면 짧은 이름은 그대로 두고 긴 이름부터 줄여(…) 한 칸에 다 넣는다. 칩마다 앞 2글자까지는 보이게 하고,
+//    그래도 안 들어가면(너무 많이 고름) 뒤에서부터 감추고 "+감춘 개수". 마우스를 올리면 고른 것 전부가 보인다.
 //  - 펼친 상자 : 찾기 칸(돋보기, 회색 안내 글 없음) · 전체 선택 · 체크 목록 · "N개 선택" [취소] [확인].
 //    줄 높이 = 닫힌 상자 높이, 마우스 올린 줄(키보드로 옮긴 줄) = 주색 + 흰 글자(40번과 같음).
 //  - 엑셀 자동 필터 목록처럼 [확인](Enter)을 눌러야 반영되고 [취소](Esc)는 펼치기 전으로 되돌린다.
@@ -19,7 +19,8 @@
 //      찾기 칸    글자 = 찾기, ↓ = 목록 첫 줄(전체 선택)로
 //      목록       ↑↓ 한 줄, Home · End 처음 · 끝, PageUp · PageDown 한 화면, Space 체크 켜기/끄기(전체 선택 줄 = 보이는 것 모두),
 //                 첫 줄에서 ↑ = 찾기 칸, 글자를 치면 찾기 칸으로 가서 이어 씀
-//      어디서나   Enter 확인 · Esc 취소 · Tab 은 찾기 칸 → 목록 → [취소] → [확인] 을 돈다
+//      어디서나   Enter · Tab = 확인하고 다음 칸으로(Shift+Tab 은 앞 칸), Esc = 취소(닫힌 상자로)
+//  - [확인]을 눌러도 다음 칸으로 간다. [취소] · Esc 는 닫힌 상자로 돌아온다.
 //  ksis.multi.enhance(root) · ksis.multi.values(select) · ksis.multi.setValues(select, [값…]) · ksis.multi.setSingle(select, on)
 // =====================================================================
 (function (window, document) {
@@ -28,6 +29,9 @@
 	var ksis = window.ksis = window.ksis || {};
 	var openInst = null;
 	var seq = 0;
+	var ruler = document.createElement("canvas").getContext("2d");
+	function textW(text, font) { ruler.font = font; return ruler.measureText(text).width; }
+	var TABBABLE = "a[href], button, input, select, textarea, [tabindex]";
 	var FIND_ICON = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true">'
 		+ '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/></svg>';
 
@@ -105,7 +109,9 @@
 			if (single) { chips.textContent = sel.length ? sel[0].text : ""; return; }
 			sel.forEach(function (o) {
 				var c = el("span", "k-ms-chip");
-				c.appendChild(el("span", "k-ms-chip-text", o.text));
+				var t = el("span", "k-ms-chip-text", o.text);
+				t.dataset.full = o.text;
+				c.appendChild(t);
 				var x = el("span", "k-ms-x", "×");
 				x.setAttribute("aria-hidden", "true");
 				x.dataset.value = o.value;
@@ -114,25 +120,76 @@
 			});
 			fit();
 		}
-		// 한 줄에 안 들어가는 칩은 뒤에서부터 감추고 "+감춘 개수".
-		// 첫 칩조차 다 안 보이면(검색줄 118px 등 좁은 칸) 칩 모양을 빼고 글자만(is-compact) — 글자가 더 많이 보인다. 그래도 길면 말줄임(…)
+		// 칩 줄이기 : 칸 안 글자 자리를 칩들에 나눠 준다. 짧은 이름은 그대로, 긴 이름만 같은 길이까지 깎는다(…).
+		// 칩마다 앞 2글자 자리는 남기고, 그것도 모자라면 뒤에서부터 감추고 "+감춘 개수"
 		function fit() {
-			var c = chips.children;
-			box.classList.remove("is-compact");
-			if (single || !c.length || chips.clientWidth === 0) return;
-			var hiddenN = 0;
-			for (var i = 0; i < c.length; i++) c[i].hidden = false;
-			more.hidden = true;
-			if (chips.scrollWidth <= chips.clientWidth) return;
-			more.hidden = false;
-			for (var k = c.length - 1; k > 0; k--) {
-				c[k].hidden = true;
-				more.textContent = "+" + (++hiddenN);
-				if (chips.scrollWidth <= chips.clientWidth) break;
+			var c = Array.prototype.slice.call(chips.children);
+			if (single || !c.length || box.clientWidth === 0) return;
+			var bs = getComputedStyle(box), cs = getComputedStyle(chips);
+			var ts = getComputedStyle(c[0].firstChild), xs = getComputedStyle(c[0].lastChild), ks = getComputedStyle(c[0]);
+			var px = function (v) { return parseFloat(v) || 0; };
+			var inner = box.clientWidth - px(bs.paddingLeft) - px(bs.paddingRight);
+			var boxGap = px(bs.columnGap), gap = px(cs.columnGap);
+			var chrome = px(ks.paddingLeft) + px(ks.paddingRight) + px(ks.borderLeftWidth) + px(ks.borderRightWidth) + px(xs.width) + px(xs.marginLeft) + px(xs.marginRight);
+			var font = ts.fontStyle + " " + ts.fontWeight + " " + ts.fontSize + " " + ts.fontFamily;
+			var moreFont = getComputedStyle(more).fontWeight + " " + getComputedStyle(more).fontSize + " " + ts.fontFamily;
+			var texts = c.map(function (x) { return x.firstChild.dataset.full; });
+			var nat = texts.map(function (t) { return textW(t, font); });
+			var min = texts.map(function (t, i) { return Math.min(nat[i], textW(Array.from(t).slice(0, 2).join(""), font)); });
+			// 몇 개까지 넣을 수 있나(앞 2글자 기준)
+			var room = function (k) { return inner - (k < c.length ? textW("+" + (c.length - k), moreFont) + boxGap : 0); };
+			var k = c.length;
+			for (; k > 1; k--) {
+				var need = (k - 1) * gap;
+				for (var i = 0; i < k; i++) need += chrome + min[i];
+				if (need <= room(k)) break;
 			}
-			if (hiddenN === 0) more.hidden = true;
-			var t = c[0].firstChild;
-			if (t.scrollWidth > t.clientWidth) box.classList.add("is-compact");
+			var space = room(k) - (k - 1) * gap - k * chrome;   // 글자에 쓸 수 있는 자리
+			// 같은 길이 cap 을 찾는다 : 각 칩 글자 = max(앞 2글자, min(원래 길이, cap)), 합이 space 안
+			var lo = 0, hi = Math.max.apply(null, nat.slice(0, k));
+			var sum = function (cap) { var t = 0; for (var i = 0; i < k; i++) t += Math.max(min[i], Math.min(nat[i], cap)); return t; };
+			if (sum(hi) > space) { for (var n = 0; n < 20; n++) { var mid = (lo + hi) / 2; if (sum(mid) > space) hi = mid; else lo = mid; } } else lo = hi;
+			// 상한대로 깎은 글자 → 실제 글자 폭. 깎다가 남은 자리는 다시 나눠 준다(빈칸 없이) :
+			// 먼저 조금만 더 주면 이름이 다 보이는 칩부터(덜 드는 순), 남으면 앞 칩부터 더 길게
+			var shown = [], used = [], left = space;
+			for (var j = 0; j < k; j++) {
+				var w = Math.max(min[j], Math.min(nat[j], lo));
+				shown[j] = nat[j] <= w + 0.01 ? texts[j] : cut(texts[j], w, font);
+				used[j] = Math.ceil(textW(shown[j], font));
+				left -= used[j];
+			}
+			var order = [];
+			for (j = 0; j < k; j++) if (shown[j] !== texts[j]) order.push(j);
+			order.sort(function (a, b) { return (nat[a] - used[a]) - (nat[b] - used[b]); });
+			order.forEach(function (i) {
+				var full = Math.ceil(nat[i]);
+				if (full - used[i] <= left) { left -= full - used[i]; used[i] = full; shown[i] = texts[i]; }
+			});
+			for (j = 0; j < k && left > 0; j++) {
+				if (shown[j] === texts[j]) continue;
+				var room2 = used[j] + left;
+				var t2 = Math.ceil(nat[j]) <= room2 ? texts[j] : cut(texts[j], room2, font);
+				var w2 = Math.ceil(textW(t2, font));
+				if (w2 > used[j]) { left -= w2 - used[j]; used[j] = w2; shown[j] = t2; }
+			}
+			c.forEach(function (chip, i) {
+				var t = chip.firstChild;
+				chip.hidden = i >= k;
+				if (i >= k) return;
+				t.style.width = used[i] + "px";
+				t.textContent = shown[i];
+			});
+			more.hidden = k === c.length;
+			more.textContent = k < c.length ? "+" + (c.length - k) : "";
+		}
+		// w 안에 들어가는 가장 긴 앞부분 + "…". 앞 2글자 + "…" 도 안 들어가면 앞 2글자만
+		function cut(text, w, font) {
+			var ch = Array.from(text);
+			for (var n = ch.length - 1; n >= 2; n--) {
+				var s = ch.slice(0, n).join("") + "…";
+				if (textW(s, font) <= w) return s;
+			}
+			return ch.slice(0, 2).join("");
 		}
 
 		// ---------- 펼친 상자 ----------
@@ -236,8 +293,16 @@
 			paint();
 			if (changed) select.dispatchEvent(new Event("change", { bubbles: true }));
 		}
-		function ok() { close(true); box.focus(); }
-		function cancel() { close(false); box.focus(); }
+		// 화면에서 이 상자 다음(dir = 1) · 앞(dir = -1) 칸으로 커서를 옮긴다
+		function moveFocus(dir) {
+			var all = Array.prototype.filter.call(document.querySelectorAll(TABBABLE), function (x) {
+				return x.tabIndex >= 0 && !x.disabled && x.getClientRects().length > 0 && !panel.contains(x);
+			});
+			var next = all[all.indexOf(box) + dir];
+			(next || box).focus();
+		}
+		function ok() { close(true); moveFocus(1); }       // [확인] · Enter : 반영하고 다음 칸으로
+		function cancel() { close(false); box.focus(); }   // [취소] · Esc : 되돌리고 닫힌 상자로
 
 		// ---------- 마우스 ----------
 		box.addEventListener("click", function (e) {
@@ -250,7 +315,7 @@
 				box.focus();
 				return;
 			}
-			if (wrap.classList.contains("open")) ok(); else open();
+			if (wrap.classList.contains("open")) { close(true); box.focus(); } else open();
 		});
 		// 펼친 상자 안 빈 곳을 눌러도 커서가 찾기 칸 · 목록에서 빠지지 않게(빠지면 키보드가 멈춤)
 		panel.addEventListener("mousedown", function (e) {
@@ -302,10 +367,9 @@
 		panel.addEventListener("keydown", function (e) {
 			if (e.key === "Escape") { e.preventDefault(); e.stopPropagation(); cancel(); return; }
 			if (e.key !== "Tab") return;
-			var stops = single ? [search, list] : [search, list, btnCancel, btnOk];
-			var i = stops.indexOf(document.activeElement);
-			e.preventDefault();
-			stops[(i + (e.shiftKey ? -1 : 1) + stops.length) % stops.length].focus();
+			e.preventDefault();          // Tab = 확인하고 다음 칸, Shift+Tab = 확인하고 앞 칸
+			close(true);
+			moveFocus(e.shiftKey ? -1 : 1);
 		});
 
 		var inst = {

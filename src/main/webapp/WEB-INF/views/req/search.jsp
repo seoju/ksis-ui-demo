@@ -90,7 +90,7 @@
 	</div>
 
 	<div class="demo-sec">
-		<p class="demo-h"><b>50번</b> 여러 개 고르는 드롭다운 : 닫힌 상자 · 펼친 상자 모양 · 줄 높이 · 올린 줄 색은 40번과 같음 · 고른 것은 한 줄 칩(안 들어가면 +N, 마우스를 올리면 전부) · 찾기 · 전체 선택 · N개 선택 [취소] [확인] · 키보드는 엑셀 자동 필터 목록과 같게</p>
+		<p class="demo-h"><b>50번</b> 여러 개 고르는 드롭다운 : 닫힌 상자 · 펼친 상자 모양 · 줄 높이 · 올린 줄 색은 40번과 같음 · 고른 것은 한 줄 칩 + ×(긴 이름부터 줄여 한 칸에, 최소 앞 2글자, 그래도 넘치면 +N) · 찾기 · 전체 선택 · N개 선택 [취소] [확인] · 키보드는 엑셀 자동 필터 목록과 같게 · 확인 · Tab 은 다음 칸으로</p>
 		<div class="k-search">
 			<label>품목군</label>
 			<select class="k-multi" name="grpSearch" multiple>
@@ -103,7 +103,7 @@
 			<button type="button" class="k-btn k-btn-primary">검색</button>
 			<button type="button" class="k-btn k-btn-ghost">해제</button>
 		</div>
-		<p class="demo-tip">검색줄에서는 다른 칸과 같은 118px. 첫 칩도 다 안 보이는 좁은 칸은 칩 모양을 빼고 글자 + "+N"(마우스를 올리면 고른 것 전부). 넓은 칸은 아래처럼 칩 + ×.</p>
+		<p class="demo-tip">검색줄에서는 다른 칸과 같은 118px. 칩은 짧은 이름은 그대로, 긴 이름부터 같은 길이까지 줄여(…) 한 칸에 넣고, 칩마다 앞 2글자 + × 는 남긴다. 그래도 안 들어가면 뒤에서부터 감추고 "+N"(마우스를 올리면 고른 것 전부).</p>
 		<p class="demo-tip" style="margin-top:14px">아래 작성 칸은 KSIS-A 출장보고 안건과 같은 규칙 : 업무 분류가 수주면 품목군 1개만(동그라미, 고르면 바로 닫힘, 여러 개를 골라 두었으면 첫 건만 남김), 가격 · 개발이면 여러 개.</p>
 		<div style="min-height:430px;margin-top:6px">
 			<table class="k-field" style="width:520px">
@@ -129,9 +129,9 @@
 				<tr><td>Home · End</td><td>처음 · 끝 줄</td><td>같음</td></tr>
 				<tr><td>PageUp · PageDown</td><td>한 화면씩</td><td>보이는 첫 · 끝 줄</td></tr>
 				<tr><td>Space</td><td>체크 켜기 / 끄기. 전체 선택 줄은 지금 보이는 것 모두</td><td>같음((모두 선택) 포함)</td></tr>
-				<tr><td>Enter</td><td>확인 : 반영하고 닫음</td><td>같음(필터 적용)</td></tr>
-				<tr><td>Esc</td><td>취소 : 펼치기 전으로 되돌리고 닫음</td><td>같음</td></tr>
-				<tr><td>Tab · Shift+Tab</td><td>찾기 칸 → 목록 → [취소] → [확인] 을 돎</td><td>같음</td></tr>
+				<tr><td>Enter · [확인]</td><td>확인 : 반영하고 닫은 뒤 다음 칸으로</td><td>같음(필터 적용)</td></tr>
+				<tr><td>Esc · [취소]</td><td>취소 : 펼치기 전으로 되돌리고 닫음(커서는 이 칸 그대로)</td><td>같음</td></tr>
+				<tr><td>Tab · Shift+Tab</td><td>확인과 같이 반영하고 다음 칸(Shift+Tab 은 앞 칸)으로</td><td>메뉴 안에서 돎</td></tr>
 				<tr><td>글자<br><small>(목록에서)</small></td><td>찾기 칸으로 가서 이어 씀</td><td>없음(KSIS-A "타이핑해서 검색" 요청)</td></tr>
 				<tr><td>바깥 누르기</td><td>확인과 같음(고른 것이 남음, KSIS-A 원래 부품과 같음)</td><td>취소</td></tr>
 				<tr><td>하나만 고를 때</td><td>↑ ↓ 이동, Space · Enter 고르고 바로 닫힘(전체 선택 · [확인] 없음)</td><td>—</td></tr>
