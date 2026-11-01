@@ -8,7 +8,7 @@
 | 파일 | 내용 | 시연 프로그램 주소 |
 |---|---|---|
 | `img/step3-buttons.png` | 버튼 종류 · 올림 · 누름 · 비활성 | `/view/req-b/buttons` |
-| `img/step3-grid.png` | 문서형 표(40px) · 데이터형 표(32px) · 편집 칸 · 번호 페이지 | `/view/req-b/grid` |
+| `img/step3-grid.png` | 문서형 표(40px) · 문서 제목 열 왼쪽(35번) · 데이터형 표(32px) · 편집 칸 · 번호 페이지 | `/view/req-b/grid` |
 | `img/step3-search.png` | 검색 영역 · 입력칸 · 드롭다운 · 날짜 · 모드 버튼 | `/view/req-b/search` |
 | `img/step3-multi.png` | 여러 개 고르는 드롭다운(검색줄 · 작성 칸 펼친 모양) [50번] | `/view/req-b/search` 맨 아래 |
 
@@ -156,6 +156,13 @@ table.app-grid td {                 /* [33·35번] 본문 칸 */
 }
 ```
 - **정렬 [35번] (C-012)** : 표 안 모든 칸 가운데. 수량 · 금액 · 단가 · 가격처럼 **숫자가 분명한 칸만 오른쪽**(`text-align: right; font-variant-numeric: tabular-nums;`). 고객사 · 품목 · 이름 · 비고처럼 글자가 긴 칸에 걸린 왼쪽 정렬(`text-align: left` · `style="text-align:left"` · 왼쪽 정렬 클래스)은 없앱니다. 품번 · 코드 · 날짜 · 담당자 · No 도 가운데. 데이터형 표(`.compact-grid` 등)도 같은 규칙이고, 입력 표의 편집 칸(`input`)도 칸과 같은 정렬(숫자 칸만 오른쪽)입니다. 팝업 안 "라벨 : 입력칸" 배치 표는 도표가 아니므로 해당 없음.
+- **제목 열만 왼쪽 [35번] (C-018)** : 머리글(`<th>`) 글자에 **"제목"이 들어간 열**(지금 B 에는 문서형 목록의 `문서 제목`)은 본문 칸만 왼쪽 정렬, 머리글 글자는 다른 열처럼 가운데 그대로. B 는 그 칸에 이미 `td.title-cell` 이 붙어 있으므로 `app.css` 에 한 번만 둡니다.
+  ```css
+  /* [35번] 머리글에 '제목'이 들어간 열 : 본문 칸 왼쪽, 머리글은 가운데 그대로 */
+  .title-cell .cell-fixed { justify-content: flex-start; }
+  .title-cell, .title-cell .cell-fixed, .title-cell .cell-title-clip { text-align: left; }
+  ```
+  `title-cell` 칸 안에 `cell-center` 가 붙어 있거나 `.cell-title-clip` 에 `text-align: center` 가 걸려 있으면(C-012 를 하면서 바꿨을 수 있음) 그 칸에서만 뺍니다. 머리글에 "제목"이 들어간 열인데 `title-cell` 이 없으면 붙입니다.
 - 문서형 행 높이 `--doc-row-height: 56px` → **40px**, 창 높이에 따라 45px 로 바꾸던 `@media (max-height: 1060px)` 는 없앱니다([5번] "행 개수 바꾸기는 신중히" → 고정).
   `.doc-list-grid tbody td { padding: 0 !important; }` 안쪽에 따로 그린 칸이 있으면, 칸 안 여백이 10px 12px 가 되게 맞춥니다.
 - 줄무늬 없음 · 칸 사이 세로선 없음 · 흰 바탕 — 지금 그대로.

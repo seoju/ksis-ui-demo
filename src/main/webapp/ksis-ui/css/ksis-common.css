@@ -1032,8 +1032,11 @@ table.k-grid td {
 table.k-grid.k-grid-dense th { padding: 7px 8px; font-size: 12px; }
 table.k-grid.k-grid-dense td { height: 32px; padding: 0 8px; font-size: 12px; }
 /* 표 안 정렬(2026-10-29) : 모든 칸 가운데. 수량 · 금액 · 가격처럼 숫자가 분명한 칸만 .num = 오른쪽(자릿수 맞춤).
-   이름 · 품목 · 고객사처럼 글자가 긴 칸도 가운데(예전 .left 왼쪽 정렬은 없앰) */
+   이름 · 품목 · 고객사처럼 글자가 긴 칸도 가운데(예전 .left 왼쪽 정렬은 없앰). 제목 열만 예외(아래 .title) */
 table.k-grid td.num { text-align: right; font-variant-numeric: tabular-nums; }
+/* [35번] 2026-11-01 : 머리글에 '제목'이 들어간 열(제목 · 문서 제목 · 제목(요약) …)의 본문 칸은 왼쪽(.title).
+   머리글 글자는 다른 열처럼 가운데 그대로(KSIS-A 원래 목록과 같음) */
+table.k-grid td.title { text-align: left; }
 /* [36번] 행에 올리면 연한 바탕. 손가락 커서는 눌러서 무언가 열리는 칸에만 */
 table.k-grid tbody tr { transition: background-color .1s ease; }
 table.k-grid tbody tr:hover td { background: var(--k-grid-row-hover); }

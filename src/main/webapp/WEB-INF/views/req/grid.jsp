@@ -52,6 +52,25 @@
 		<p class="demo-tip">파란(초록) 글자 K품번 칸만 손가락 커서 — 누르면 상세가 열리는 칸. 나머지 칸은 누르면 활성 칸만 된다.</p>
 	</div>
 
+	<%-- [35번] 2026-11-01 : 머리글에 '제목'이 들어간 열만 본문 칸 왼쪽(td.title). 머리글은 가운데 그대로 --%>
+	<div class="demo-sec">
+		<p class="demo-h"><b>35번</b> 문서형 목록 : 머리글에 "제목"이 들어간 열(제목 · 문서 제목 · 제목(요약) …)만 본문 칸 왼쪽 정렬 · 머리글 글자는 가운데 그대로 · 나머지 칸은 가운데</p>
+		<div class="k-grid-wrap">
+			<table class="k-grid app-grid" id="docGrid">
+				<colgroup><col style="width:60px"><col><col style="width:200px"><col style="width:120px"><col style="width:100px"></colgroup>
+				<thead><tr><th>No</th><th>문서 제목</th><th>보고자료매칭</th><th>등록 일자</th><th>작성자</th></tr></thead>
+				<tbody>
+					<tr><td>1</td><td class="title">2027~2035 중장기 매출 계획(10월 수정)</td><td>11월 사업계획 보고</td><td>2026-10-31</td><td>김하늘</td></tr>
+					<tr><td>2</td><td class="title">NE1 ECU 고객 중장기 판매 계획</td><td>-</td><td>2026-10-28</td><td>이준호</td></tr>
+					<tr><td>3</td><td class="title">2026년 9월 매출 실적</td><td>9월 실적 보고</td><td>2026-10-10</td><td>박서연</td></tr>
+					<tr><td>4</td><td class="title">차량 판매 계획(현대 · 기아 2027)</td><td>-</td><td>2026-09-30</td><td>최민재</td></tr>
+					<tr><td>5</td><td class="title">매출 비교 : 2026 계획 대비 실적</td><td>3분기 경영 보고</td><td>2026-09-24</td><td>정다은</td></tr>
+				</tbody>
+			</table>
+		</div>
+		<p class="demo-tip">원래 A(결재함 · 공문 · 출장 안건 목록의 제목 · 공문 제목 · 제목(요약) 열) · B(문서형 목록의 문서 제목 열)도 왼쪽이었다. 10/29 "모든 칸 가운데"(C-012)에서 제목 열만 다시 왼쪽으로 뺀 것.</p>
+	</div>
+
 	<div class="demo-sec">
 		<p class="demo-h"><b>30 · 37번</b> 입력 표 : 칸을 누르면 주색 테두리 + 연노랑 바탕 · 엑셀에서 여러 줄을 복사해 Ctrl+V(행 수가 다르면 확인 창) · Tab 으로 옆 칸 · 빨간 테두리 = 검증 실패</p>
 		<div class="k-grid-wrap">

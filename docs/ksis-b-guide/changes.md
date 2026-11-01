@@ -230,3 +230,15 @@
   - 확인 : 작성 칸(폭 약 350px)에 짧은 이름 7개를 고르면 모두 한 칸에 보임. 검색 영역 118px 에 3개를 고르면 칩 + × 가 보이고 넘치는 만큼 "+N". 펼쳐서 체크한 뒤 Tab → 반영되고 커서가 다음 칸.
 - 참고 파일 : `ksis-multi.js` 의 `fit()` · `cut()` · `moveFocus()`, `ksis-common.css` 의 `.k-ms-chip` · `.k-ms-x` · `.k-ms-chips`
 - 해당 : A·B 모두
+
+### C-018 · 2026-11-01 · 커밋 메시지가 `C-018` 로 시작하는 커밋 · 머리글에 "제목"이 들어간 열은 본문 칸 왼쪽 정렬
+- 요구사항 : 비교표 35번(본문 칸 정렬. 사용자 : "각 문서들의 제목이 모두 가운데 정렬 … 헤더에 '제목'이 있다면 좌측 정렬로")
+- 단계 : 03-controls.md 3-3 표(정렬 [35번] 아래 "제목 열만 왼쪽" 고쳐 둠)
+- KSIS-B 에 적용할 것 : C-012 "모든 칸 가운데"에서 제목 열만 뺍니다. 머리글(`<th>`) 글자는 가운데 그대로이고 본문 칸만 왼쪽입니다(원래 A 의 제목 열 · 원래 B 의 문서 제목 열과 같음).
+  - `app.css` : 3-3 의 규칙 두 줄(`.title-cell .cell-fixed { justify-content: flex-start; }` · `.title-cell, .title-cell .cell-fixed, .title-cell .cell-title-clip { text-align: left; }`)을 추가합니다.
+  - `<th>문서 제목</th>` 이 있는 목록 : `Home.razor`(중장기 매출 조회) · `CustomerLongTerm.razor`(고객 중장기 조회) · `Vehicles.razor`(차량 판매 계획) · `CompareView.razor`(매출 비교) · `SalesPerformanceMonthly.razor`(월별 매출 실적 조회) · `OrderBacklogList.razor`(수주잔고) — 문서 제목 칸(`td.title-cell`)에 `cell-center` 가 붙어 있으면 뺍니다.
+  - `MaterialInitialSync.razor` · `MaterialMonthlyChange.razor` 는 아직 빈 목록이라 고칠 칸이 없습니다. 나중에 행을 넣을 때 문서 제목 칸에 `title-cell` 을 붙입니다.
+  - 위 목록 밖에서 `<th>` 글자에 "제목"이 들어간 표를 찾으면 같이 고치고 목록으로 보고합니다. 작성 · 상세 창의 "제목" 라벨 칸(`.docform-label` · `.vform-label`)은 도표가 아니므로 해당 없음.
+  - 확인 : 중장기 매출 조회 목록에서 문서 제목이 칸 안쪽 여백 바로 뒤 왼쪽부터 시작하고, 머리글 "문서 제목" 글자는 가운데, 보고자료매칭 · 등록 일자 · 작성자는 가운데 그대로.
+- 참고 파일 : `ksis-common.css` 의 `table.k-grid td.title`, `WEB-INF/views/req/grid.jsp` 35번 문서형 목록, `requirements.json` 35번
+- 해당 : A·B 모두
